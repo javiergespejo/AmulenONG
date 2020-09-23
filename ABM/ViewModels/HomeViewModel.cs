@@ -11,5 +11,6 @@ namespace ABM.ViewModels
     {        
         public IEnumerable<byte[]> SliderImage { get; set; }
         public string WelcomeText { get; set; }
+        //public List<Project> Projects { get; set; }
     }
 }
