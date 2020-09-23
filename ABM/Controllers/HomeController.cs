@@ -13,26 +13,34 @@ namespace ABM.Controllers
     public class HomeController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
+        //private readonly HomeRepository _homeRepository;
+        //private readonly ProjectRepository _projectRepository;
 
-        public HomeController(UnitOfWork unitOfWork)
+        public HomeController()//HomeRepository homeRepository)//, ProjectRepository projectRepository)
         {
-            _unitOfWork = unitOfWork;
+            //_homeRepository = homeRepository;
+            //_projectRepository = projectRepository;
         }
 
         public ActionResult Index()
         {
-            //var projectList = _unitOfWork.PostRepository.Get().Where(p => p.is_active == true).ToList();
-            //var images = _unitOfWork.HomeRepository.GetImages();
-            //var welcomeText = _unitOfWork.HomeRepository.GetWelcomeText();
+            //var welcomeText = _homeRepository.GetWelcomeText();
+            //var images = _homeRepository.GetHomeSliderImages();
+            //var projects = _projectsRepository.GetActiveProjects();
 
-            //HomeViewModel homeViewModel = new HomeViewModel
+            HomeViewModel homeViewModel = new HomeViewModel
+            {
+                SliderImage = new List<byte[]>(),
+                //WelcomeText = welcomeText
+                //Projects = projects
+            };
+
+            //foreach (var image in images)
             //{
-            //    SliderImage = images,
-            //    WelcomeText = welcomeText
-            //};
+            //    homeViewModel.SliderImage.Add(image.imageData);
+            //}
 
-            return View();
-            //return View(projectList);
+            return View(homeViewModel);
         }
 
         public ActionResult About()
