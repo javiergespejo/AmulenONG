@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using ABM.Repository;
 
 namespace ABM.Controllers
 {
     public class ProyectController
     {
-        private readonly IProjectRepository _projectRepository;
+        private readonly ProjectRepository _projectRepository;
 
 
-        public ProjectController()
+        public ProyectController()
         {
-            _projectRepository = new projectRepository;
+            this._projectRepository= new ProjectRepository();
         }
 
 
@@ -22,12 +24,12 @@ namespace ABM.Controllers
         //  _projectRepository = projectRepository
         //}
 
-        public ActionResult Home()
-        {
-            var project = _projectRepository.GetActiveProjects;
-            return View(project);
+        //public ActionResult Home()
+        //{
+        //  var project = _projectRepository.GetActiveProjects();
+            //return View(project);
 
-        }
+        //}
 
 
 

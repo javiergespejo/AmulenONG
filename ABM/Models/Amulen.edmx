@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AmulenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HomePageData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WelcomeText" Type="varchar" MaxLength="500" />
+          <Property Name="editDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HomePageImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageData" Type="image" />
+          <Property Name="editDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="proyectName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="proyectDetail" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="editDate" Type="datetime" Nullable="false" />
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="UserStateId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProyectState">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SuscriptorProyect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProyectId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="typeUserId" Type="int" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Proyect_ProyectState">
+          <End Role="ProyectState" Type="Self.ProyectState" Multiplicity="1" />
+          <End Role="Proyect" Type="Self.Proyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProyectState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proyect">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuscriptorProyect_Proyect">
+          <End Role="Proyect" Type="Self.Proyect" Multiplicity="1" />
+          <End Role="SuscriptorProyect" Type="Self.SuscriptorProyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyect">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SuscriptorProyect">
+              <PropertyRef Name="ProyectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuscriptorProyect_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SuscriptorProyect" Type="Self.SuscriptorProyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SuscriptorProyect">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TypeUser">
+          <End Role="TypeUser" Type="Self.TypeUser" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="typeUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AmulenModelStoreContainer">
+          <EntitySet Name="HomePageData" EntityType="Self.HomePageData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HomePageImage" EntityType="Self.HomePageImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proyect" EntityType="Self.Proyect" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProyectState" EntityType="Self.ProyectState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SuscriptorProyect" EntityType="Self.SuscriptorProyect" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeUser" EntityType="Self.TypeUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Proyect_ProyectState" Association="Self.FK_Proyect_ProyectState">
+            <End Role="ProyectState" EntitySet="ProyectState" />
+            <End Role="Proyect" EntitySet="Proyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuscriptorProyect_Proyect" Association="Self.FK_SuscriptorProyect_Proyect">
+            <End Role="Proyect" EntitySet="Proyect" />
+            <End Role="SuscriptorProyect" EntitySet="SuscriptorProyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuscriptorProyect_User" Association="Self.FK_SuscriptorProyect_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="SuscriptorProyect" EntitySet="SuscriptorProyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TypeUser" Association="Self.FK_User_TypeUser">
+            <End Role="TypeUser" EntitySet="TypeUser" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AmulenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="HomePageData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WelcomeText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="editDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HomePageImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="editDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="proyectName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="proyectDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="editDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="UserStateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProyectState" Relationship="Self.FK_Proyect_ProyectState" FromRole="Proyect" ToRole="ProyectState" />
+          <NavigationProperty Name="SuscriptorProyect" Relationship="Self.FK_SuscriptorProyect_Proyect" FromRole="Proyect" ToRole="SuscriptorProyect" />
+        </EntityType>
+        <EntityType Name="ProyectState">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyect" Relationship="Self.FK_Proyect_ProyectState" FromRole="ProyectState" ToRole="Proyect" />
+        </EntityType>
+        <EntityType Name="SuscriptorProyect">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProyectId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Proyect" Relationship="Self.FK_SuscriptorProyect_Proyect" FromRole="SuscriptorProyect" ToRole="Proyect" />
+          <NavigationProperty Name="User" Relationship="Self.FK_SuscriptorProyect_User" FromRole="SuscriptorProyect" ToRole="User" />
+        </EntityType>
+        <EntityType Name="TypeUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_TypeUser" FromRole="TypeUser" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="typeUserId" Type="Int32" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SuscriptorProyect" Relationship="Self.FK_SuscriptorProyect_User" FromRole="User" ToRole="SuscriptorProyect" />
+          <NavigationProperty Name="TypeUser" Relationship="Self.FK_User_TypeUser" FromRole="User" ToRole="TypeUser" />
+        </EntityType>
+        <Association Name="FK_Proyect_ProyectState">
+          <End Role="ProyectState" Type="Self.ProyectState" Multiplicity="1" />
+          <End Role="Proyect" Type="Self.Proyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProyectState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Proyect">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuscriptorProyect_Proyect">
+          <End Role="Proyect" Type="Self.Proyect" Multiplicity="1" />
+          <End Role="SuscriptorProyect" Type="Self.SuscriptorProyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyect">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SuscriptorProyect">
+              <PropertyRef Name="ProyectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SuscriptorProyect_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SuscriptorProyect" Type="Self.SuscriptorProyect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="SuscriptorProyect">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TypeUser">
+          <End Role="TypeUser" Type="Self.TypeUser" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="typeUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AmulenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HomePageData" EntityType="Self.HomePageData" />
+          <EntitySet Name="HomePageImage" EntityType="Self.HomePageImage" />
+          <EntitySet Name="Proyect" EntityType="Self.Proyect" />
+          <EntitySet Name="ProyectState" EntityType="Self.ProyectState" />
+          <EntitySet Name="SuscriptorProyect" EntityType="Self.SuscriptorProyect" />
+          <EntitySet Name="TypeUser" EntityType="Self.TypeUser" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Proyect_ProyectState" Association="Self.FK_Proyect_ProyectState">
+            <End Role="ProyectState" EntitySet="ProyectState" />
+            <End Role="Proyect" EntitySet="Proyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuscriptorProyect_Proyect" Association="Self.FK_SuscriptorProyect_Proyect">
+            <End Role="Proyect" EntitySet="Proyect" />
+            <End Role="SuscriptorProyect" EntitySet="SuscriptorProyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SuscriptorProyect_User" Association="Self.FK_SuscriptorProyect_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="SuscriptorProyect" EntitySet="SuscriptorProyect" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TypeUser" Association="Self.FK_User_TypeUser">
+            <End Role="TypeUser" EntitySet="TypeUser" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AmulenModelStoreContainer" CdmEntityContainer="AmulenEntities">
+          <EntitySetMapping Name="HomePageData">
+            <EntityTypeMapping TypeName="AmulenModel.HomePageData">
+              <MappingFragment StoreEntitySet="HomePageData">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="WelcomeText" ColumnName="WelcomeText" />
+                <ScalarProperty Name="editDate" ColumnName="editDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HomePageImage">
+            <EntityTypeMapping TypeName="AmulenModel.HomePageImage">
+              <MappingFragment StoreEntitySet="HomePageImage">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="imageData" ColumnName="imageData" />
+                <ScalarProperty Name="editDate" ColumnName="editDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyect">
+            <EntityTypeMapping TypeName="AmulenModel.Proyect">
+              <MappingFragment StoreEntitySet="Proyect">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="proyectName" ColumnName="proyectName" />
+                <ScalarProperty Name="proyectDetail" ColumnName="proyectDetail" />
+                <ScalarProperty Name="editDate" ColumnName="editDate" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="UserStateId" ColumnName="UserStateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProyectState">
+            <EntityTypeMapping TypeName="AmulenModel.ProyectState">
+              <MappingFragment StoreEntitySet="ProyectState">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SuscriptorProyect">
+            <EntityTypeMapping TypeName="AmulenModel.SuscriptorProyect">
+              <MappingFragment StoreEntitySet="SuscriptorProyect">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ProyectId" ColumnName="ProyectId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeUser">
+            <EntityTypeMapping TypeName="AmulenModel.TypeUser">
+              <MappingFragment StoreEntitySet="TypeUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="AmulenModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="typeUserId" ColumnName="typeUserId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

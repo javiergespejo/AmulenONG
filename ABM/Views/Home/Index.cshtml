@@ -1,19 +1,24 @@
-﻿@model IEnumerable<ABM.Models.post>
+﻿@model ABM.ViewModels.HomeViewModel
 @{
     ViewBag.Title = "Home";
 }
 
-<header id="header">    </header>
-<body>
+<!DOCTYPE html>
 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Home</title>
+</head>
+<body>
     <div id="SliderImage carouselExampleControls" class="carousel slide" data-ride="carousel">
 
         <div class="carousel-inner">
-            @foreach (var item in Model)
+            @foreach (var item in Model.Projects)
             {
 
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="@Model.SliderImage" alt="@Model.imageData">
+                    <img class="d-block w-100" src="@Model.SliderImages" alt="">
                 </div>
 
             }
@@ -30,28 +35,24 @@
 
     <div id="WelcomeText">
         <h1>@Html.DisplayNameFor(model => model.WelcomeText)</h1>
-        
+
     </div>
 
-        <h2>Listado de projectos</h2>
+    <h2>Listado de projectos</h2>
     <table id="Projects">
-        
-     @foreach (var project in Model)
-     {
-    <tr>
-        <td>
-            @Html.DisplayFor(Model => project.projectName)
-        </td>
-        <td>
-            @Html.DisplayFor(Model => project.projectDetail)
-        </td>
 
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = project.id })
-        </td>
-    </tr>
-     }
+        @foreach (var project in Model.Projects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(Model => project.proyectName)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = project.id })
+                </td>
+            </tr>
+        }
 
     </table>
 </body>
-<footer id="Footer"></footer>
+</html>
