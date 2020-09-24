@@ -8,33 +8,45 @@ namespace ABM.Repository
 {
     public class UnitOfWork : IDisposable
     {
-        private BlogEntities context = new BlogEntities();
-        private GenericRepository<post> postRepository;
-        private GenericRepository<category> categoryRepository;
+        private AmulenEntities context = new AmulenEntities();
+        private GenericRepository<HomePageImage> homePageImageRepository;
+        private GenericRepository<HomePageData> homePageDataRepository;
+        private GenericRepository<Proyect> projectRepository;
 
-        public GenericRepository<post> PostRepository
+        public GenericRepository<HomePageImage> HomePageImageRepository
         {
             get
             {
 
-                if (this.postRepository == null)
+                if (this.homePageImageRepository == null)
                 {
-                    this.postRepository = new GenericRepository<post>(context);
+                    this.homePageImageRepository = new GenericRepository<HomePageImage>(context);
                 }
-                return postRepository;
+                return homePageImageRepository;
             }
         }
-
-        public GenericRepository<category> CategoryRepository
+        public GenericRepository<HomePageData> HomePageDataRepository
         {
             get
             {
 
-                if (this.categoryRepository == null)
+                if (this.homePageDataRepository == null)
                 {
-                    this.categoryRepository = new GenericRepository<category>(context);
+                    this.homePageDataRepository = new GenericRepository<HomePageData>(context);
                 }
-                return categoryRepository;
+                return homePageDataRepository;
+            }
+        }
+        public GenericRepository<Proyect> ProjectRepository
+        {
+            get
+            {
+
+                if (this.projectRepository == null)
+                {
+                    this.projectRepository = new GenericRepository<Proyect>(context);
+                }
+                return projectRepository;
             }
         }
 
