@@ -9,8 +9,8 @@ namespace ABM.ViewModels
 {
     public class HomeViewModel
     {        
-        public IEnumerable<byte[]> SliderImage { get; set; }
+        public List<byte[]> SliderImages { get; set; }
         public string WelcomeText { get; set; }
-        //public List<Project> Projects { get; set; }
+        public List<Proyect> Projects { get; set; }
     }
 }

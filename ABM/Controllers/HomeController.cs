@@ -12,49 +12,34 @@ namespace ABM.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
-        //private readonly HomeRepository _homeRepository;
-        //private readonly ProjectRepository _projectRepository;
+        private readonly HomeRepository _homeRepository;
+        private readonly ProjectRepository _projectRepository;
 
-        public HomeController()//HomeRepository homeRepository)//, ProjectRepository projectRepository)
+        public HomeController(HomeRepository homeRepository, ProjectRepository projectRepository)
         {
-            //_homeRepository = homeRepository;
-            //_projectRepository = projectRepository;
+            _homeRepository = homeRepository;
+            _projectRepository = projectRepository;
         }
 
         public ActionResult Index()
         {
-            //var welcomeText = _homeRepository.GetWelcomeText();
-            //var images = _homeRepository.GetHomeSliderImages();
-            //var projects = _projectsRepository.GetActiveProjects();
+            var welcomeText = _homeRepository.GetWelcomeText();
+            var images = _homeRepository.GetHomeSliderImages();
+            var projects = _projectRepository.GetActiveProjects();
 
             HomeViewModel homeViewModel = new HomeViewModel
             {
-                SliderImage = new List<byte[]>(),
-                //WelcomeText = welcomeText
-                //Projects = projects
+                SliderImages = new List<byte[]>(),
+                WelcomeText = welcomeText,
+                Projects = projects.ToList()
             };
 
-            //foreach (var image in images)
-            //{
-            //    homeViewModel.SliderImage.Add(image.imageData);
-            //}
+            foreach (var image in images)
+            {
+                homeViewModel.SliderImages.Add(image.imageData);
+            }
 
             return View(homeViewModel);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }
