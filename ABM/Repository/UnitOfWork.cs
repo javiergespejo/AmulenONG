@@ -11,6 +11,7 @@ namespace ABM.Repository
         private AmulenEntities context = new AmulenEntities();
         private GenericRepository<HomePageImage> homePageImageRepository;
         private GenericRepository<HomePageData> homePageDataRepository;
+        private GenericRepository<Proyect> projectRepository;
 
         public GenericRepository<HomePageImage> HomePageImageRepository
         {
@@ -34,6 +35,18 @@ namespace ABM.Repository
                     this.homePageDataRepository = new GenericRepository<HomePageData>(context);
                 }
                 return homePageDataRepository;
+            }
+        }
+        public GenericRepository<Proyect> ProjectRepository
+        {
+            get
+            {
+
+                if (this.projectRepository == null)
+                {
+                    this.projectRepository = new GenericRepository<Proyect>(context);
+                }
+                return projectRepository;
             }
         }
 

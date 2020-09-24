@@ -7,9 +7,8 @@ using ABM.Models;
 
 namespace ABM.Interfaces
 {
-    public interface IHomeRepository : IDisposable
+    public interface IProjectRepository : IDisposable
     {
-        string GetWelcomeText();
-        IEnumerable<HomePageImage> GetHomeSliderImages();
+        IEnumerable<Proyect> GetActiveProjects();
     }
 }

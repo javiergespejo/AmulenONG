@@ -10,10 +10,10 @@ namespace ABM.Repository
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
-        internal BlogEntities context;
+        internal AmulenEntities context;
         internal DbSet<TEntity> dbSet;
 
-        public GenericRepository(BlogEntities context)
+        public GenericRepository(AmulenEntities context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();

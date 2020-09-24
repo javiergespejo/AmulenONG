@@ -9,8 +9,11 @@ namespace ABM.Repository
 {
     public class HomeRepository : IHomeRepository, IDisposable
     {
-
         private readonly UnitOfWork unitOfWork = new UnitOfWork();
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<HomePageImage> GetHomeSliderImages()
         {
@@ -21,10 +24,6 @@ namespace ABM.Repository
         {
             string welcomeText = unitOfWork.HomePageDataRepository.Get().First().WelcomeText;
             return welcomeText;
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }
