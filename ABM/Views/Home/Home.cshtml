@@ -33,21 +33,21 @@
         
     </div>
 
-        <h2>Listado de proyectos</h2>
+        <h2>Listado de projectos</h2>
     <table id="Projects">
         
-     @foreach (var proyect in Model)
+     @foreach (var project in Model)
      {
     <tr>
         <td>
-            @Html.DisplayFor(Model => proyect.proyectName)
+            @Html.DisplayFor(Model => project.projectName)
         </td>
         <td>
-            @Html.DisplayFor(Model => proyect.proyectDetail)
+            @Html.DisplayFor(Model => project.projectDetail)
         </td>
 
         <td>
-            @Html.ActionLink("Details", "Details", new { id = proyect.id })
+            @Html.ActionLink("Details", "Details", new { id = project.id })
         </td>
     </tr>
      }
