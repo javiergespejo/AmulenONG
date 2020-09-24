@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ABM.Models.post>
+@{
+    ViewBag.Title = "Home";
+}
+
+<header id="header">    </header>
+<body>
+
+    <div id="SliderImage carouselExampleControls" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner">
+            @foreach (var item in Model)
+            {
+
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="@Model.SliderImage" alt="@Model.imageData">
+                </div>
+
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div id="WelcomeText">
+        <h1>@Html.DisplayNameFor(model => model.WelcomeText)</h1>
+        
+    </div>
+
+        <h2>Listado de projectos</h2>
+    <table id="Projects">
+        
+     @foreach (var project in Model)
+     {
+    <tr>
+        <td>
+            @Html.DisplayFor(Model => project.projectName)
+        </td>
+        <td>
+            @Html.DisplayFor(Model => project.projectDetail)
+        </td>
+
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = project.id })
+        </td>
+    </tr>
+     }
+
+    </table>
+</body>
+<footer id="Footer"></footer>
