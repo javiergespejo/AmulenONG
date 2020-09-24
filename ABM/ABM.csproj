@@ -198,6 +198,7 @@
     <Compile Include="Repository\HomeRepository.cs" />
     <Compile Include="Repository\ProjectRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
+    <Compile Include="ViewModels\HomeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
