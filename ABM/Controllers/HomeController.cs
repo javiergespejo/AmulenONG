@@ -15,11 +15,18 @@ namespace ABM.Controllers
         private readonly HomeRepository _homeRepository;
         private readonly ProjectRepository _projectRepository;
 
-        public HomeController(HomeRepository homeRepository, ProjectRepository projectRepository)
+        public HomeController()
         {
-            _homeRepository = homeRepository;
-            _projectRepository = projectRepository;
+            _homeRepository = new HomeRepository();
+            _projectRepository = new ProjectRepository();
         }
+
+        // TO DO: Dependency injection
+        //public HomeController(HomeRepository homeRepository, ProjectRepository projectRepository)
+        //{
+        //    _homeRepository = homeRepository;
+        //    _projectRepository = projectRepository;
+        //}
 
         public ActionResult Index()
         {
