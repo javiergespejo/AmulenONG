@@ -56,6 +56,7 @@ namespace ABM.Repository
         {
             dbSet.Add(entity);
         }
+      
         public virtual void SoftDelete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
@@ -63,6 +64,7 @@ namespace ABM.Repository
             context.Entry(entityToDelete).State = EntityState.Modified;
 
         }
+       
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
