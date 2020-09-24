@@ -1,15 +1,12 @@
-﻿using ABM.Repository;
-using Microsoft.Ajax.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace ABM.Controllers
 {
-    public class ProjectController : Controller
+    public class ProyectController
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -25,7 +22,7 @@ namespace ABM.Controllers
         //  _projectRepository = projectRepository
         //}
 
-        public ActionResult Home ()
+        public ActionResult Home()
         {
             var project = _projectRepository.GetActiveProjects;
             return View(project);
@@ -33,6 +30,7 @@ namespace ABM.Controllers
         }
 
 
-        
+
     }
 }
+
