@@ -22,7 +22,15 @@ namespace ABM.Repository
 
         public string GetWelcomeText()
         {
-            string welcomeText = unitOfWork.HomePageDataRepository.Get().First().WelcomeText;
+            string welcomeText;
+            try
+            {
+                welcomeText = unitOfWork.HomePageDataRepository.Get().First().WelcomeText;
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
             return welcomeText;
         }
     }
