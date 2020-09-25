@@ -21,16 +21,16 @@ namespace ABM.Controllers
             this._projectRepository = new ProjectRepository();
         }
 
-        public ActionResult index()
-        {
-            var project = _projectRepository();
+        //public ActionResult Index()
+        //{
+        //    var project = _projectRepository();
 
-            ProyectViewModel proyectViewModel = new ProyectViewModel
-            {
-                Proyect = project
-             };
+        //    ProyectViewModel proyectViewModel = new ProyectViewModel
+        //    {
+        //        Proyect = project
+        //     };
 
-        }
+        //}
         //public ProjectController(IProjectRepository projectRepository)
         //{
         //  _projectRepository = projectRepository
