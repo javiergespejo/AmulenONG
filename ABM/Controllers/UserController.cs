@@ -33,5 +33,11 @@ namespace ABM.Controllers
 
             return View(userViewModel);
         }
+
+        public ActionResult Delete(int id)
+        {
+            _userRepository.DeleteUser(id);
+            return RedirectToAction("Index", "User");
+        }
     }
 }
