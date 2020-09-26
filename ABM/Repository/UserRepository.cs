@@ -25,6 +25,7 @@ namespace ABM.Repository
             User user = _context.User.FirstOrDefault(x => x.id == userId);
             user.isActive = false;
             _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
         }
         /// <summary>
         /// Gets an active user by Id
