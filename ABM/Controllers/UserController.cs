@@ -25,13 +25,7 @@ namespace ABM.Controllers
         public ActionResult Index()
         {            
             var getUsers = _userRepository.GetUsers();
-
-            UserViewModel userViewModel = new UserViewModel
-            {
-                users = getUsers.ToList()
-            };
-
-            return View(userViewModel);
+            return View(getUsers.ToList());
         }
 
         public ActionResult Delete(int id)
