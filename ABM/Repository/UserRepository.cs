@@ -40,6 +40,17 @@ namespace ABM.Repository
         /// Gets an IEnumerable of active users
         /// </summary>
         /// <returns></returns>
+
+        public User GetUserByUserName(string userName)
+        {
+            return _context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.username == userName);
+        }
+
+        /// <summary>
+        /// Gets an IEnumerable of active users
+        /// </summary>
+        /// <returns></returns>
+        
         public IEnumerable<User> GetUsers()
         {
             return _context.User.Where(x => x.isActive == true);

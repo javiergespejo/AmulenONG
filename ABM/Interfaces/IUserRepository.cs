@@ -13,6 +13,8 @@ namespace ABM.Interfaces
 
         User GetUserById(int userId);
 
+        User GetUserByUserName(string userName);
+
         void InsertUser(User user);
 
         void DeleteUser(int userId);

@@ -3,8 +3,8 @@
     ViewBag.Title = "Login";
 }
 
-@using (Html.BeginForm("Login", "Home", FormMethod.Post))
-{
+
+
     <fieldset>
         <legend>Login</legend>
 
@@ -16,30 +16,28 @@
                 @ViewBag.Message
             </div>
         }
-        <table>
-            <tr>
-                <td>@Html.LabelFor(a => a.username)</td>
-                <td>@Html.TextBoxFor(a => a.username)</td>
-                <td>@Html.ValidationMessageFor(a => a.username)</td>
-            </tr>
-            <tr>
-                <td>
+        <Form method="post" action="/Home/Index">
+            <div>
+                <div>@Html.LabelFor(a => a.username)</div>
+                <div>@Html.TextBoxFor(a => a.username)</div>
+                <div>@Html.ValidationMessageFor(a => a.username)</div>
+            </div>
+            <div>
+                <div>
                     @Html.LabelFor(a => a.pass)
-                </td>
-                <td>
+                </div>
+                <div>
                     @Html.PasswordFor(a => a.pass)
-                </td>
-                <td>
+                </div>
+                <div>
                     @Html.ValidationMessageFor(a => a.pass)
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Login" />
-                </td>
-                <td></td>
-            </tr>
-        </table>
+                </div>
+            </div>
+
+                <div style="margin-top: 20px">
+                    <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
+                </div>
+              
+
+        </Form>
     </fieldset>
-}
