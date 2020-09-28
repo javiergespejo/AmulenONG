@@ -7,59 +7,25 @@ using System.Web;
 
 namespace ABM.Repository
 {
-    public class UserRepository : IUserRepository, IDisposable
+    public class UserRepository : GenericRepository<User>, IDisposable
     {
-        private AmulenEntities _context;
         private bool _disposed = false;
 
-        public UserRepository(AmulenEntities context)
+        public UserRepository(AmulenEntities context): base(context)
         {
-            this._context = context;
         }
-        /// <summary>
-        /// Soft deletes an user
-        /// </summary>
-        /// <param name="userId">Id from user</param>
-        public void DeleteUser(int userId)
+        
+        public override User GetByID(object id)
         {
-            User user = _context.User.FirstOrDefault(x => x.id == userId);
-            user.isActive = false;
-            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
         }
-        /// <summary>
-        /// Gets an active user by Id
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>User if found, else null</returns>
-        public User GetUserById(int userId)
-        {
-            return _context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == userId);
-        }
+        
 
-        /// <summary>
-        /// Gets an IEnumerable of active users
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetActiveUsers()
         {
-            return _context.User.Where(x => x.isActive == true);
+            return base.context.User.Where(x => x.isActive == true);
         }
-        /// <summary>
-        /// Inserts user
-        /// </summary>
-        /// <param name="user"></param>
-        public void InsertUser(User user)
-        {
-            _context.User.Add(user);
-        }
-        /// <summary>
-        /// Updates user
-        /// </summary>
-        /// <param name="user"></param>
-        public void UpdateUser(User user)
-        {
-            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
-        }
+        
 
         /// <summary>
         /// Given an username and password, returns the user that corresponds, if it exists.
@@ -69,7 +35,7 @@ namespace ABM.Repository
         /// <returns>Return found user</returns>
         public User GetUserByLogin(string username, string pass)
         {
-            return (User)_context.User.Where(x => x.isActive == true)
+            return (User)base.context.User.Where(x => x.isActive == true)
                                       .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)) );
         }
 
@@ -78,7 +44,7 @@ namespace ABM.Repository
         /// </summary>
         public void Save()
         {
-            _context.SaveChanges();
+            base.context.SaveChanges();
         }
         /// <summary>
         /// Disposes the database context
@@ -90,7 +56,7 @@ namespace ABM.Repository
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    base.context.Dispose();
                 }
             }
             this._disposed = true;
