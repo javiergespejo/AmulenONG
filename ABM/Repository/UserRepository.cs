@@ -17,7 +17,7 @@ namespace ABM.Repository
             this._context = context;
         }
         /// <summary>
-        /// Deletes user
+        /// Soft deletes an user
         /// </summary>
         /// <param name="userId">Id from user</param>
         public void DeleteUser(int userId)
@@ -59,6 +59,18 @@ namespace ABM.Repository
         public void UpdateUser(User user)
         {
             _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        /// <summary>
+        /// Given an username and password, returns the user that corresponds, if it exists.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="pass">Decoded password.</param>
+        /// <returns>Return found user</returns>
+        public User GetUserByLogin(string username, string pass)
+        {
+            return (User)_context.User.Where(x => x.isActive == true)
+                                      .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)) );
         }
 
         /// <summary>
