@@ -56,6 +56,8 @@ namespace ABM.Controllers
                 return View("Error");
             }
 
+            // VER
+            // Lista hardcodeada porque no hay TypeUserRepository ni metodo para traerlo desde UserRepository.
             List<SelectListItem> typeUserList = new List<SelectListItem>();
             typeUserList.Add(new SelectListItem() { Text = "Administrador", Value = "1" });
             typeUserList.Add(new SelectListItem() { Text = "Suscriptor", Value = "2" });
@@ -71,11 +73,6 @@ namespace ABM.Controllers
         {
             if (ModelState.IsValid)
             {
-                // La propiedad typeUserId pasa como null, porque no se está pudiendo mostrar en el front para elegir.
-                // Si este panel de edición es para un administrador, debería poder editar esta propiedad.
-                // Si este panel es para un usuario normal, sólo debería pasar el tipo de usuario ya asignado.
-                // Con la siguiente línea de código, hardcodeada, todos los usuarios que se editen serán SUSCRIPTORES.
-                //user.typeUserId = 2;
                 _userRepository.UpdateUser(user);
                 _userRepository.Save();
                 return RedirectToAction(nameof(Index));
