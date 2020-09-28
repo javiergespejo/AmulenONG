@@ -14,17 +14,13 @@ namespace ABM.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserRepository _userRepository;
+        UnitOfWork unit = new UnitOfWork();
 
-        public UserController()
-        {
-            _userRepository = new UserRepository(new AmulenEntities());
-        }
 
         // GET: Users
         public ActionResult Index()
-        {            
-            var getUsers = _userRepository.GetUsers();
+        {
+            var getUsers = unit.UserRepository.GetActiveUsers();
 
             UserViewModel userViewModel = new UserViewModel
             {
@@ -32,6 +28,20 @@ namespace ABM.Controllers
             };
 
             return View(userViewModel);
+        }
+
+        [Authorize]
+        public ActionResult Details(int id)
+        {
+            var user = unit.UserRepository.GetByID(id);
+            UserDetailsViewModel userDetails = new UserDetailsViewModel
+            {
+                Name = user.name,
+                Username = user.username,
+                Email = user.email
+            };
+
+            return View(userDetails);
         }
     }
 }
