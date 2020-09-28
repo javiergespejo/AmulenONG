@@ -17,7 +17,15 @@ namespace ABM.Repository
 
         public IEnumerable<HomePageImage> GetHomeSliderImages()
         {
-            return unitOfWork.HomePageImageRepository.Get();
+            try
+            {
+                return unitOfWork.HomePageImageRepository.Get();
+            }
+            catch(Exception)
+            {
+                return  Enumerable.Empty<HomePageImage>();
+            }
+            
         }
 
         public string GetWelcomeText()

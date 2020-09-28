@@ -18,10 +18,18 @@ namespace ABM.Repository
 
         public IEnumerable<Proyect> GetActiveProjects()
         {
-            var activeProjects = from p in unitOfWork.ProjectRepository.Get()
-                                 where p.StateId == 1
-                                 select p;
-            return activeProjects;
+            try
+            {
+                var activeProjects = from p in unitOfWork.ProjectRepository.Get()
+                                     where p.StateId == 1
+                                     select p;
+                return activeProjects;
+            }
+            catch(Exception)
+            {
+                return Enumerable.Empty<Proyect>();
+            }
+            
         }
     }
 }
