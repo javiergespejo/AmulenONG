@@ -11,7 +11,9 @@ namespace ABM.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,11 +23,20 @@ namespace ABM.Models
         }
     
         public int id { get; set; }
+        [Required]
+        [DisplayName(displayName: "Nombre")]
         public string name { get; set; }
+        [DisplayName(displayName: "Correo electrónico")]
+        [Required]
         public string email { get; set; }
+        [Required]
+        [DisplayName(displayName: "Usuario")]
         public string username { get; set; }
+        [DisplayName(displayName: "Contraseña")]
         public string pass { get; set; }
+        [DisplayName(displayName: "Tipo de usuario")]
         public int typeUserId { get; set; }
+        [DisplayName(displayName: "Usuario activo")]
         public bool isActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
