@@ -11,7 +11,8 @@ namespace ABM.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +22,18 @@ namespace ABM.Models
         }
     
         public int id { get; set; }
+        [Display(Name = "Nombre completo")]
+        [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string name { get; set; }
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [EmailAddress(ErrorMessage = "Dirección invalida")]
         public string email { get; set; }
+        [Display(Name = "Nombre de usuario")]
+        [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string username { get; set; }
+        [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string pass { get; set; }
         public int typeUserId { get; set; }
         public bool isActive { get; set; }

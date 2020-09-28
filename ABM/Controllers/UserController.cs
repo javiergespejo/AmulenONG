@@ -28,6 +28,29 @@ namespace ABM.Controllers
             return View(getUsers.ToList());
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Posts/Create
+        [HttpPost]
+        public ActionResult Create(User model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _userRepository.InsertUser(model);
+                }
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);

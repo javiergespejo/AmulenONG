@@ -3,6 +3,8 @@ using ABM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace ABM.Repository
@@ -51,7 +53,17 @@ namespace ABM.Repository
         /// <param name="user"></param>
         public void InsertUser(User user)
         {
-            _context.User.Add(user);
+            var checkUserName = from u in GetUsers()
+                                where u.username == user.username || u.email == user.email
+                                select u;
+            if (checkUserName == null)
+            {
+                user.pass = Encrypt.GetSHA256(user.pass);
+                user.typeUserId = 2;
+                user.isActive = true;
+                _context.User.Add(user);
+                Save();
+            }
         }
         /// <summary>
         /// Updates user
@@ -89,6 +101,21 @@ namespace ABM.Repository
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        partial class Encrypt
+        {
+            public static string GetSHA256(string str)
+            {
+                SHA256 sha256 = SHA256Managed.Create();
+                ASCIIEncoding encoding = new ASCIIEncoding();
+                byte[] stream;
+                StringBuilder sb = new StringBuilder();
+                stream = sha256.ComputeHash(encoding.GetBytes(str));
+                for (int i = 0; i < stream.Length; i++)
+                    sb.AppendFormat("{0:x2}", stream[i]);
+                return sb.ToString();
+            }
         }
     }
 }
