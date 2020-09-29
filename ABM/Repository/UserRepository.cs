@@ -1,5 +1,6 @@
-﻿using ABM.Interfaces;
+using ABM.Interfaces;
 using ABM.Models;
+using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,69 +9,57 @@ using System.Web;
 
 namespace ABM.Repository
 {
-    public class UserRepository : IUserRepository, IDisposable
+    public class UserRepository : GenericRepository<User>, IDisposable
     {
-        private AmulenEntities _context;
         private bool _disposed = false;
 
-        public UserRepository(AmulenEntities context)
+        public UserRepository(AmulenEntities context): base(context)
         {
-            this._context = context;
-        }
-        /// <summary>
-        /// Deletes user
-        /// </summary>
-        /// <param name="userId">Id from user</param>
-        public void DeleteUser(int userId)
-        {
-            User user = _context.User.FirstOrDefault(x => x.id == userId);
-            user.isActive = false;
-            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
-        }
-        /// <summary>
-        /// Gets an active user by Id
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>User if found, else null</returns>
-        public User GetUserById(int userId)
-        {
-            return _context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == userId);
         }
 
-        /// <summary>
-        /// Gets an IEnumerable of active users
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<User> GetUsers()
+        public User GetById(object id)
         {
-            return _context.User.Where(x => x.isActive == true);
+            User user = base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
+            return user;
         }
-        /// <summary>
-        /// Inserts user
-        /// </summary>
-        /// <param name="user"></param>
-        public void InsertUser(User user)
+
+        public IEnumerable<User> GetActiveUsers()
         {
-            _context.User.Add(user);
+            return base.context.User.Where(x => x.isActive == true);
         }
+        
+
         /// <summary>
-        /// Updates user
+        /// Given an username and password, returns the user that corresponds, if it exists.
         /// </summary>
-        /// <param name="user"></param>
-        public void UpdateUser(User user)
+        /// <param name="username"></param>
+        /// <param name="pass">Decoded password.</param>
+        /// <returns>Return found user</returns>
+        public User GetUserByLogin(string username, string pass)
         {
-            _context.Entry(user).State = EntityState.Modified;
-            _context.Entry(user).Property(x => x.typeUserId).IsModified = false;
+            return (User)base.context.User.Where(x => x.isActive == true)
+                                      .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)) );
         }
 
         /// <summary>
         /// Saves changes in the database
         /// </summary>
         public void Save()
-        {
-            _context.SaveChanges();
+        {            
+            base.context.SaveChanges();
         }
 
+        public void UpdateUser(UserEditViewModel userViewModel)
+        {
+            var user = userViewModel.ToUserEntity();
+            user.pass = string.Empty;
+            base.context.Entry(user).State = EntityState.Modified;
+
+            // Excludes properties to not modify.
+            base.context.Entry(user).Property(x => x.typeUserId).IsModified = false;
+            base.context.Entry(user).Property(x => x.isActive).IsModified = false;
+            base.context.Entry(user).Property(x => x.pass).IsModified = false;
+        }
         /// <summary>
         /// Disposes the database context
         /// </summary>
@@ -81,7 +70,7 @@ namespace ABM.Repository
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    base.context.Dispose();
                 }
             }
             this._disposed = true;
