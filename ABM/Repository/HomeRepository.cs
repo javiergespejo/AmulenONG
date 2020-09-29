@@ -35,7 +35,7 @@ namespace ABM.Repository
             {
                 welcomeText = unitOfWork.HomePageDataRepository.Get().First().WelcomeText;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return "";
             }

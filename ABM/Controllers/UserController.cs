@@ -23,7 +23,7 @@ namespace ABM.Controllers
 
             UserViewModel userViewModel = new UserViewModel
             {
-                users = getUsers.ToList()
+                //users = getUsers.ToList()
             };
 
             return View(userViewModel);
@@ -34,12 +34,8 @@ namespace ABM.Controllers
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
-            UserDetailsViewModel userDetails = new UserDetailsViewModel
-            {
-                Name = user.name,
-                Username = user.username,
-                Email = user.email
-            };
+            UserDetailsViewModel userDetails = new UserDetailsViewModel();
+            userDetails.SetProperties(user);
 
             return View(userDetails);
         }
@@ -47,12 +43,8 @@ namespace ABM.Controllers
         public ActionResult UpdatePassword(int id)
         {
             var user = unit.UserRepository.GetByID(id);
-            UserUpdatePasswordModel userUpdate = new UserUpdatePasswordModel
-            {
-                Id = id,
-                Username = user.username,
-                Password = user.pass
-            };
+            UserUpdatePasswordModel userUpdate = new UserUpdatePasswordModel();
+            userUpdate.SetProperties(user);
 
             return View(userUpdate);
         }
@@ -63,8 +55,9 @@ namespace ABM.Controllers
         {
 
             var user = unit.UserRepository.GetByID(userUpdated.Id);
-            user.pass = userUpdated.Password;
+            userUpdated.ParseToUser(user);
             unit.UserRepository.Update(user);
+            unit.UserRepository.Save();
             return RedirectToAction("Index", "User");
         }
 
