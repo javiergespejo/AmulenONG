@@ -56,13 +56,6 @@ namespace ABM.Controllers
                 return View("Error");
             }
 
-            // VER
-            // Lista hardcodeada porque no hay TypeUserRepository ni metodo para traerlo desde UserRepository.
-            List<SelectListItem> typeUserList = new List<SelectListItem>();
-            typeUserList.Add(new SelectListItem() { Text = "Administrador", Value = "1" });
-            typeUserList.Add(new SelectListItem() { Text = "Suscriptor", Value = "2" });
-
-            ViewBag.TypeUser = typeUserList;
             return View(user);
         }
 
