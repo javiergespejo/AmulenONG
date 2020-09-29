@@ -3,8 +3,6 @@
     ViewBag.Title = "Login";
 }
 
-
-
     <fieldset>
         <legend>Login</legend>
 
@@ -16,7 +14,7 @@
                 @ViewBag.Message
             </div>
         }
-        <Form method="post" action="/Home/Index">
+        <Form method="post" action="/User/Login">
             <div>
                 <div>@Html.LabelFor(a => a.username)</div>
                 <div>@Html.TextBoxFor(a => a.username)</div>

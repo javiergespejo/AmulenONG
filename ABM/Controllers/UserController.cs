@@ -23,7 +23,7 @@ namespace ABM.Controllers
 
         // GET: Users
         public ActionResult Index()
-        {            
+        {
             var getUsers = _userRepository.GetUsers();
 
             UserViewModel userViewModel = new UserViewModel
@@ -32,6 +32,37 @@ namespace ABM.Controllers
             };
 
             return View(userViewModel);
+        }
+
+        //GET LOGIN
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection collection)
+
+        {
+            User us = new User
+
+            {
+                username = collection["username"].ToString(),
+                pass = collection["pass"].ToString()
+            };
+
+            var getUser = _userRepository.GetUserByUserName(us.username);
+            var dbPass = getUser.pass;
+
+            if (us.pass.Equals(dbPass))
+            {
+                return RedirectToAction("index", "Home");
+            }
+
+            return View();
+
+
         }
     }
 }
