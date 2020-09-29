@@ -52,18 +52,38 @@ namespace ABM.Repository
         /// </summary>
         /// <param name="user"></param>
         public void InsertUser(User user)
+        {   
+            user.pass = Encrypt.GetSHA256(user.pass);
+            user.typeUserId = 2;
+            user.isActive = true;
+            _context.User.Add(user);
+            Save();
+        }
+        public bool CheckMail(User user)
         {
-            var checkUserName = from u in GetUsers()
-                                where u.username == user.username || u.email == user.email
-                                select u;
-            if (checkUserName == null)
+            var userMail = from u in GetUsers()
+                           where u.email == user.email
+                           select u;
+
+            if (userMail.Count() == 1)
             {
-                user.pass = Encrypt.GetSHA256(user.pass);
-                user.typeUserId = 2;
-                user.isActive = true;
-                _context.User.Add(user);
-                Save();
+                return true;
             }
+
+            return false;
+        }
+        public bool CheckUserName(User user)
+        {
+            var userName = from u in GetUsers()
+                           where u.username == user.username
+                           select u;
+
+            if (userName.Count() == 1)
+            {
+                return true;
+            }
+
+            return false;
         }
         /// <summary>
         /// Updates user

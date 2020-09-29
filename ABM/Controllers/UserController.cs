@@ -41,6 +41,21 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool mailAlreadyExists = _userRepository.CheckMail(model);
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model);
+                    if (nameAlreadyExists || mailAlreadyExists)
+                    {
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
+                    }
+
                     _userRepository.InsertUser(model);
                 }
                 return RedirectToAction("Index", "User");
