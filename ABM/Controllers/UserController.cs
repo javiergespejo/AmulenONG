@@ -25,19 +25,22 @@ namespace ABM.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var getUsers = _userRepository.GetUsers();
+            // TODO: Hay que resolver qué se va a mostrar en este método.
 
-            UserViewModel userViewModel = new UserViewModel
-            {
-                users = getUsers.ToList()
-            };
+            //var getUsers = _userRepository.GetUsers();
 
-            return View(userViewModel);
+            //UserViewModel userViewModel = new UserViewModel
+            //{
+            //    users = getUsers.ToList()
+            //};
+
+            return View();//userViewModel);
         }
 
+        // Este metodo lo hizo Fede con el ViewModel.
         public ActionResult Details(int id)
         {
-            User user = _userRepository.GetUserById(id);
+            User user = _userRepository.GetByID(id);
 
             if (user == null)
             {
@@ -49,28 +52,29 @@ namespace ABM.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(int id)
         {
-            User user = _userRepository.GetUserById(id);
+            User user = _userRepository.GetById(id);
+            UserEditViewModel userEditViewModel = new UserEditViewModel(user);
 
-            if (user == null)
+            if (userEditViewModel == null)
             {
                 return View("Error");
             }
 
-            return View(user);
+            return View(userEditViewModel);
         }
 
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id,[Bind(Include = "id,name,email,username,pass,typeUserId,isActive")] User user)
+        public ActionResult Edit(int id, UserEditViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
-                _userRepository.UpdateUser(user);
+                _userRepository.UpdateUser(userViewModel);
                 _userRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(userViewModel);
         }
     }
 }
