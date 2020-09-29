@@ -252,7 +252,6 @@
     </Compile>
     <Compile Include="Interfaces\IHomeRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />
-    <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Models\Amulen.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
