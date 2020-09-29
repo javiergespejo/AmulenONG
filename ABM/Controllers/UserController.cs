@@ -15,8 +15,7 @@ namespace ABM.Controllers
     public class UserController : Controller
     {
         UnitOfWork unit = new UnitOfWork();
-
-
+        
         // GET: Users
         public ActionResult Index()
         {
@@ -30,7 +29,8 @@ namespace ABM.Controllers
             return View(userViewModel);
         }
 
-        [Authorize]
+        // FALTA IMPLEMENTAR AUTENTICACION
+        //[Authorize]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -43,5 +43,32 @@ namespace ABM.Controllers
 
             return View(userDetails);
         }
+        [HttpGet]
+        public ActionResult UpdatePassword(int id)
+        {
+            var user = unit.UserRepository.GetByID(id);
+            UserUpdatePasswordModel userUpdate = new UserUpdatePasswordModel
+            {
+                Id = id,
+                Username = user.username,
+                Password = user.pass
+            };
+
+            return View(userUpdate);
+        }
+
+        /// FALTA IMPLEMENTAR AUTENTICACION
+        [HttpPost]
+        public ActionResult UpdatePassword(UserUpdatePasswordModel userUpdated)
+        {
+
+            var user = unit.UserRepository.GetByID(userUpdated.Id);
+            user.pass = userUpdated.Password;
+            unit.UserRepository.Update(user);
+            return RedirectToAction("Index", "User");
+        }
+
+
+
     }
 }
