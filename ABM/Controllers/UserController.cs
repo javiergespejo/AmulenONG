@@ -23,8 +23,14 @@ namespace ABM.Controllers
 
         // GET: Users
         public ActionResult Index()
-        {            
-            var getUsers = _userRepository.GetUsers();
+        {
+            var getUsers = from u in _userRepository.GetActiveUsers()
+                           select new UserViewModel()
+                           {
+                               Id = u.id,
+                               Email = u.email,
+                               Name = u.name
+                           };
             return View(getUsers.ToList());
         }
 
@@ -35,7 +41,7 @@ namespace ABM.Controllers
 
         // POST: Posts/Create
         [HttpPost]
-        public ActionResult Create(User model)
+        public ActionResult Create(UserViewModel model)
         {
             try
             {
@@ -43,6 +49,7 @@ namespace ABM.Controllers
                 {
                     bool mailAlreadyExists = _userRepository.CheckMail(model);
                     bool nameAlreadyExists = _userRepository.CheckUserName(model);
+
                     if (nameAlreadyExists || mailAlreadyExists)
                     {
                         if (mailAlreadyExists)
@@ -55,7 +62,6 @@ namespace ABM.Controllers
                         }
                         return View();
                     }
-
                     _userRepository.InsertUser(model);
                 }
                 return RedirectToAction("Index", "User");
