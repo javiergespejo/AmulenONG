@@ -2,6 +2,7 @@
 using ABM.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -58,7 +59,8 @@ namespace ABM.Repository
         /// <param name="user"></param>
         public void UpdateUser(User user)
         {
-            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(user).Property(x => x.typeUserId).IsModified = false;
         }
 
         /// <summary>
@@ -68,6 +70,7 @@ namespace ABM.Repository
         {
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Disposes the database context
         /// </summary>
