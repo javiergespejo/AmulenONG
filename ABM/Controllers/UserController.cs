@@ -28,6 +28,7 @@ namespace ABM.Controllers
         const int suscriptor = 2;
 
         // GET: Users
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
@@ -40,7 +41,7 @@ namespace ABM.Controllers
             return View(getUsers.ToList());
         }
 
-
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +49,7 @@ namespace ABM.Controllers
 
         // POST: Posts/Create
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Create(UserViewModel model)
         {
             try
@@ -82,6 +84,7 @@ namespace ABM.Controllers
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult Edit(int id, UserEditViewModel userViewModel)
         {
             if (ModelState.IsValid)
@@ -93,6 +96,7 @@ namespace ABM.Controllers
             return View(userViewModel);
 
         }
+        [AllowAnonymous]
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);
@@ -110,6 +114,7 @@ namespace ABM.Controllers
             return View(userDetails);
         }
         [HttpGet]
+        [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -121,6 +126,7 @@ namespace ABM.Controllers
         /// FALTA IMPLEMENTAR AUTENTICACION
         [HttpPost]
         //[AuthorizeUser(idTipo: administrador)]
+        [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(UserViewModel userUpdated)
         {
 
@@ -134,11 +140,12 @@ namespace ABM.Controllers
 
         //GET LOGIN
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(FormCollection collection)
 
@@ -157,6 +164,8 @@ namespace ABM.Controllers
             {
                 if (usm.Pass.Equals(getUser.pass))
                 {
+                    
+                    Session["User"] = getUser;
                     return RedirectToAction("index", "Home");
                 }
                 return View();
@@ -165,13 +174,7 @@ namespace ABM.Controllers
             {
                 ViewBag.Message = "No se pudo loguear";
                 return View();
-
-
             }
-
-
-
-
         }
     }
 

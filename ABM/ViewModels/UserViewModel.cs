@@ -11,6 +11,7 @@ namespace ABM.ViewModels
     {
         public IEnumerable<User> users { get; set; }
 
+        public int Id { get; set; }
         [Display(Name = "Nombre completo")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string Name { get; set; }

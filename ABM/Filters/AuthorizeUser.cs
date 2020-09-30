@@ -26,26 +26,15 @@ namespace ABM.Filters
             try
             {
                 // SE PODRIA CAMBIAR PARA QUE SE GUARDE UNA ID EN VES DE USER COMPLETO Y BUSCARLO EN REPO
-                var userId = (User)HttpContext.Current.Session["userId"];
-                _user = (User)db.User.Where(x => x.id == _user.id);
+                _user = (User)HttpContext.Current.Session["User"];
                 var userTypeList = db.User.Select(x => x.TypeUser);
                 foreach (var item in userTypeList)
                 {
-                    if(_authorizedTypes.Contains(item.id) != true)
+                    if( (_authorizedTypes.Contains(item.id) && _authorizedTypes.Contains(_user.typeUserId) ) != true)
                     {
                         filterContext.Result = new RedirectResult("~/Home/Index");
                     }
                 }
-                //if (_user.id )
-                //{
-                //    filterContext.Result = new RedirectResult("~/Home/Index");
-                //}
-
-                //if (userTypeList.ToList().Count() == 0)
-                //{
-                //    SE PODRIA AGREGAR UNA VIEW PARA ERRORES DE AUTORIZACION Y REDIRIGIR ALLi
-                //    filterContext.Result = new RedirectResult("~/Home/Index");
-                //}
             }
             catch (Exception)
             {
