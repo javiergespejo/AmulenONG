@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.Xml;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -11,15 +12,21 @@ using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
+using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
 {
     public class UserController : Controller
     {
-        UnitOfWork unit = new UnitOfWork();
+        private UnitOfWork unit = new UnitOfWork();
+        private readonly UserRepository _userRepository;
+        public UserController()
+        {
+            _userRepository = new UserRepository(new AmulenEntities());
+        }
         const int administrador = 1;
         const int suscriptor = 2;
-        
+
         // GET: Users
         public ActionResult Index()
         {
@@ -86,8 +93,6 @@ namespace ABM.Controllers
             return View(userViewModel);
 
         }
-        
-
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);
@@ -95,12 +100,12 @@ namespace ABM.Controllers
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
-        //[Authorize]
+        [AuthorizeUser(new int[]{administrador, suscriptor})]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
-            UserDetailsViewModel userDetails = new UserDetailsViewModel();
-            userDetails.SetProperties(user);
+            UserViewModel userDetails = new UserViewModel();
+            userDetails.ToViewModel(user);
 
             return View(userDetails);
         }
@@ -108,21 +113,20 @@ namespace ABM.Controllers
         public ActionResult UpdatePassword(int id)
         {
             var user = unit.UserRepository.GetByID(id);
-            UserUpdatePasswordModel userUpdate = new UserUpdatePasswordModel();
-            userUpdate.SetProperties(user);
-
+            UserViewModel userUpdate = new UserViewModel();
+            userUpdate.ToViewModel(user);
             return View(userUpdate);
         }
 
         /// FALTA IMPLEMENTAR AUTENTICACION
-        /// FALTA ENCRIPTAR LA CONTRASEÑA, USAR METODO DE ENCRIPTACION DE JUAN
         [HttpPost]
         //[AuthorizeUser(idTipo: administrador)]
-        public ActionResult UpdatePassword(UserUpdatePasswordModel userUpdated)
+        public ActionResult UpdatePassword(UserViewModel userUpdated)
         {
 
             var user = unit.UserRepository.GetByID(userUpdated.Id);
-            userUpdated.ParseToUser(user);
+            var encryptedPass = Encrypt.GetSHA256(userUpdated.Pass);
+            user.pass = encryptedPass;
             unit.UserRepository.Update(user);
             unit.UserRepository.Save();
             return RedirectToAction("Index", "User");
