@@ -23,15 +23,59 @@ namespace ABM.Controllers
 
         // GET: Users
         public ActionResult Index()
-        {            
-            var getUsers = _userRepository.GetUsers();
+        {
+            var getUsers = from u in _userRepository.GetActiveUsers()
+                           select new UserViewModel()
+                           {
+                               Id = u.id,
+                               Email = u.email,
+                               Name = u.name
+                           };
+            return View(getUsers.ToList());
+        }
 
-            UserViewModel userViewModel = new UserViewModel
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Posts/Create
+        [HttpPost]
+        public ActionResult Create(UserViewModel model)
+        {
+            try
             {
-                users = getUsers.ToList()
-            };
+                if (ModelState.IsValid)
+                {
+                    bool mailAlreadyExists = _userRepository.CheckMail(model);
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model);
 
-            return View(userViewModel);
+                    if (nameAlreadyExists || mailAlreadyExists)
+                    {
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
+                    }
+                    _userRepository.InsertUser(model);
+                }
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            _userRepository.DeleteUser(id);
+            return RedirectToAction("Index", "User");
         }
     }
 }
