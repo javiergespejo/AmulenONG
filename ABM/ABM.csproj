@@ -299,9 +299,8 @@
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ProyectViewModel.cs" />
-    <Compile Include="ViewModels\UserEditViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
-    <Compile Include="ViewModels\UserUpdatePasswordModel.cs" />
+    <Compile Include="ViewModels\UserEditViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -464,10 +463,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\UpdatePassword.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
