@@ -23,5 +23,21 @@ namespace ABM.ViewModels
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string Pass { get; set; }
+
+        
+
+
+        public User ToEntity()
+        {
+            User u = new User();
+            u.id = Id;
+            u.name = Name;
+            u.pass = Pass;
+            u.username = UserName;
+            u.email = Email;
+
+            return u;
+
+        }
     }
 }

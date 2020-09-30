@@ -1,13 +1,11 @@
-using ABM.Interfaces;
 using ABM.Models;
-using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+
 
 namespace ABM.Repository
 {
@@ -25,27 +23,28 @@ namespace ABM.Repository
         {
             return base.context.User.Where(x => x.isActive == true);
         }
-        
+
         /// <summary>
         /// Given an username and password, returns the user that corresponds, if it exists.
         /// </summary>
         /// <param name="username"></param>
         /// <param name="pass">Decoded password.</param>
         /// <returns>Return found user</returns>
+
         public User GetUserByLogin(string username, string pass)
         {
             return (User)base.context.User.Where(x => x.isActive == true)
                                       .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
 
-        public void InsertUser(UserViewModel model)
+        public void InsertUser(User model)
         {
             User user = new User
             {
-                name = model.Name,
-                username = model.UserName,
-                email = model.Email,
-                pass = Encrypt.GetSHA256(model.Pass),
+                name = model.name,
+                username = model.username,
+                email = model.email,
+                pass = Encrypt.GetSHA256(model.pass),
                 typeUserId = 2,
                 isActive = true
             };
@@ -53,10 +52,10 @@ namespace ABM.Repository
             Save();
         }
 
-        public bool CheckMail(UserViewModel user)
+        public bool CheckMail(User user)
         {
             var userMail = from u in GetActiveUsers()
-                           where u.email == user.Email
+                           where u.email == user.email
                            select u;
 
             if (userMail.Count() == 1)
@@ -68,10 +67,10 @@ namespace ABM.Repository
         }
 
 
-        public bool CheckUserName(UserViewModel user)
+        public bool CheckUserName(User user)
         {
             var userName = from u in GetActiveUsers()
-                           where u.username == user.UserName
+                           where u.username == user.username
                            select u;
 
             if (userName.Count() == 1)
@@ -99,9 +98,8 @@ namespace ABM.Repository
             base.context.SaveChanges();
         }
 
-        public void UpdateUser(UserEditViewModel userViewModel)
-        {
-            var user = userViewModel.ToUserEntity();
+        public void UpdateUser(User user)
+        {            
             user.pass = string.Empty;
             base.context.Entry(user).State = EntityState.Modified;
 

@@ -49,8 +49,8 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    bool mailAlreadyExists = _userRepository.CheckMail(model);
-                    bool nameAlreadyExists = _userRepository.CheckUserName(model);
+                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
 
                     if (nameAlreadyExists || mailAlreadyExists)
                     {
@@ -64,7 +64,7 @@ namespace ABM.Controllers
                         }
                         return View();
                     }
-                    _userRepository.InsertUser(model);
+                    _userRepository.InsertUser(model.ToEntity());
                 }
                 return RedirectToAction("Index", "User");
             }
@@ -81,7 +81,7 @@ namespace ABM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _userRepository.UpdateUser(userViewModel);
+                _userRepository.UpdateUser(userViewModel.ToUserEntity());
                 _userRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
