@@ -254,7 +254,6 @@
     </Compile>
     <Compile Include="Interfaces\IHomeRepository.cs" />
     <Compile Include="Interfaces\IProjectRepository.cs" />
-    <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Models\Amulen.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -466,6 +465,8 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\UpdatePassword.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

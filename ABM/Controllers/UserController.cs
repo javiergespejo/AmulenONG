@@ -132,8 +132,47 @@ namespace ABM.Controllers
             return RedirectToAction("Index", "User");
         }
 
+        //GET LOGIN
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection collection)
+
+        {
+            UserViewModel usm = new UserViewModel
+
+            {
+                Email = collection["Email"].ToString(),
+                Pass = collection["Pass"].ToString()
+            };
+
+            var getUser = _userRepository.GetUserByUserMail(usm.Email);
+            // var dbPass = usm.Pass;
+
+            try
+            {
+                if (usm.Pass.Equals(getUser.pass))
+                {
+                    return RedirectToAction("index", "Home");
+                }
+                return View();
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "No se pudo loguear";
+                return View();
 
 
+            }
+
+
+
+
+        }
     }
 
 }

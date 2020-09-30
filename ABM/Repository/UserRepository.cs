@@ -11,7 +11,7 @@ namespace ABM.Repository
 {
     public class UserRepository : GenericRepository<User>, IDisposable
     {
-        private AmulenEntities _context;
+       // private AmulenEntities _context;
         private bool _disposed = false;
 
         public UserRepository(AmulenEntities context) : base(context)
@@ -68,6 +68,10 @@ namespace ABM.Repository
             return false;
         }
 
+        public User GetUserByUserMail(string Email)
+        {
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);
+        }
 
         public bool CheckUserName(User user)
         {
@@ -92,9 +96,6 @@ namespace ABM.Repository
             Save();
         }
 
-        /// <summary>
-        /// Saves changes in the database
-        /// </summary>
         public void Save()
         {
             base.context.SaveChanges();
