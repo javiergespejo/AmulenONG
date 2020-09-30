@@ -1,9 +1,10 @@
-﻿using ABM.Interfaces;
+using ABM.Interfaces;
 using ABM.Models;
+using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Threading;
 using System.Web;
 
 namespace ABM.Repository
@@ -13,23 +14,18 @@ namespace ABM.Repository
        // private AmulenEntities _context;
         private bool _disposed = false;
 
-        public UserRepository(AmulenEntities context): base (context)
+        public UserRepository(AmulenEntities context) : base(context)
         {
-          
+
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public User GetUserById(int userId)
+        public IEnumerable<User> GetActiveUsers()
         {
-            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == userId);
+            return base.context.User.Where(x => x.isActive == true);
         }
-
+        
         /// <summary>
-        /// Gets an IEnumerable of active users
+        /// Given an username and password, returns the user that corresponds, if it exists.
         /// </summary>
         /// <returns></returns>
 
@@ -38,23 +34,74 @@ namespace ABM.Repository
             return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.username == userName);
         }
 
-        /// <summary>
-        /// Gets an IEnumerable of active users
-        /// </summary>
-        /// <returns></returns>
-        
-        public IEnumerable<User> GetUsers()
+        public void InsertUser(UserViewModel model)
         {
-            return base.context.User.Where(x => x.isActive == true);
+            User user = new User
+            {
+                name = model.Name,
+                username = model.UserName,
+                email = model.Email,
+                pass = Encrypt.GetSHA256(model.Pass),
+                typeUserId = 2,
+                isActive = true
+            };
+            base.context.User.Add(user);
+            Save();
         }
-        /// <summary>
-        /// Inserts user
-        /// </summary>
-        /// <param name="user"></param>
+
+        public bool CheckMail(UserViewModel user)
+        {
+            var userMail = from u in GetActiveUsers()
+                           where u.email == user.Email
+                           select u;
+
+            if (userMail.Count() == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public bool CheckUserName(UserViewModel user)
+        {
+            var userName = from u in GetActiveUsers()
+                           where u.username == user.UserName
+                           select u;
+
+            if (userName.Count() == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public void DeleteUser(int userId)
+        {
+            User user = base.context.User.FirstOrDefault(x => x.id == userId);
+            user.isActive = false;
+            base.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            Save();
+        }
 
         public void Save()
-        {
+        {            
             base.context.SaveChanges();
+        }
+
+        public void UpdateUser(UserEditViewModel userViewModel)
+        {
+            var user = userViewModel.ToUserEntity();
+            user.pass = string.Empty;
+            base.context.Entry(user).State = EntityState.Modified;
+
+            // Excludes properties to not modify.
+            base.context.Entry(user).Property(x => x.typeUserId).IsModified = false;
+            base.context.Entry(user).Property(x => x.isActive).IsModified = false;
+            base.context.Entry(user).Property(x => x.pass).IsModified = false;
         }
         /// <summary>
         /// Disposes the database context
@@ -72,10 +119,29 @@ namespace ABM.Repository
             this._disposed = true;
         }
 
+
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+
+
+
+        partial class Encrypt
+        {
+            public static string GetSHA256(string str)
+            {
+                SHA256 sha256 = SHA256.Create();
+                ASCIIEncoding encoding = new ASCIIEncoding();
+                byte[] stream;
+                StringBuilder sb = new StringBuilder();
+                stream = sha256.ComputeHash(encoding.GetBytes(str));
+                for (int i = 0; i < stream.Length; i++)
+                    sb.AppendFormat("{0:x2}", stream[i]);
+                return sb.ToString();
+            }
         }
     }
 }
