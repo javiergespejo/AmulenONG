@@ -24,14 +24,33 @@ namespace ABM.ViewModels
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string Pass { get; set; }
 
-        public User ParseToUser()
-        {
-            User user = new User();
-            user.id = this.Id;
-            user.name = this.Name;
-            user.email = this.Email;
+        
 
-            return user;
+
+        public User ToEntity()
+        {
+            User u = new User();
+            u.id = Id;
+            u.name = Name;
+            u.pass = Pass;
+            u.username = UserName;
+            u.email = Email;
+
+            return u;
+
+        }
+
+        /// <summary>
+        /// Assigns the properties of the ViewModel based on the object user
+        /// </summary>
+        /// <param name="user">user with the data</param>
+        public void ToViewModel(User user)
+        {
+            this.Id = user.id;
+            this.Name = user.name;
+            this.Pass = user.pass;
+            this.UserName = user.username;
+            this.Email = user.email;
         }
     }
 }

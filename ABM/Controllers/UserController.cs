@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
@@ -22,14 +23,75 @@ namespace ABM.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var getUsers = unit.UserRepository.GetActiveUsers();
+            var getUsers = from u in _userRepository.GetActiveUsers()
+                           select new UserViewModel()
+                           {
+                               Id = u.id,
+                               Email = u.email,
+                               Name = u.name
+                           };
+            return View(getUsers.ToList());
+        }
 
-            UserViewModel userViewModel = new UserViewModel
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Posts/Create
+        [HttpPost]
+        public ActionResult Create(UserViewModel model)
+        {
+            try
             {
-                //users = getUsers.ToList()
-            };
+                if (ModelState.IsValid)
+                {
+                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
 
+                    if (nameAlreadyExists || mailAlreadyExists)
+                    {
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
+                    }
+                    _userRepository.InsertUser(model.ToEntity());
+                }
+                return RedirectToAction("Index", "User");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        // POST: User/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, UserEditViewModel userViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _userRepository.UpdateUser(userViewModel.ToUserEntity());
+                _userRepository.Save();
+                return RedirectToAction(nameof(Index));
+            }
             return View(userViewModel);
+
+        }
+        
+
+        public ActionResult Delete(int id)
+        {
+            _userRepository.DeleteUser(id);
+            return RedirectToAction("Index", "User");
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
@@ -69,4 +131,5 @@ namespace ABM.Controllers
 
 
     }
+
 }

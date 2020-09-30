@@ -37,7 +37,7 @@ namespace ABM.Repository
             }
             catch (Exception )
             {
-                return "";
+                return e.Message;
             }
             return welcomeText;
         }
