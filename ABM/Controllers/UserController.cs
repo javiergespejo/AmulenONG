@@ -107,22 +107,33 @@ namespace ABM.Controllers
         public ActionResult Login(FormCollection collection)
 
         {
-            User us = new User
+            UserViewModel usm = new UserViewModel
 
             {
-                username = collection["username"].ToString(),
-                pass = collection["pass"].ToString()
+                Email = collection["Email"].ToString(),
+                Pass = collection["Pass"].ToString()
             };
 
-            var getUser = _userRepository.GetUserByUserName(us.username);
-            var dbPass = getUser.pass;
+            var getUser = _userRepository.GetUserByUserMail(usm.Email);
+            // var dbPass = usm.Pass;
 
-            if (us.pass.Equals(dbPass))
+            try
             {
-                return RedirectToAction("index", "Home");
+                if (usm.Pass.Equals(getUser.pass))
+                {
+                    return RedirectToAction("index", "Home");
+                }
+                return View();
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "No se pudo loguear";
+                return View();
+
+
             }
 
-            return View();
+
 
 
         }

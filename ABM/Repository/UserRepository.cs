@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace ABM.Repository
@@ -29,9 +31,9 @@ namespace ABM.Repository
         /// </summary>
         /// <returns></returns>
 
-        public User GetUserByUserName(string userName)
+        public User GetUserByUserMail(string Email)
         {
-            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.username == userName);
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);
         }
 
         public void InsertUser(UserViewModel model)

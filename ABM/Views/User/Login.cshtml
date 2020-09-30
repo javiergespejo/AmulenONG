@@ -1,4 +1,4 @@
-﻿@model ABM.Models.User
+﻿@model ABM.ViewModels.UserViewModel
 @{
     ViewBag.Title = "Login";
 }
@@ -16,19 +16,19 @@
         }
         <Form method="post" action="/User/Login">
             <div>
-                <div>@Html.LabelFor(a => a.username)</div>
-                <div>@Html.TextBoxFor(a => a.username)</div>
-                <div>@Html.ValidationMessageFor(a => a.username)</div>
+                <div>@Html.LabelFor(a => a.Email)</div>
+                <div>@Html.TextBoxFor(a => a.Email)</div>
+                <div>@Html.ValidationMessageFor(a => a.Email)</div>
             </div>
             <div>
                 <div>
-                    @Html.LabelFor(a => a.pass)
+                    @Html.LabelFor(a => a.Pass)
                 </div>
                 <div>
-                    @Html.PasswordFor(a => a.pass)
+                    @Html.PasswordFor(a => a.Pass)
                 </div>
                 <div>
-                    @Html.ValidationMessageFor(a => a.pass)
+                    @Html.ValidationMessageFor(a => a.Pass)
                 </div>
             </div>
 

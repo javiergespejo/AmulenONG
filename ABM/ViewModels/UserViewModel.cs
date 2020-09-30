@@ -27,5 +27,7 @@ namespace ABM.ViewModels
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string Pass { get; set; }
+
+        public int Id { get; set; }
     }
 }
