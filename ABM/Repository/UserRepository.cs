@@ -11,18 +11,20 @@ namespace ABM.Repository
 {
     public class UserRepository : GenericRepository<User>, IDisposable
     {
+        private AmulenEntities _context;
         private bool _disposed = false;
 
-        public UserRepository(AmulenEntities context): base(context)
+        public UserRepository(AmulenEntities context) : base(context)
         {
 
         }
 
         public IEnumerable<User> GetActiveUsers()
-        
-        public override User GetByID(object id)
         {
             return base.context.User.Where(x => x.isActive == true);
+        }
+        public override User GetByID(object id)
+        {
             return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
         }
 
@@ -34,15 +36,9 @@ namespace ABM.Repository
         /// <returns>Return found user</returns>
 
         public User GetUserByLogin(string username, string pass)
-        
-
-        public IEnumerable<User> GetActiveUsers()
         {
-            return (User)base.context.User.Where(x => x.isActive == true)
-                                      .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
-            return base.context.User.Where(x => x.isActive == true);
+            return (User)base.context.User.Where(x => x.isActive == true).Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
-
         public void InsertUser(User model)
         {
             User user = new User
@@ -89,34 +85,23 @@ namespace ABM.Repository
 
 
         public void DeleteUser(int userId)
-        
-
-        /// <summary>
-        /// Given an username and password, returns the user that corresponds, if it exists.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="pass">Decoded password.</param>
-        /// <returns>Return found user</returns>
-        public User GetUserByLogin(string username, string pass)
         {
             User user = base.context.User.FirstOrDefault(x => x.id == userId);
             user.isActive = false;
             base.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
             Save();
-            return (User)base.context.User.Where(x => x.isActive == true)
-                                      .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)) );
         }
 
         /// <summary>
         /// Saves changes in the database
         /// </summary>
         public void Save()
-        {            
+        {
             base.context.SaveChanges();
         }
 
         public void UpdateUser(User user)
-        {            
+        {
             user.pass = string.Empty;
             base.context.Entry(user).State = EntityState.Modified;
 
@@ -147,11 +132,7 @@ namespace ABM.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
-
-
-        partial class Encrypt
+        public partial class Encrypt
         {
             public static string GetSHA256(string str)
             {
