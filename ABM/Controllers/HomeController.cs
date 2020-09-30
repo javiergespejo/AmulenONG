@@ -21,12 +21,15 @@ namespace ABM.Controllers
             _projectRepository = new ProjectRepository();
         }
 
-        // TO DO: Dependency injection
-        //public HomeController(HomeRepository homeRepository, ProjectRepository projectRepository)
-        //{
-        //    _homeRepository = homeRepository;
-        //    _projectRepository = projectRepository;
-        //}
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
 
         public ActionResult Index()
         {

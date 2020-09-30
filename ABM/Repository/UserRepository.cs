@@ -131,9 +131,6 @@ namespace ABM.Repository
             GC.SuppressFinalize(this);
         }
 
-
-
-
         partial class Encrypt
         {
             public static string GetSHA256(string str)

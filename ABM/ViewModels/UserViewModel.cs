@@ -24,9 +24,6 @@ namespace ABM.ViewModels
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string Pass { get; set; }
 
-        
-
-
         public User ToEntity()
         {
             User u = new User();
@@ -37,7 +34,6 @@ namespace ABM.ViewModels
             u.email = Email;
 
             return u;
-
         }
     }
 }
