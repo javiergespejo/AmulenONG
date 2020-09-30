@@ -8,40 +8,50 @@ using ABM.Repository;
 
 namespace ABM.Filters
 {
+    
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class AuthorizeUser: AuthorizeAttribute
+    public class AuthorizeUser : AuthorizeAttribute
     {
         private User _user;
         AmulenEntities db = new AmulenEntities();
-        private List<int> arrayTipo = new List<int>();
+        private int[] _authorizedTypes;
 
-        public AuthorizeUser(int idTipo = 0, int secondaryTipo = 0)
+        public AuthorizeUser(int[] authorizedTypes)
         {
-            arrayTipo.Add(idTipo);
-            arrayTipo.Add(secondaryTipo);
+            this._authorizedTypes = authorizedTypes;
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             try
             {
-                _user = (User)HttpContext.Current.Session["User"];
-                var userTypeList = from m in db.TypeUser
-                                   where m.id == _user.id
-                                   && (m.id == arrayTipo[0] || m.id == arrayTipo[1])
-                                   select m;
-
-
-                if (userTypeList.ToList().Count() == 0)
+                // SE PODRIA CAMBIAR PARA QUE SE GUARDE UNA ID EN VES DE USER COMPLETO Y BUSCARLO EN REPO
+                var userId = (User)HttpContext.Current.Session["userId"];
+                _user = (User)db.User.Where(x => x.id == _user.id);
+                var userTypeList = db.User.Select(x => x.TypeUser);
+                foreach (var item in userTypeList)
                 {
-                    // SE PODRIA AGREGAR UNA VIEW PARA ERRORES DE AUTORIZACION Y REDIRIGIR ALLi
-                    filterContext.Result = new RedirectResult("~/Home/Index");
+                    if(_authorizedTypes.Contains(item.id) != true)
+                    {
+                        filterContext.Result = new RedirectResult("~/Home/Index");
+                    }
                 }
+                //if (_user.id )
+                //{
+                //    filterContext.Result = new RedirectResult("~/Home/Index");
+                //}
+
+                //if (userTypeList.ToList().Count() == 0)
+                //{
+                //    SE PODRIA AGREGAR UNA VIEW PARA ERRORES DE AUTORIZACION Y REDIRIGIR ALLi
+                //    filterContext.Result = new RedirectResult("~/Home/Index");
+                //}
             }
-            catch(Exception)
+            catch (Exception)
             {
                 filterContext.Result = new RedirectResult("~/Home/Index"); 
             }
         }
     }
+
 }
