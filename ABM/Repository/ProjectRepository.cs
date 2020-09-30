@@ -41,9 +41,17 @@ namespace ABM.Repository
                 throw;
             }
         }
-        public void UpdateProyect(Proyect model)
+        public void UpdateProject(Proyect model)
         {
             unitOfWork.ProjectRepository.Update(model);
+            unitOfWork.Save();
+        }
+
+        public void DeleteProject(int id)
+        {
+            Proyect p = unitOfWork.ProjectRepository.GetByID(id);
+            p.StateId = 2;
+            unitOfWork.ProjectRepository.Update(p);
             unitOfWork.Save();
         }
     }

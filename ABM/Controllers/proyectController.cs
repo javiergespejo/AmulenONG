@@ -85,7 +85,7 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _projectRepository.UpdateProyect(model.ToEntity());
+                    _projectRepository.UpdateProject(model.ToEntity());
                 }
                 return RedirectToAction("Index");
             }
@@ -98,23 +98,8 @@ namespace ABM.Controllers
         // GET: Proyect/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Proyect/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            _projectRepository.DeleteProject(id);
+            return RedirectToAction("Index", "Proyect");
         }
     }
 }
