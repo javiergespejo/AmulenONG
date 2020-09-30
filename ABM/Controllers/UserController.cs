@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
@@ -33,6 +34,7 @@ namespace ABM.Controllers
                            };
             return View(getUsers.ToList());
         }
+
 
         public ActionResult Create()
         {
@@ -72,10 +74,31 @@ namespace ABM.Controllers
             }
         }
 
+        // POST: User/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, UserEditViewModel userViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _userRepository.UpdateUser(userViewModel);
+                _userRepository.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userViewModel);
+
+        }
+        
+
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);
             return RedirectToAction("Index", "User");
         }
+        
+        //TODO: traer el edit del view
+
+
     }
+
 }

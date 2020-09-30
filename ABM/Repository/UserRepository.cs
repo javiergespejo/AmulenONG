@@ -1,8 +1,9 @@
-﻿using ABM.Interfaces;
+using ABM.Interfaces;
 using ABM.Models;
 using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,15 +13,14 @@ namespace ABM.Repository
 {
     public class UserRepository : GenericRepository<User>, IDisposable
     {
+        private AmulenEntities _context;
         private bool _disposed = false;
+
         public UserRepository(AmulenEntities context) : base(context)
         {
+
         }
 
-        public override User GetByID(object id)
-        {
-            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
-        }
         public IEnumerable<User> GetActiveUsers()
         {
             return base.context.User.Where(x => x.isActive == true);
@@ -37,6 +37,7 @@ namespace ABM.Repository
             return (User)base.context.User.Where(x => x.isActive == true)
                                       .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
+
         public void InsertUser(UserViewModel model)
         {
             User user = new User
@@ -51,6 +52,7 @@ namespace ABM.Repository
             base.context.User.Add(user);
             Save();
         }
+
         public bool CheckMail(UserViewModel user)
         {
             var userMail = from u in GetActiveUsers()
@@ -64,6 +66,8 @@ namespace ABM.Repository
 
             return false;
         }
+
+
         public bool CheckUserName(UserViewModel user)
         {
             var userName = from u in GetActiveUsers()
@@ -77,6 +81,8 @@ namespace ABM.Repository
 
             return false;
         }
+
+
         public void DeleteUser(int userId)
         {
             User user = base.context.User.FirstOrDefault(x => x.id == userId);
@@ -89,8 +95,20 @@ namespace ABM.Repository
         /// Saves changes in the database
         /// </summary>
         public void Save()
-        {
+        {            
             base.context.SaveChanges();
+        }
+
+        public void UpdateUser(UserEditViewModel userViewModel)
+        {
+            var user = userViewModel.ToUserEntity();
+            user.pass = string.Empty;
+            base.context.Entry(user).State = EntityState.Modified;
+
+            // Excludes properties to not modify.
+            base.context.Entry(user).Property(x => x.typeUserId).IsModified = false;
+            base.context.Entry(user).Property(x => x.isActive).IsModified = false;
+            base.context.Entry(user).Property(x => x.pass).IsModified = false;
         }
         /// <summary>
         /// Disposes the database context
@@ -107,11 +125,17 @@ namespace ABM.Repository
             }
             this._disposed = true;
         }
+
+
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+
+
+
         partial class Encrypt
         {
             public static string GetSHA256(string str)
