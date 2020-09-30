@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
@@ -15,6 +16,8 @@ namespace ABM.Controllers
     public class UserController : Controller
     {
         UnitOfWork unit = new UnitOfWork();
+        const int administrador = 1;
+        const int suscriptor = 2;
         
         // GET: Users
         public ActionResult Index()
@@ -50,7 +53,9 @@ namespace ABM.Controllers
         }
 
         /// FALTA IMPLEMENTAR AUTENTICACION
+        /// FALTA ENCRIPTAR LA CONTRASEÑA, USAR METODO DE ENCRIPTACION DE JUAN
         [HttpPost]
+        //[AuthorizeUser(idTipo: administrador)]
         public ActionResult UpdatePassword(UserUpdatePasswordModel userUpdated)
         {
 
