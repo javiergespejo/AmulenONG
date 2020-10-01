@@ -133,7 +133,7 @@ namespace ABM.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        public partial class Encrypt
+        public class Encrypt
         {
             public static string GetSHA256(string str)
             {
