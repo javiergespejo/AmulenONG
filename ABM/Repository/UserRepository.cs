@@ -21,7 +21,7 @@ namespace ABM.Repository
 
         public IEnumerable<User> GetActiveUsers()
         {
-            return base.context.User.Where(x => x.isActive == true);
+            return base.context.User.AsNoTracking().Where(x => x.isActive == true);
         }
 
         /// <summary>
@@ -55,7 +55,8 @@ namespace ABM.Repository
         public bool CheckMail(User user)
         {
             var userMail = from u in GetActiveUsers()
-                           where u.email == user.email
+                           where u.email == user.email &&
+                           u.id != user.id
                            select u;
 
             if (userMail.Count() == 1)
@@ -70,7 +71,8 @@ namespace ABM.Repository
         public bool CheckUserName(User user)
         {
             var userName = from u in GetActiveUsers()
-                           where u.username == user.username
+                           where u.username == user.username &&
+                           u.id != user.id
                            select u;
 
             if (userName.Count() == 1)
