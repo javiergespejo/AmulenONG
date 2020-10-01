@@ -28,13 +28,22 @@ namespace ABM.Filters
                 // SE PODRIA CAMBIAR PARA QUE SE GUARDE UNA ID EN VES DE USER COMPLETO Y BUSCARLO EN REPO
                 _user = (User)HttpContext.Current.Session["User"];
                 var userTypeList = db.User.Select(x => x.TypeUser);
-                foreach (var item in userTypeList)
+                if (_authorizedTypes.Count() == 1)
                 {
-                    if( (_authorizedTypes.Contains(item.id) && _authorizedTypes.Contains(_user.typeUserId) ) != true)
+                    if (!(_authorizedTypes.Contains(userTypeList.First().id) && _authorizedTypes.Contains(_user.typeUserId)))
                     {
                         filterContext.Result = new RedirectResult("~/Home/Index");
                     }
-                }
+                }else
+                {
+                    foreach (var item in userTypeList)
+                    {
+                        if ((_authorizedTypes.Contains(item.id) && _authorizedTypes.Contains(_user.typeUserId)) != true)
+                        {
+                            filterContext.Result = new RedirectResult("~/Home/Index");
+                        }
+                    }
+                }   
             }
             catch (Exception)
             {
