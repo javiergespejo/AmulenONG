@@ -11,7 +11,7 @@ namespace ABM.Repository
 {
     public class UserRepository : GenericRepository<User>, IDisposable
     {
-        private AmulenEntities _context;
+       // private AmulenEntities _context;
         private bool _disposed = false;
 
         public UserRepository(AmulenEntities context) : base(context)
@@ -23,6 +23,10 @@ namespace ABM.Repository
         {
             return base.context.User.AsNoTracking().Where(x => x.isActive == true);
         }
+        public override User GetByID(object id)
+        {
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
+        }
 
         /// <summary>
         /// Given an username and password, returns the user that corresponds, if it exists.
@@ -33,10 +37,8 @@ namespace ABM.Repository
 
         public User GetUserByLogin(string username, string pass)
         {
-            return (User)base.context.User.Where(x => x.isActive == true)
-                                      .Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
+            return (User)base.context.User.Where(x => x.isActive == true).Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
-
         public void InsertUser(User model)
         {
             User user = new User
@@ -67,6 +69,10 @@ namespace ABM.Repository
             return false;
         }
 
+        public User GetUserByUserMail(string Email)
+        {
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);
+        }
 
         public bool CheckUserName(User user)
         {
@@ -92,16 +98,13 @@ namespace ABM.Repository
             Save();
         }
 
-        /// <summary>
-        /// Saves changes in the database
-        /// </summary>
         public void Save()
-        {            
+        {
             base.context.SaveChanges();
         }
 
         public void UpdateUser(User user)
-        {            
+        {
             user.pass = string.Empty;
             base.context.Entry(user).State = EntityState.Modified;
 
@@ -132,11 +135,7 @@ namespace ABM.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
-
-
-        partial class Encrypt
+        public class Encrypt
         {
             public static string GetSHA256(string str)
             {

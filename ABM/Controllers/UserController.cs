@@ -4,25 +4,31 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.Xml;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
+using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
 {
     public class UserController : Controller
     {
+        private UnitOfWork unit = new UnitOfWork();
         private readonly UserRepository _userRepository;
-
         public UserController()
         {
             _userRepository = new UserRepository(new AmulenEntities());
         }
+        const int administrador = 1;
+        const int suscriptor = 2;
 
         // GET: Users
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
@@ -35,7 +41,7 @@ namespace ABM.Controllers
             return View(getUsers.ToList());
         }
 
-
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
@@ -43,6 +49,7 @@ namespace ABM.Controllers
 
         // POST: Posts/Create
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Create(UserViewModel model)
         {
             try
@@ -117,16 +124,86 @@ namespace ABM.Controllers
             return View(userViewModel);
 
         }
-
+        [AllowAnonymous]
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);
             return RedirectToAction("Index", "User");
         }
 
-        //TODO: traer el edit del view
+        // FALTA IMPLEMENTAR AUTENTICACION
+        [AuthorizeUser(new int[]{administrador, suscriptor})]
+        public ActionResult Details(int id)
+        {
+            var user = unit.UserRepository.GetByID(id);
+            UserViewModel userDetails = new UserViewModel();
+            userDetails.ToViewModel(user);
 
+            return View(userDetails);
+        }
+        [HttpGet]
+        [AuthorizeUser(new int[] { administrador, suscriptor })]
+        public ActionResult UpdatePassword(int id)
+        {
+            var user = unit.UserRepository.GetByID(id);
+            UserViewModel userUpdate = new UserViewModel();
+            userUpdate.ToViewModel(user);
+            return View(userUpdate);
+        }
 
+        /// FALTA IMPLEMENTAR AUTENTICACION
+        [HttpPost]
+        //[AuthorizeUser(idTipo: administrador)]
+        [AuthorizeUser(new int[] { administrador, suscriptor })]
+        public ActionResult UpdatePassword(UserViewModel userUpdated)
+        {
+
+            var user = unit.UserRepository.GetByID(userUpdated.Id);
+            var encryptedPass = Encrypt.GetSHA256(userUpdated.Pass);
+            user.pass = encryptedPass;
+            unit.UserRepository.Update(user);
+            unit.UserRepository.Save();
+            return RedirectToAction("Index", "User");
+        }
+
+        //GET LOGIN
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(FormCollection collection)
+
+        {
+            UserViewModel usm = new UserViewModel
+
+            {
+                Email = collection["Email"].ToString(),
+                Pass = collection["Pass"].ToString()
+            };
+
+            var getUser = _userRepository.GetUserByUserMail(usm.Email);
+            // var dbPass = usm.Pass;
+
+            try
+            {
+                if (usm.Pass.Equals(getUser.pass))
+                {
+                    
+                    Session["User"] = getUser;
+                    return RedirectToAction("index", "Home");
+                }
+                return View();
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "No se pudo loguear";
+                return View();
+            }
+        }
     }
 
 }
