@@ -471,6 +471,7 @@
     <Content Include="Views\Proyect\Create.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\Proyect\Index.cshtml" />
+    <Content Include="Views\Proyect\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -33,5 +33,12 @@ namespace ABM.ViewModels
             return p;
         }
 
+        public void ToProyectViewModel(Proyect model)
+        {
+            this.Id = model.id;
+            this.ProjectName = model.proyectName;
+            this.ProjectDetail = model.proyectDetail;
+        }
+
     }
 }

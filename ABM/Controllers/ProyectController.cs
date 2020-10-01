@@ -1,4 +1,5 @@
-﻿using ABM.Repository;
+﻿using ABM.Filters;
+using ABM.Repository;
 using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,11 @@ namespace ABM.Controllers
         {
             _projectRepository = new ProjectRepository();
         }
+
+        const int administrador = 1;
+
         // GET: Proyect
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
             var projects = from p in _projectRepository.GetActiveProjects()
@@ -32,12 +37,17 @@ namespace ABM.Controllers
         }
 
         // GET: Proyect/Details/5
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
-            return View();
+            var model = _projectRepository.GetById(id);
+            ProyectViewModel project = new ProyectViewModel();
+                project.ToProyectViewModel(model);
+            return View(project);
         }
 
         // GET: Proyect/Create
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Create()
         {
             return View();
@@ -45,6 +55,7 @@ namespace ABM.Controllers
 
         // POST: Proyect/Create
         [HttpPost]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Create(ProyectViewModel model)
         {
             try
@@ -63,6 +74,7 @@ namespace ABM.Controllers
         }
 
         // GET: Proyect/Edit/5
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit(int id)
         {
             var p = _projectRepository.GetById(id);
@@ -79,6 +91,7 @@ namespace ABM.Controllers
         // POST: Proyect/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit(ProyectViewModel model)
         {
             try
@@ -96,6 +109,7 @@ namespace ABM.Controllers
         }
 
         // GET: Proyect/Delete/5
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Delete(int id)
         {
             _projectRepository.DeleteProject(id);

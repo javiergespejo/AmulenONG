@@ -104,7 +104,7 @@ namespace ABM.Controllers
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
-        [AuthorizeUser(new int[]{administrador, suscriptor})]
+        [AuthorizeUser(new int[]{ administrador })]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -123,9 +123,7 @@ namespace ABM.Controllers
             return View(userUpdate);
         }
 
-        /// FALTA IMPLEMENTAR AUTENTICACION
         [HttpPost]
-        //[AuthorizeUser(idTipo: administrador)]
         [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(UserViewModel userUpdated)
         {
@@ -154,11 +152,10 @@ namespace ABM.Controllers
 
             {
                 Email = collection["Email"].ToString(),
-                Pass = collection["Pass"].ToString()
+                Pass = Encrypt.GetSHA256(collection["Pass"].ToString())
             };
 
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
-            // var dbPass = usm.Pass;
 
             try
             {
@@ -166,6 +163,14 @@ namespace ABM.Controllers
                 {
                     
                     Session["User"] = getUser;
+                    if (getUser.id == 1)
+                    {
+                        Session["isAdmin"] = true;
+                    }
+                    else
+                    {
+                        Session["isAdmin"] = null;
+                    }
                     return RedirectToAction("index", "Home");
                 }
                 return View();
