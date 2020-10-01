@@ -74,13 +74,42 @@ namespace ABM.Controllers
             }
         }
 
+        public ActionResult Edit(int id)
+        {
+            User user = _userRepository.GetByID(id);
+            UserEditViewModel userEditViewModel = new UserEditViewModel(user);
+
+            if (userEditViewModel == null)
+            {
+                return View("Error");
+            }
+
+            return View(userEditViewModel);
+        }
+
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, UserEditViewModel userViewModel)
+        public ActionResult Edit(UserEditViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+                bool mailAlreadyExists = _userRepository.CheckMail(userViewModel.ToUserEntity());
+                bool nameAlreadyExists = _userRepository.CheckUserName(userViewModel.ToUserEntity());
+
+                if (mailAlreadyExists || nameAlreadyExists)
+                {
+                    if (mailAlreadyExists)
+                    {
+                        ModelState.AddModelError("email", "Email no disponible!");
+                    }
+
+                    if (nameAlreadyExists)
+                    {
+                        ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                    }
+                    return View();
+                }
                 _userRepository.UpdateUser(userViewModel.ToUserEntity());
                 _userRepository.Save();
                 return RedirectToAction(nameof(Index));
@@ -88,14 +117,13 @@ namespace ABM.Controllers
             return View(userViewModel);
 
         }
-        
 
         public ActionResult Delete(int id)
         {
             _userRepository.DeleteUser(id);
             return RedirectToAction("Index", "User");
         }
-        
+
         //TODO: traer el edit del view
 
 
