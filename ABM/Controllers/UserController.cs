@@ -213,6 +213,12 @@ namespace ABM.Controllers
                 return View();
             }
         }
+
+        public ActionResult LogOff()
+        {
+            Session["User"] = null;
+            return RedirectToAction("Index", "Home");
+        }
     }
 
 }
