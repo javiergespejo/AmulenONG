@@ -45,7 +45,7 @@ namespace ABM.Filters
                     }
                 }   
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
                 filterContext.Result = new RedirectResult("~/Home/Index"); 
             }

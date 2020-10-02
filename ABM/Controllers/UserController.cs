@@ -28,7 +28,7 @@ namespace ABM.Controllers
         const int suscriptor = 2;
 
         // GET: Users
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador})]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
