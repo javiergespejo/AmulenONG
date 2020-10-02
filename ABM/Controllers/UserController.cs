@@ -18,7 +18,7 @@ namespace ABM.Controllers
 {
     public class UserController : Controller
     {
-        private UnitOfWork unit = new UnitOfWork();
+        private readonly UnitOfWork unit = new UnitOfWork();
         private readonly UserRepository _userRepository;
         public UserController()
         {
@@ -191,7 +191,7 @@ namespace ABM.Controllers
                 {
                     
                     Session["User"] = getUser;
-                    if (getUser.id == 1)
+                    if (getUser.typeUserId == 1)
                     {
                         Session["isAdmin"] = true;
                     }
@@ -199,7 +199,7 @@ namespace ABM.Controllers
                     {
                         Session["isAdmin"] = null;
                     }
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 return View();
             }

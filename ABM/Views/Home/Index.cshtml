@@ -52,7 +52,10 @@
 
     </table>
     <div style="margin-top: 20px">
-        <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
+        @if (Session["User"] == null)
+        {
+            <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
+        }
     </div>
 </body>
 </html>
