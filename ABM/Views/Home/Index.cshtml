@@ -47,15 +47,15 @@
                 <td>
                     @Html.DisplayFor(Model => project.proyectName)
                 </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = project.id })
-                </td>
             </tr>
         }
 
     </table>
-    <div style="margin-top: 20px">
-        <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
-    </div>
+    @if (Session["isUser"] != null)
+    {
+        <div style="margin-top: 20px">
+            <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
+        </div>
+    }
 </body>
 </html>

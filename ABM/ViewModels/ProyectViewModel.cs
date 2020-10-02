@@ -29,7 +29,6 @@ namespace ABM.ViewModels
                 StateId = 1,
                 UserStateId = 1
             };
-
             return p;
         }
 

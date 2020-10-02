@@ -19,7 +19,9 @@ namespace ABM.Filters
                 //GETS USER FROM SESSION AND CONVERTS
                 _user = (User)HttpContext.Current.Session["User"];
 
-                if(_user == null)
+                if (!filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), false)
+                && !filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), false)
+                && (_user == null))
                 {
                     if (filterContext.Controller is UserController == false)
                     {
