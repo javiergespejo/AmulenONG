@@ -21,16 +21,19 @@ namespace ABM.Controllers
             _projectRepository = new ProjectRepository();
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var welcomeText = _homeRepository.GetWelcomeText();

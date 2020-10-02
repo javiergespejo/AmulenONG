@@ -18,7 +18,7 @@ namespace ABM.Controllers
 {
     public class UserController : Controller
     {
-        private UnitOfWork unit = new UnitOfWork();
+        private readonly UnitOfWork unit = new UnitOfWork();
         private readonly UserRepository _userRepository;
         public UserController()
         {
@@ -28,7 +28,7 @@ namespace ABM.Controllers
         const int suscriptor = 2;
 
         // GET: Users
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador})]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
@@ -203,7 +203,7 @@ namespace ABM.Controllers
                     {
                         Session["isAdmin"] = null;
                     }
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 return View();
             }
