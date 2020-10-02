@@ -113,7 +113,11 @@ namespace ABM.Controllers
                 Email = collection["Email"].ToString(),
                 Pass = collection["Pass"].ToString()
             };
-
+            if (usm.Email == string.Empty)
+            {
+                ViewBag.message = "No se pudo loguear";
+                return View();
+            }
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
             // var dbPass = usm.Pass;
 
@@ -129,8 +133,6 @@ namespace ABM.Controllers
             {
                 ViewBag.Message = "No se pudo loguear";
                 return View();
-
-
             }
 
 
