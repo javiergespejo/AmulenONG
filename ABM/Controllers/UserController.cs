@@ -81,14 +81,42 @@ namespace ABM.Controllers
             }
         }
 
+        public ActionResult Edit(int id)
+        {
+            User user = _userRepository.GetByID(id);
+            UserEditViewModel userEditViewModel = new UserEditViewModel(user);
+
+            if (userEditViewModel == null)
+            {
+                return View("Error");
+            }
+
+            return View(userEditViewModel);
+        }
+
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public ActionResult Edit(int id, UserEditViewModel userViewModel)
+        public ActionResult Edit(UserEditViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+                bool mailAlreadyExists = _userRepository.CheckMail(userViewModel.ToUserEntity());
+                bool nameAlreadyExists = _userRepository.CheckUserName(userViewModel.ToUserEntity());
+
+                if (mailAlreadyExists || nameAlreadyExists)
+                {
+                    if (mailAlreadyExists)
+                    {
+                        ModelState.AddModelError("email", "Email no disponible!");
+                    }
+
+                    if (nameAlreadyExists)
+                    {
+                        ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                    }
+                    return View();
+                }
                 _userRepository.UpdateUser(userViewModel.ToUserEntity());
                 _userRepository.Save();
                 return RedirectToAction(nameof(Index));
@@ -104,7 +132,7 @@ namespace ABM.Controllers
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
-        [AuthorizeUser(new int[]{administrador, suscriptor})]
+        [AuthorizeUser(new int[]{ administrador })]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -123,9 +151,7 @@ namespace ABM.Controllers
             return View(userUpdate);
         }
 
-        /// FALTA IMPLEMENTAR AUTENTICACION
         [HttpPost]
-        //[AuthorizeUser(idTipo: administrador)]
         [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(UserViewModel userUpdated)
         {
@@ -154,11 +180,10 @@ namespace ABM.Controllers
 
             {
                 Email = collection["Email"].ToString(),
-                Pass = collection["Pass"].ToString()
+                Pass = Encrypt.GetSHA256(collection["Pass"].ToString())
             };
 
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
-            // var dbPass = usm.Pass;
 
             try
             {

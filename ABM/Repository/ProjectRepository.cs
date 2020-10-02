@@ -16,6 +16,12 @@ namespace ABM.Repository
             throw new NotImplementedException();
         }
 
+        public Proyect GetById(int id)
+        {
+            var project = unitOfWork.ProjectRepository.GetByID(id);
+            return project;
+        }
+
         public IEnumerable<Proyect> GetActiveProjects()
         {
             try
@@ -30,6 +36,31 @@ namespace ABM.Repository
                 return Enumerable.Empty<Proyect>();
             }
             
+        }
+        public void InsertProject(Proyect model)
+        {
+            try
+            {
+                unitOfWork.ProjectRepository.Insert(model);
+                unitOfWork.Save();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public void UpdateProject(Proyect model)
+        {
+            unitOfWork.ProjectRepository.Update(model);
+            unitOfWork.Save();
+        }
+
+        public void DeleteProject(int id)
+        {
+            Proyect p = unitOfWork.ProjectRepository.GetByID(id);
+            p.StateId = 2;
+            unitOfWork.ProjectRepository.Update(p);
+            unitOfWork.Save();
         }
     }
 }

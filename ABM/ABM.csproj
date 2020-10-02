@@ -467,6 +467,11 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Proyect\Create.cshtml" />
+    <Content Include="Views\Proyect\Edit.cshtml" />
+    <Content Include="Views\Proyect\Index.cshtml" />
+    <Content Include="Views\Proyect\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
