@@ -1,50 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
+﻿using ABM.Filters;
 using ABM.Repository;
 using ABM.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Web;
+using System.Web.Mvc;
 
 namespace ABM.Controllers
 {
-    public class ProyectController
+    public class ProyectController : Controller
     {
         private readonly ProjectRepository _projectRepository;
 
-
-
         public ProyectController()
         {
-            this._projectRepository = new ProjectRepository();
+            _projectRepository = new ProjectRepository();
         }
 
-        //public ActionResult Index()
-        //{
-        //    var project = _projectRepository();
+        const int administrador = 1;
 
-        //    ProyectViewModel proyectViewModel = new ProyectViewModel
-        //    {
-        //        Proyect = project
-        //     };
+        // GET: Proyect
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Index()
+        {
+            var projects = from p in _projectRepository.GetActiveProjects()
+                           select new ProyectViewModel()
+                           {
+                               Id = p.id,
+                               ProjectName = p.proyectName,
+                               ProjectDetail = p.proyectDetail
+                           };
 
-        //}
-        //public ProjectController(IProjectRepository projectRepository)
-        //{
-        //  _projectRepository = projectRepository
-        //}
+            return View(projects);
+        }
 
-        //public ActionResult Home()
-        //{
-        //  var project = _projectRepository.GetActiveProjects();
-        //return View(project);
+        // GET: Proyect/Details/5
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Details(int id)
+        {
+            var model = _projectRepository.GetById(id);
+            ProyectViewModel project = new ProyectViewModel();
+                project.ToProyectViewModel(model);
+            return View(project);
+        }
 
-        //}
+        // GET: Proyect/Create
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
+        // POST: Proyect/Create
+        [HttpPost]
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Create(ProyectViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _projectRepository.InsertProject(model.ToEntity());
+                }
 
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
+        // GET: Proyect/Edit/5
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Edit(int id)
+        {
+            var p = _projectRepository.GetById(id);
+            ProyectViewModel viewModel = new ProyectViewModel()
+            {
+                Id = p.id,
+                ProjectName = p.proyectName,
+                ProjectDetail = p.proyectDetail
+            };
+            
+            return View(viewModel);
+        }
+
+        // POST: Proyect/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Edit(ProyectViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _projectRepository.UpdateProject(model.ToEntity());
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Proyect/Delete/5
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Delete(int id)
+        {
+            _projectRepository.DeleteProject(id);
+            return RedirectToAction("Index", "Proyect");
+        }
     }
 }
-

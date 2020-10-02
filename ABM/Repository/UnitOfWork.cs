@@ -12,6 +12,7 @@ namespace ABM.Repository
         private GenericRepository<HomePageImage> homePageImageRepository;
         private GenericRepository<HomePageData> homePageDataRepository;
         private GenericRepository<Proyect> projectRepository;
+        private UserRepository userRepository;
 
         public GenericRepository<HomePageImage> HomePageImageRepository
         {
@@ -23,6 +24,18 @@ namespace ABM.Repository
                     this.homePageImageRepository = new GenericRepository<HomePageImage>(context);
                 }
                 return homePageImageRepository;
+            }
+        }
+        public UserRepository UserRepository
+        {
+            get
+            {
+
+                if (this.userRepository == null)
+                {
+                    this.userRepository = new UserRepository(context);
+                }
+                return userRepository;
             }
         }
         public GenericRepository<HomePageData> HomePageDataRepository

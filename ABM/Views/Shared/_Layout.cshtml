@@ -23,7 +23,11 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Login", "Login", "User")</li>
+                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
+                    @if (Session["isAdmin"] != null)
+                    {
+                        <li>@Html.ActionLink("Manage Projects", "Index", "Proyect")</li>
+                    }
                 </ul>
             </div>
         </div>

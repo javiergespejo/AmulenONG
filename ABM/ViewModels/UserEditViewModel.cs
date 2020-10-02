@@ -11,10 +11,12 @@ namespace ABM.ViewModels
     public class UserEditViewModel
     {
         public int Id { get; set; }
+        [Required]
         [DisplayName(displayName: "Nombre")]
         public string Name { get; set; }
-        [DisplayName(displayName: "Correo electrónico")]
         [Required]
+        [DisplayName(displayName: "Correo electrónico")]
+        [EmailAddress(ErrorMessage = "Dirección invalida")]
         public string Email { get; set; }
         [Required]
         [DisplayName(displayName: "Usuario")]

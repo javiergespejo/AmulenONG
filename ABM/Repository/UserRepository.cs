@@ -1,13 +1,11 @@
-using ABM.Interfaces;
 using ABM.Models;
-using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+
 
 namespace ABM.Repository
 {
@@ -23,27 +21,32 @@ namespace ABM.Repository
 
         public IEnumerable<User> GetActiveUsers()
         {
-            return base.context.User.Where(x => x.isActive == true);
+            return base.context.User.AsNoTracking().Where(x => x.isActive == true);
         }
-        
+        public override User GetByID(object id)
+        {
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.id == (int)id);
+        }
+
         /// <summary>
         /// Given an username and password, returns the user that corresponds, if it exists.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="username"></param>
+        /// <param name="pass">Decoded password.</param>
+        /// <returns>Return found user</returns>
 
-        public User GetUserByUserMail(string Email)
+        public User GetUserByLogin(string username, string pass)
         {
-            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);
+            return (User)base.context.User.Where(x => x.isActive == true).Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
-
-        public void InsertUser(UserViewModel model)
+        public void InsertUser(User model)
         {
             User user = new User
             {
-                name = model.Name,
-                username = model.UserName,
-                email = model.Email,
-                pass = Encrypt.GetSHA256(model.Pass),
+                name = model.name,
+                username = model.username,
+                email = model.email,
+                pass = Encrypt.GetSHA256(model.pass),
                 typeUserId = 2,
                 isActive = true
             };
@@ -51,10 +54,11 @@ namespace ABM.Repository
             Save();
         }
 
-        public bool CheckMail(UserViewModel user)
+        public bool CheckMail(User user)
         {
             var userMail = from u in GetActiveUsers()
-                           where u.email == user.Email
+                           where u.email == user.email &&
+                           u.id != user.id
                            select u;
 
             if (userMail.Count() == 1)
@@ -65,11 +69,16 @@ namespace ABM.Repository
             return false;
         }
 
+        public User GetUserByUserMail(string Email)
+        {
+            return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);
+        }
 
-        public bool CheckUserName(UserViewModel user)
+        public bool CheckUserName(User user)
         {
             var userName = from u in GetActiveUsers()
-                           where u.username == user.UserName
+                           where u.username == user.username &&
+                           u.id != user.id
                            select u;
 
             if (userName.Count() == 1)
@@ -90,13 +99,12 @@ namespace ABM.Repository
         }
 
         public void Save()
-        {            
+        {
             base.context.SaveChanges();
         }
 
-        public void UpdateUser(UserEditViewModel userViewModel)
+        public void UpdateUser(User user)
         {
-            var user = userViewModel.ToUserEntity();
             user.pass = string.Empty;
             base.context.Entry(user).State = EntityState.Modified;
 
@@ -127,11 +135,7 @@ namespace ABM.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
-
-
-        partial class Encrypt
+        public class Encrypt
         {
             public static string GetSHA256(string str)
             {
