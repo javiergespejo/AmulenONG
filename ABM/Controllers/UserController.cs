@@ -195,7 +195,7 @@ namespace ABM.Controllers
                 {
                     
                     Session["User"] = getUser;
-                    if (getUser.id == 1)
+                    if (getUser.typeUserId == 1)
                     {
                         Session["isAdmin"] = true;
                     }
