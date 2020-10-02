@@ -36,6 +36,9 @@
                     {
                         <li>@Html.ActionLink("Logout", "Index", "Home")</li>
                     }
+                    @if (Session["User"] == null) { 
+                        <li>@Html.ActionLink("Register", "Create", "User")</li>
+                    }
                 </ul>
             </div>
         </div>

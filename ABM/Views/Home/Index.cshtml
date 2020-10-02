@@ -58,5 +58,11 @@
             <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
         </div>
     }
+    @if (Session["User"] == null)
+    {
+        <div style="margin-top: 20px">
+            <a class="btn btn-primary btn-lg" href="/User/Create"> Crear Usuario </a>
+        </div>
+    }
 </body>
 </html>
