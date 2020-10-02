@@ -166,6 +166,14 @@ namespace ABM.Controllers
                 {
                     
                     Session["User"] = getUser;
+                    if (getUser.id == 1)
+                    {
+                        Session["isAdmin"] = true;
+                    }
+                    else
+                    {
+                        Session["isAdmin"] = null;
+                    }
                     return RedirectToAction("index", "Home");
                 }
                 return View();
