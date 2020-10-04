@@ -473,6 +473,7 @@
     <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\Proyect\Index.cshtml" />
     <Content Include="Views\Proyect\Details.cshtml" />
+    <Content Include="Views\Home\UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

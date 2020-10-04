@@ -1,4 +1,5 @@
-﻿using ABM.Models;
+﻿using ABM.Filters;
+using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
 using System;
@@ -20,6 +21,8 @@ namespace ABM.Controllers
             _homeRepository = new HomeRepository();
             _projectRepository = new ProjectRepository();
         }
+
+        const int administrador = 1;
 
         [AllowAnonymous]
         public ActionResult About()
@@ -54,14 +57,16 @@ namespace ABM.Controllers
 
             return View(homeViewModel);
         }
+
         // GET: Home/UploadImage
+        [AllowAnonymous]
         public ActionResult UploadImage()
         {
             return View();
         }
 
         //POST: Home/UploadImage
-        [Route("UploadImage")]
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult UploadImage(HomePageImageViewModel model)
         {
