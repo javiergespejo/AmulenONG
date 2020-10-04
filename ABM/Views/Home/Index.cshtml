@@ -51,11 +51,11 @@
         }
 
     </table>
-    @if (Session["isUser"] != null)
-    {
-        <div style="margin-top: 20px">
+    <div style="margin-top: 20px">
+        @if (Session["User"] == null)
+        {
             <a class="btn btn-primary btn-lg" href="/User/Login"> Iniciar Sesión </a>
-        </div>
-    }
+        }
+    </div>
 </body>
 </html>
