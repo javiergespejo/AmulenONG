@@ -297,6 +297,7 @@
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="ViewModels\HomePageImageViewModel.cs" />
+    <Compile Include="ViewModels\UploadImageViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ProyectViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
@@ -468,12 +469,13 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Proyect\Create.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\Proyect\Index.cshtml" />
     <Content Include="Views\Proyect\Details.cshtml" />
     <Content Include="Views\Home\UploadImage.cshtml" />
+    <Content Include="Views\Home\ImageGallery.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

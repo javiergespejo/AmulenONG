@@ -58,10 +58,26 @@ namespace ABM.Repository
         }
         public byte[] ConvertToBytes(HttpPostedFileBase image)
         {
-            byte[] imageBytes = null;
+            byte[] imageBytes;
             BinaryReader reader = new BinaryReader(image.InputStream);
             imageBytes = reader.ReadBytes((int)image.ContentLength);
             return imageBytes;
+        }
+
+        public byte[] GetImageById(int Id)
+        {
+            byte[] cover = unitOfWork.HomePageImageRepository.GetByID(Id).imageData;
+            return cover;
+        }
+        public HomePageData GetById(int Id)
+        {
+            var homePageData = unitOfWork.HomePageDataRepository.GetByID(Id);
+            return homePageData;
+        }
+        public void UpdateHome(HomePageData model)
+        {
+            unitOfWork.HomePageDataRepository.Update(model);
+            unitOfWork.Save();
         }
     }
 }

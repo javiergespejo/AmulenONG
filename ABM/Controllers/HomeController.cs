@@ -45,15 +45,10 @@ namespace ABM.Controllers
 
             HomeViewModel homeViewModel = new HomeViewModel
             {
-                SliderImages = new List<byte[]>(),
+                SliderImages = images,
                 WelcomeText = welcomeText,
                 Projects = projects.ToList()
             };
-
-            foreach (var image in images)
-            {
-                homeViewModel.SliderImages.Add(image.imageData);
-            }
 
             return View(homeViewModel);
         }
@@ -68,16 +63,80 @@ namespace ABM.Controllers
         //POST: Home/UploadImage
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult UploadImage(HomePageImageViewModel model)
+        public ActionResult UploadImage(UploadImageViewModel model)
         {
             HttpPostedFileBase file = Request.Files["ImageData"];
-            int i = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
+            HomePageImage homePageImage = model.ToEntity();
+            int i = _homeRepository.UploadImageInDataBase(file, homePageImage);
             if (i == 1)
             {
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("ImageData", "No ha seleccionado ningun archivo!");
-            return View(model);
+            return View(model.ToEntity());
+        }
+        [AllowAnonymous]
+        public ActionResult ImageGallery()
+        {
+            try
+            {
+                var imageList = from i in _homeRepository.GetHomeSliderImages()
+                                select new HomePageImageViewModel()
+                                {
+                                    Id = i.id,
+                                    ImageData = i.imageData,
+                                    EditDate = i.editDate,
+                                    UserId = i.UserId
+                                };
+                return PartialView(imageList.ToList());
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        [AllowAnonymous]
+        public ActionResult RetrieveImage(int id)
+        {
+            byte[] cover = _homeRepository.GetImageById(id);
+
+            if (cover != null)
+            {
+                return File(cover, "image/jpg");
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [AllowAnonymous]
+        public ActionResult Edit(int id)
+        {
+            var homePageData = _homeRepository.GetById(id);
+            HomeViewModel viewModel = new HomeViewModel()
+            {
+                Id = homePageData.id,
+                WelcomeText = homePageData.WelcomeText
+            };
+
+            return View(viewModel);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Edit(HomeViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _homeRepository.UpdateHome(model.ToEntity());
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
