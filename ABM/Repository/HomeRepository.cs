@@ -2,6 +2,7 @@
 using ABM.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -40,6 +41,26 @@ namespace ABM.Repository
                 return e.Message;
             }
             return welcomeText;
+        }
+
+        public int UploadImageInDataBase(HttpPostedFileBase file, HomePageImage homePageImage)
+        {
+            homePageImage.imageData = ConvertToBytes(file);
+            int fileNotSelected = homePageImage.imageData.Length;
+            if (fileNotSelected >= 1)
+            {
+                unitOfWork.HomePageImageRepository.Insert(homePageImage);
+                unitOfWork.Save();
+                return 1;
+            }
+            return 0;
+        }
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            byte[] imageBytes = null;
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
         }
     }
 }

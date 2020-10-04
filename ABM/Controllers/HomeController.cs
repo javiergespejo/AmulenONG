@@ -54,5 +54,25 @@ namespace ABM.Controllers
 
             return View(homeViewModel);
         }
+        // GET: Home/UploadImage
+        public ActionResult UploadImage()
+        {
+            return View();
+        }
+
+        //POST: Home/UploadImage
+        [Route("UploadImage")]
+        [HttpPost]
+        public ActionResult UploadImage(HomePageImageViewModel model)
+        {
+            HttpPostedFileBase file = Request.Files["ImageData"];
+            int i = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
+            if (i == 1)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("ImageData", "No ha seleccionado ningun archivo!");
+            return View(model);
+        }
     }
 }
