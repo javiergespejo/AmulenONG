@@ -3,39 +3,40 @@
     ViewBag.Title = "Login";
 }
 
-    <fieldset>
-        <legend>Login</legend>
+<fieldset>
+    <legend>Login</legend>
 
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @if (@ViewBag.Message != null)
-        {
-            <div style="border: 1px solid red">
-                @ViewBag.Message
-            </div>
-        }
-        <Form method="post" action="/User/Login" >
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @if (@ViewBag.Message != null)
+    {
+        <div style="border: 1px solid red">
+            @ViewBag.Message
+        </div>
+    }
+    <Form method="post" action="/User/Login">
+        <div>
+            <div>@Html.LabelFor(a => a.Email)</div>
+            <div>@Html.TextBoxFor(a => a.Email)</div>
+            <div>@Html.ValidationMessageFor(a => a.Email)</div>
+        </div>
+        <div>
             <div>
-                <div>@Html.LabelFor(a => a.Email)</div>
-                <div>@Html.TextBoxFor(a => a.Email)</div>
-                <div>@Html.ValidationMessageFor(a => a.Email)</div>
+                @Html.LabelFor(a => a.Pass)
             </div>
             <div>
-                <div>
-                    @Html.LabelFor(a => a.Pass)
-                </div>
-                <div>
-                    @Html.PasswordFor(a => a.Pass)
-                </div>
-                <div>
-                    @Html.ValidationMessageFor(a => a.Pass)
-                </div>
+                @Html.PasswordFor(a => a.Pass)
             </div>
+            <div>
+                @Html.ValidationMessageFor(a => a.Pass)
+            </div>
+        </div>
 
-                <div style="margin-top: 20px">
-                    <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
-                </div>
-              
+        <div style="margin-top: 20px">
+            <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
+        </div>
 
-        </Form>
-    </fieldset>
+
+    </Form>
+    @Html.ActionLink("Olvide mi constraseña", "ForgotPassword", "User")
+</fieldset>
