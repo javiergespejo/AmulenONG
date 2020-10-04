@@ -70,7 +70,7 @@ namespace ABM.Controllers
             int i = _homeRepository.UploadImageInDataBase(file, homePageImage);
             if (i == 1)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit/1", "Home");
             }
             ModelState.AddModelError("ImageData", "No ha seleccionado ningun archivo!");
             return View(model.ToEntity());
@@ -131,11 +131,25 @@ namespace ABM.Controllers
                 {
                     _homeRepository.UpdateHome(model.ToEntity());
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit/1", "Home");
             }
             catch
             {
                 return View();
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult DeleteImage(int id)
+        {
+            try
+            {
+                _homeRepository.DeleteImage(id);
+                return RedirectToAction("Edit/1", "Home");
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

@@ -79,5 +79,11 @@ namespace ABM.Repository
             unitOfWork.HomePageDataRepository.Update(model);
             unitOfWork.Save();
         }
+
+        public void DeleteImage(int id)
+        {
+            unitOfWork.HomePageImageRepository.Delete(id);
+            unitOfWork.Save();
+        }
     }
 }
