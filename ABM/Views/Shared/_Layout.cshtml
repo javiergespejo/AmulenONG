@@ -28,11 +28,11 @@
                     {
                         <li>@Html.ActionLink("Login", "Login", "User")</li>
                     }
-                    @if (Session["isAdmin"] != null)
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
                     {
                         <li>@Html.ActionLink("Administrar Inicio", "Edit", "Home")</li>
                     }
-                    @if (Session["isAdmin"] != null)
+                    @if (Session["isAdmin"] != null && Session["User"] !=null)
                     {
                         <li>@Html.ActionLink("Administrar Proyectos", "Index", "Proyect")</li>
                     }
