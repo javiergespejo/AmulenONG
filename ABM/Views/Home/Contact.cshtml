@@ -1,17 +1,61 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@model ABM.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Contacto";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" >
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    <div class="form-group">
+        <p class="col-md-offset-2 col-md-10">Escriba su consulta o comentario</p>
+        <p>
+            
+            <textarea style="margin-left:15px" rows="4" cols="50">
+  
+            </textarea>
+        </p>
+    </div>
+    <div class="form-group" style="margin-top: 20px; margin-left: 15px">
+        <button class="btn btn-primary btn-lg" type="submit" value="Enviar"> Enviar </button>
+    </div>
+ </div>
+}
+
+<address class="form-group" style="margin-top: 20px; margin-left: 15px">
+    <a href="https://www.facebook.com/amulen.tallerproductivo">Encontranos también en facebook</a><br />
 </address>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div class="form-group" style="margin-top: 20px; margin-left: 15px">
+    @Html.ActionLink("Volver al Inicio", "Index")
+</div>
