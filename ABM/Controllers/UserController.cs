@@ -182,7 +182,11 @@ namespace ABM.Controllers
                 Email = collection["Email"].ToString(),
                 Pass = Encrypt.GetSHA256(collection["Pass"].ToString())
             };
-
+            if (usm.Email == string.Empty)
+            {
+                ViewBag.message = "No se pudo loguear";
+                return View();
+            }
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
 
             try
@@ -208,6 +212,12 @@ namespace ABM.Controllers
                 ViewBag.Message = "No se pudo loguear";
                 return View();
             }
+        }
+
+        public ActionResult LogOff()
+        {
+            Session["User"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 
