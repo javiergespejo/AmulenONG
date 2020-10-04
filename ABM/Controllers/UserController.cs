@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography.Xml;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +30,7 @@ namespace ABM.Controllers
         const int suscriptor = 2;
 
         // GET: Users
-        [AuthorizeUser(new int[] { administrador})]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
@@ -132,7 +134,7 @@ namespace ABM.Controllers
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
-        [AuthorizeUser(new int[]{ administrador })]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -193,7 +195,7 @@ namespace ABM.Controllers
             {
                 if (usm.Pass.Equals(getUser.pass))
                 {
-                    
+
                     Session["User"] = getUser;
                     if (getUser.typeUserId == 1)
                     {
@@ -219,6 +221,127 @@ namespace ABM.Controllers
             Session["User"] = null;
             return RedirectToAction("Index", "Home");
         }
+
+        #region Recuperacion de password
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ForgotPassword(string providedEmail)
+        {
+            string message = "";
+
+            var account = unit.UserRepository.GetUserByUserMail(providedEmail);
+            if (account != null)
+            {
+                string resetCode = Guid.NewGuid().ToString();
+                SendVerificationLinkEmail(account.email, resetCode);
+                account.ResetPasswordCode = resetCode;
+
+                unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
+                unit.UserRepository.Save();
+                message = "Se envio un link de recuperacion a tu mail.";
+            }
+            else
+            {
+                message = "Cuenta no encontrada";
+            }
+
+            ViewBag.Message = message;
+            return View();
+        }
+
+        [NonAction]
+        public void SendVerificationLinkEmail(string userEmail, string activationCode)
+        {
+            var verifyUrl = "/User/ResetPassword/" + activationCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+            var fromEmail = new MailAddress("AQUI VA EL MAIL", "Administrador prueba"); // PONER MAIL VALIDO DEL SENDER
+            var toEmail = new MailAddress(userEmail);
+            var fromEmailPassword = "AQUI VA LA CONTRASEÑA"; // USAR CONSTRASEÑA VALIDA PARA EL SENDER
+
+            // MENSAJE DEL MAIL //
+            string subject = "Recuperar contraseña AMULEN";
+            string body = "Hola<br/>Recibimos una solicitud para recuperar su contraseña de Amulen. Por favor haga click en el link para hacerlo." +
+                "<br/><br/><a href=" + link + ">Restaurar contraseña</a>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com", // LUEGO CAMBIAR EL PROVEEDOR
+                Port = 587, // TAMBIEN CAMBIAR EL PUERTO
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword),
+                Timeout = 20000
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
+        
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return HttpNotFound();
+            }
+
+
+            var user = unit.UserRepository.GetUserByResetPasswordCode(id);
+            if (user != null)
+            {
+                ResetPasswordModel model = new ResetPasswordModel();
+                model.ResetCode = id;
+                return View(model);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            var message = "";
+            if (ModelState.IsValid)
+            {
+
+                var user = unit.UserRepository.GetUserByResetPasswordCode(model.ResetCode);
+                if (user != null)
+                {
+                    user.pass = Encrypt.GetSHA256(model.NewPassword);
+                    user.ResetPasswordCode = null;
+                    unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
+                    unit.UserRepository.Save();
+                    message = "Nueva contraseña actualizada correctamente";
+                }
+
+            }
+            else
+            {
+                message = "Hubo un problema con la verificacion!";
+            }
+            ViewBag.Message = message;
+            return View(model);
+        }
+        #endregion
     }
 
 }
