@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography.Xml;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +29,7 @@ namespace ABM.Controllers
         const int suscriptor = 2;
 
         // GET: Users
-        [AuthorizeUser(new int[] { administrador})]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
@@ -132,7 +133,7 @@ namespace ABM.Controllers
         }
 
         // FALTA IMPLEMENTAR AUTENTICACION
-        [AuthorizeUser(new int[]{ administrador })]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
             var user = unit.UserRepository.GetByID(id);
@@ -193,7 +194,7 @@ namespace ABM.Controllers
             {
                 if (usm.Pass.Equals(getUser.pass))
                 {
-                    
+
                     Session["User"] = getUser;
                     if (getUser.typeUserId == 1)
                     {
@@ -219,6 +220,40 @@ namespace ABM.Controllers
             Session["User"] = null;
             return RedirectToAction("Index", "Home");
         }
+
+        [NonAction]
+        public void SendRecoveryPasswordLinkMail(string email, string activationCode)
+        {
+            var verifyUrl = "/User/RecoveryPassowrd/" + activationCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+
+            var fromEmail = new MailAddress("testmail@gmail.com", "MailAdress");
+            var toEmail = new MailAddress(email);
+            var fromEmailPassword = "**********"; // Replace with actual password
+
+            string subject = "Proceso de recuperación de contraseña";
+            string body = "Hola!<br/><br/>Hemos recibido una solicitud para recuperar la contraseña de su cuenta de Amulen. " +
+                $"Para recuperar su contraseña, por favor, ingrese al siguiente link <br/><br/><a href='{link}'>RECUPERAR CONTRASEÑA</a>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
     }
+
 
 }
