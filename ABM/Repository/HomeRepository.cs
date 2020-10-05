@@ -44,24 +44,42 @@ namespace ABM.Repository
             return welcomeText;
         }
 
-        public int UploadImageInDataBase(HttpPostedFileBase file, HomePageImage homePageImage)
+        // Insert image in database as byte array
+        public bool UploadImageInDataBase(HttpPostedFileBase file, HomePageImage homePageImage)
         {
-            homePageImage.imageData = ConvertToBytes(file);
-            int fileNotSelected = homePageImage.imageData.Length;
-            if (fileNotSelected >= 1)
+            try
             {
-                unitOfWork.HomePageImageRepository.Insert(homePageImage);
-                unitOfWork.Save();
-                return 1;
+                homePageImage.imageData = ConvertToBytes(file);
+                int fileNotSelected = homePageImage.imageData.Length;
+                if (fileNotSelected >= 1)
+                {
+                    unitOfWork.HomePageImageRepository.Insert(homePageImage);
+                    unitOfWork.Save();
+                    return true;
+                }
+                return false;
             }
-            return 0;
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+        // Recieve image from uploadImage view and convert it in byte array.
         public byte[] ConvertToBytes(HttpPostedFileBase image)
         {
-            byte[] imageBytes;
-            BinaryReader reader = new BinaryReader(image.InputStream);
-            imageBytes = reader.ReadBytes((int)image.ContentLength);
-            return imageBytes;
+            try
+            {
+                byte[] imageBytes;
+                BinaryReader reader = new BinaryReader(image.InputStream);
+                imageBytes = reader.ReadBytes((int)image.ContentLength);
+                return imageBytes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public byte[] GetImageById(int Id)

@@ -61,28 +61,30 @@ namespace ABM.Controllers
         }
 
         // GET: Home/UploadImage
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult UploadImage()
         {
             return View();
         }
 
         //POST: Home/UploadImage
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
         public ActionResult UploadImage(UploadImageViewModel model)
         {
             HttpPostedFileBase file = Request.Files["ImageData"];
             HomePageImage homePageImage = model.ToEntity();
-            int i = _homeRepository.UploadImageInDataBase(file, homePageImage);
-            if (i == 1)
+            bool isUploaded = _homeRepository.UploadImageInDataBase(file, homePageImage);
+            if (isUploaded)
             {
                 return RedirectToAction("Edit/1", "Home");
             }
             ModelState.AddModelError("ImageData", "No ha seleccionado ningun archivo!");
             return View(model.ToEntity());
         }
-        [AllowAnonymous]
+
+        // This view shows a list of images
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult ImageGallery()
         {
             try
@@ -102,21 +104,8 @@ namespace ABM.Controllers
                 throw new Exception(e.Message);
             }
         }
-        [AllowAnonymous]
-        public ActionResult RetrieveImage(int id)
-        {
-            byte[] cover = _homeRepository.GetImageById(id);
 
-            if (cover != null)
-            {
-                return File(cover, "image/jpg");
-            }
-            else
-            {
-                return null;
-            }
-        }
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit(int id)
         {
             var homePageData = _homeRepository.GetById(id);
@@ -128,7 +117,7 @@ namespace ABM.Controllers
 
             return View(viewModel);
         }
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
         public ActionResult Edit(HomeViewModel model)
         {
@@ -146,7 +135,7 @@ namespace ABM.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DeleteImage(int id)
         {
             try
@@ -157,6 +146,22 @@ namespace ABM.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        // Converts byte array to image
+        [AllowAnonymous]
+        public ActionResult RetrieveImage(int id)
+        {
+            byte[] cover = _homeRepository.GetImageById(id);
+
+            if (cover != null)
+            {
+                return File(cover, "image/jpg");
+            }
+            else
+            {
+                return null;
             }
         }
     }
