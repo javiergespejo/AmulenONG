@@ -88,16 +88,6 @@ namespace ABM.Repository
 
             return false;
         }
-        /// <summary>
-        /// Returns an user if the ResetPasswordCode is found, else returns null
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public User GetUserByResetPasswordCode(string code)
-        {
-            return base.context.User.Where(x => x.ResetPasswordCode == code).FirstOrDefault();
-        }
-
 
         public void DeleteUser(int userId)
         {

@@ -27,7 +27,6 @@ namespace ABM.Models
         public string pass { get; set; }
         public int typeUserId { get; set; }
         public bool isActive { get; set; }
-        public string ResetPasswordCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SuscriptorProyect> SuscriptorProyect { get; set; }

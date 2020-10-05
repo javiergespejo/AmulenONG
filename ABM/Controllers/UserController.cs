@@ -28,6 +28,7 @@ namespace ABM.Controllers
         }
         const int administrador = 1;
         const int suscriptor = 2;
+        const string keyEncriptacion = "1234567891234567";
 
         // GET: Users
         [AuthorizeUser(new int[] { administrador })]
@@ -240,9 +241,9 @@ namespace ABM.Controllers
             var account = unit.UserRepository.GetUserByUserMail(providedEmail);
             if (account != null)
             {
-                string resetCode = Guid.NewGuid().ToString();
+                // Encrypts the 
+                var resetCode = Business_Logic.EncryptionManager.Encrypt(account.id.ToString(), keyEncriptacion);
                 SendVerificationLinkEmail(account.email, resetCode);
-                account.ResetPasswordCode = resetCode;
 
                 unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
                 unit.UserRepository.Save();
@@ -258,14 +259,14 @@ namespace ABM.Controllers
         }
 
         [NonAction]
-        public void SendVerificationLinkEmail(string userEmail, string activationCode)
+        public void SendVerificationLinkEmail(string userEmail, string resetCode)
         {
-            var verifyUrl = "/User/ResetPassword/" + activationCode;
+            var verifyUrl = "/User/ResetPassword/?id=" + System.Web.HttpUtility.UrlEncode(resetCode);
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress("AQUI VA EL MAIL", "Administrador prueba"); // PONER MAIL VALIDO DEL SENDER
+            var fromEmail = new MailAddress("jlfamt14@gmail.com", "Administrador prueba"); // PONER MAIL VALIDO DEL SENDER
             var toEmail = new MailAddress(userEmail);
-            var fromEmailPassword = "AQUI VA LA CONTRASEÑA"; // USAR CONSTRASEÑA VALIDA PARA EL SENDER
+            var fromEmailPassword = "JWbfHnnAAH2EVzG"; // USAR CONSTRASEÑA VALIDA PARA EL SENDER
 
             // MENSAJE DEL MAIL //
             string subject = "Recuperar contraseña AMULEN";
@@ -293,19 +294,20 @@ namespace ABM.Controllers
         }
         
         [AllowAnonymous]
-        public ActionResult ResetPassword(string id)
+        public ActionResult ResetPassword()
         {
-            if (string.IsNullOrWhiteSpace(id))
+            string resetCode = Request.QueryString["id"];
+            if (string.IsNullOrWhiteSpace(resetCode))
             {
                 return HttpNotFound();
             }
-
-
-            var user = unit.UserRepository.GetUserByResetPasswordCode(id);
+            // DECRIPTA EL RESET CODE CON UNA KEY
+            var idDecrypted = Business_Logic.EncryptionManager.Decrypt(resetCode, keyEncriptacion);
+            var user = unit.UserRepository.GetByID(Int32.Parse(idDecrypted));
             if (user != null)
             {
                 ResetPasswordModel model = new ResetPasswordModel();
-                model.ResetCode = id;
+                model.ResetCode = resetCode;
                 return View(model);
             }
             else
@@ -322,12 +324,11 @@ namespace ABM.Controllers
             var message = "";
             if (ModelState.IsValid)
             {
-
-                var user = unit.UserRepository.GetUserByResetPasswordCode(model.ResetCode);
+                var decryptedId = Business_Logic.EncryptionManager.Decrypt(model.ResetCode, keyEncriptacion);
+                var user = unit.UserRepository.GetByID(Int32.Parse(decryptedId));
                 if (user != null)
                 {
                     user.pass = Encrypt.GetSHA256(model.NewPassword);
-                    user.ResetPasswordCode = null;
                     unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
                     unit.UserRepository.Save();
                     message = "Nueva contraseña actualizada correctamente";
