@@ -106,9 +106,9 @@ namespace ABM.Controllers
         }
 
         [AuthorizeUser(new int[] { administrador })]
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
-            var homePageData = _homeRepository.GetById(id);
+            var homePageData = _homeRepository.GetById(1);
             HomeViewModel viewModel = new HomeViewModel()
             {
                 Id = homePageData.id,
