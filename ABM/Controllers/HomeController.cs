@@ -40,7 +40,14 @@ namespace ABM.Controllers
         public ActionResult Index()
         {
             var welcomeText = _homeRepository.GetWelcomeText();
-            var images = _homeRepository.GetHomeSliderImages();
+            var images = from i in _homeRepository.GetHomeSliderImages()
+                         select new HomePageImageViewModel()
+                         {
+                             Id = i.id,
+                             ImageData = i.imageData,
+                             EditDate = i.editDate,
+                             UserId = i.UserId
+                         };
             var projects = _projectRepository.GetActiveProjects();
 
             HomeViewModel homeViewModel = new HomeViewModel

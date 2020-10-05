@@ -10,7 +10,7 @@ namespace ABM.ViewModels
     public class HomeViewModel
     {
         public int Id { get; set; }
-        public IEnumerable<HomePageImage> SliderImages { get; set; }
+        public IEnumerable<HomePageImageViewModel> SliderImages { get; set; }
         public string WelcomeText { get; set; }
         public List<Proyect> Projects { get; set; }
 
