@@ -227,7 +227,7 @@ namespace ABM.Controllers
             var verifyUrl = "/User/RecoveryPassowrd/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress("testmail@gmail.com", "MailAdress");
+            var fromEmail = new MailAddress("testmail@gmail.com", "MailAdress"); // "mail adress", "name to show"
             var toEmail = new MailAddress(email);
             var fromEmailPassword = "**********"; // Replace with actual password
 
