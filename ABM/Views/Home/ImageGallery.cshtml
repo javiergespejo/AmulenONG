@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "ImageGallery";
 }
-
 <table class="table">
     <tr>
         <th>
@@ -26,8 +25,25 @@
             </td>
             <td>
                 <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25" />
-                @Html.ActionLink("Delete", "DeleteImage", new { id = item.Id })
+                
+                    <form method="post" action="DeleteImage/@item.Id">
+                        <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                            <span>Esta seguro que desea eliminar?</span>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                               onclick="confirmImageDelete('@item.Id', false)">Cancelar</a>
+                        </span>
+
+                        <span id="deleteSpan_@item.Id">
+                            <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                               onclick="confirmImageDelete('@item.Id', true)">Eliminar</a>
+                        </span>
+                    </form>
+                
             </td>
         </tr>
     }
 </table>
+
+<script src="~/Scripts/Custom/confirm-image-delete.js"></script>
+
