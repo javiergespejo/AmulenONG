@@ -70,6 +70,7 @@ namespace ABM.Controllers
         //POST: Home/UploadImage
         [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
+        [Route("~/Home/UploadImage")]
         public ActionResult UploadImage(UploadImageViewModel model)
         {
             HttpPostedFileBase file = Request.Files["ImageData"];
@@ -77,9 +78,9 @@ namespace ABM.Controllers
             bool isUploaded = _homeRepository.UploadImageInDataBase(file, homePageImage);
             if (isUploaded)
             {
-                return RedirectToAction("Edit/1", "Home");
+                TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                return RedirectToAction("Edit", "Home");
             }
-            ModelState.AddModelError("ImageData", "No ha seleccionado ningun archivo!");
             return View(model.ToEntity());
         }
 
@@ -89,7 +90,8 @@ namespace ABM.Controllers
         {
             try
             {
-                var imageList = from i in _homeRepository.GetHomeSliderImages()
+                var imageList = from i in _homeRepository.GetHomeSliderImages() 
+                                orderby i.editDate descending
                                 select new HomePageImageViewModel()
                                 {
                                     Id = i.id,
@@ -106,9 +108,9 @@ namespace ABM.Controllers
         }
 
         [AuthorizeUser(new int[] { administrador })]
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
-            var homePageData = _homeRepository.GetById(id);
+            var homePageData = _homeRepository.GetById(1);
             HomeViewModel viewModel = new HomeViewModel()
             {
                 Id = homePageData.id,
@@ -119,18 +121,20 @@ namespace ABM.Controllers
         }
         [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
-        public ActionResult Edit(HomeViewModel model)
+        public ActionResult Edit(HomeViewModel viewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _homeRepository.UpdateHome(model.ToEntity());
+                    _homeRepository.UpdateHome(viewModel.ToEntity());
                 }
-                return RedirectToAction("Edit/1", "Home");
+                TempData["Success"] = "El cambio se ha guardado correctamente!";
+                return RedirectToAction("Edit", "Home");
             }
             catch
             {
+                ViewData["Error"] = "Error al guardar los cambios";
                 return View();
             }
         }
@@ -141,7 +145,7 @@ namespace ABM.Controllers
             try
             {
                 _homeRepository.DeleteImage(id);
-                return RedirectToAction("Edit/1", "Home");
+                return RedirectToAction("Edit", "Home");
             }
             catch (Exception)
             {

@@ -4,11 +4,6 @@
     ViewBag.Title = "ImageGallery";
 }
 
-<h2>ImageGallery</h2>
-
-<p>
-    @Html.ActionLink("Cargar Imagen", "UploadImage")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -20,19 +15,19 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EditDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-50"/>
-            @Html.ActionLink("Delete", "DeleteImage", new { id = item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EditDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25" />
+                @Html.ActionLink("Delete", "DeleteImage", new { id = item.Id })
+            </td>
+        </tr>
+    }
 </table>
