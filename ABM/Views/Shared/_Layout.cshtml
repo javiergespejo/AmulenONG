@@ -38,7 +38,7 @@
                     }
                     @if (Session["isAdmin"] != null && Session["User"] != null)
                     {
-                        <li>@Html.ActionLink("Administrar Usuarios", "Edit", "User")</li>
+                        <li>@Html.ActionLink("Administrar Usuarios", "Index", "User")</li>
                     }
                     @if (Session["User"] != null)
                     {
