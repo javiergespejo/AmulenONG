@@ -1,9 +1,11 @@
 ﻿using ABM.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 
 namespace ABM.ViewModels
 {
@@ -18,7 +20,7 @@ namespace ABM.ViewModels
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
-        [EmailAddress(ErrorMessage = "Dirección invalida")]
+        [EmailAddress(ErrorMessage = "Dirección de mail invalida")]
         public string Email { get; set; }
 
         [Display(Name = "Nombre de usuario")]
@@ -27,6 +29,7 @@ namespace ABM.ViewModels
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [DataType(DataType.Password)]
         public string Pass { get; set; }
 
         public User ToEntity()
