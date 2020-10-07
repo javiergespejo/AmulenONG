@@ -26,24 +26,23 @@
             <td>
                 <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25" />
                 
-                    <form method="post" action="DeleteImage/@item.Id">
-                        <span id="confirmDeleteSpan_@item.Id" style="display:none">
-                            <span>Esta seguro que desea eliminar?</span>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                            <a href="#deleteSpan_@item.Id" class="btn btn-primary"
-                               onclick="confirmImageDelete('@item.Id', false)">Cancelar</a>
-                        </span>
+                <div>
+                    <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                        <span>Esta seguro que desea eliminar?</span>
+                        <button onclick="location.href='@Url.Action("DeleteImage", "Home", new { id = item.Id })'" class="btn btn-danger">Eliminar</button>
+                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                            onclick="confirmDelete('@item.Id', false)">Cancelar</a>
+                    </span>
 
-                        <span id="deleteSpan_@item.Id">
-                            <a href="#deleteSpan_@item.Id" class="btn btn-danger"
-                               onclick="confirmImageDelete('@item.Id', true)">Eliminar</a>
-                        </span>
-                    </form>
-                
+                    <span id="deleteSpan_@item.Id">
+                        <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                            onclick="confirmDelete('@item.Id', true)">Eliminar</a>
+                    </span>
+                </div>
             </td>
         </tr>
     }
 </table>
 
-<script src="~/Scripts/Custom/confirm-image-delete.js"></script>
+<script src="~/Scripts/Custom/confirm-delete.js"></script>
 

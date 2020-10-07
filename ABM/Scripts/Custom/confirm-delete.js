@@ -1,4 +1,4 @@
-﻿function confirmImageDelete(uniqueId, isDeleteClicked) {
+﻿function confirmDelete(uniqueId, isDeleteClicked) {
     var deleteSpan = 'deleteSpan_' + uniqueId;
     var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
 
