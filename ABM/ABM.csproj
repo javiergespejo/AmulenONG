@@ -813,7 +813,6 @@
     <Content Include="Views\Home\UploadImage.cshtml" />
     <Content Include="Views\Home\ImageGallery.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
-    <Content Include="Views\Home\AdminPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
