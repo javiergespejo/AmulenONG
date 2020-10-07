@@ -5,7 +5,8 @@
 
     <fieldset>
         <legend>Login</legend>
-
+        @using (Html.BeginForm()) { 
+        <Form method="post" action="/User/Login" >
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @if (@ViewBag.Message != null)
@@ -14,21 +15,20 @@
                 @ViewBag.Message
             </div>
         }
-        <Form method="post" action="/User/Login" >
             <div>
                 <div>@Html.LabelFor(a => a.Email)</div>
                 <div>@Html.TextBoxFor(a => a.Email)</div>
-                <div>@Html.ValidationMessageFor(a => a.Email)</div>
+                <div>@Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })</div>
             </div>
             <div>
                 <div>
                     @Html.LabelFor(a => a.Pass)
                 </div>
                 <div>
-                    @Html.PasswordFor(a => a.Pass)
+                   @Html.PasswordFor(a => a.Pass)
                 </div>
                 <div>
-                    @Html.ValidationMessageFor(a => a.Pass)
+                    @Html.ValidationMessageFor(a => a.Pass, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -38,4 +38,5 @@
               
 
         </Form>
+        }
     </fieldset>

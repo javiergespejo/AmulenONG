@@ -113,6 +113,7 @@ namespace ABM.Controllers
         public ActionResult Delete(int id)
         {
             _projectRepository.DeleteProject(id);
+            ModelState.Clear();
             return RedirectToAction("Index", "Proyect");
         }
     }
