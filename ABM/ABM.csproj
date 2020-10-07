@@ -244,6 +244,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Business Logic\Encription.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProyectController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="ViewModels\UploadImageViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ProyectViewModel.cs" />
+    <Compile Include="ViewModels\ResetPasswordModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserEditViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -477,6 +479,8 @@
     <Content Include="Views\Home\UploadImage.cshtml" />
     <Content Include="Views\Home\ImageGallery.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
+    <Content Include="Views\User\ForgotPassword.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

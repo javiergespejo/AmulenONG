@@ -3,10 +3,11 @@
     ViewBag.Title = "Login";
 }
 
+
     <fieldset>
         <legend>Login</legend>
         @using (Html.BeginForm()) { 
-        <Form method="post" action="/User/Login" >
+    <Form method="post" action="/User/Login">
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @if (@ViewBag.Message != null)
@@ -15,28 +16,34 @@
                 @ViewBag.Message
             </div>
         }
+        <div>
+            <div>@Html.LabelFor(a => a.Email)</div>
+            <div>@Html.TextBoxFor(a => a.Email)</div>
+            <div>@Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })</div>
+        </div>
+        <div>
             <div>
-                <div>@Html.LabelFor(a => a.Email)</div>
-                <div>@Html.TextBoxFor(a => a.Email)</div>
-                <div>@Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })</div>
+                @Html.LabelFor(a => a.Pass)
             </div>
             <div>
-                <div>
-                    @Html.LabelFor(a => a.Pass)
-                </div>
-                <div>
-                   @Html.PasswordFor(a => a.Pass)
-                </div>
-                <div>
-                    @Html.ValidationMessageFor(a => a.Pass, "", new { @class = "text-danger" })
-                </div>
+                @Html.PasswordFor(a => a.Pass)
+            </div>
+            <div>
+                @Html.ValidationMessageFor(a => a.Pass, "", new { @class = "text-danger" })
             </div>
 
-                <div style="margin-top: 20px">
-                    <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
-                </div>
-              
+        </div>
 
-        </Form>
+
+        <div style="margin-top: 20px">
+            <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
+        </div>
+
+        @Html.ActionLink("Olvide mi constraseña", "ForgotPassword", "User")
+
+    </Form>
         }
     </fieldset>
+
+   
+
