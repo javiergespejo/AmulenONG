@@ -176,7 +176,7 @@ namespace ABM.Controllers
         public ActionResult Login(FormCollection collection)
 
         {
-            User u = new User();
+            
             UserViewModel usm = new UserViewModel
             {
                 Email = collection["Email"].ToString(),
