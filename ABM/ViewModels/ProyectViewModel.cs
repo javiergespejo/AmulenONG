@@ -17,6 +17,7 @@ namespace ABM.ViewModels
         [Display(Name = "Detalles del proyecto")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string ProjectDetail { get; set; }
+        public int UserId { get; set; }
 
         public Proyect ToEntity()
         {
@@ -27,7 +28,7 @@ namespace ABM.ViewModels
                 proyectDetail = ProjectDetail,
                 editDate = DateTime.Now,
                 StateId = 1,
-                UserStateId = 1
+                UserStateId = UserId
             };
             return p;
         }

@@ -13,6 +13,7 @@ namespace ABM.ViewModels
         public IEnumerable<HomePageImageViewModel> SliderImages { get; set; }
         public string WelcomeText { get; set; }
         public List<Proyect> Projects { get; set; }
+        public int UserId { get; set; }
 
         public HomePageData ToEntity()
         {
@@ -21,7 +22,7 @@ namespace ABM.ViewModels
                 id = 1,
                 WelcomeText = WelcomeText,
                 editDate = DateTime.Now,
-                UserId = 1
+                UserId = UserId
             };
             return homePageData;
         }

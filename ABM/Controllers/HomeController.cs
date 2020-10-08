@@ -1,5 +1,4 @@
 ﻿using ABM.Filters;
-using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
 using System;
@@ -74,8 +73,9 @@ namespace ABM.Controllers
         public ActionResult UploadImage(UploadImageViewModel model)
         {
             HttpPostedFileBase file = Request.Files["ImageData"];
-            HomePageImage homePageImage = model.ToEntity();
-            bool isUploaded = _homeRepository.UploadImageInDataBase(file, homePageImage);
+            var user = (Models.User)Session["User"];
+            model.UserId = user.id;
+            bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
             if (isUploaded)
             {
                 TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
@@ -127,6 +127,8 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var user = (Models.User)Session["User"];
+                    viewModel.UserId = user.id;
                     _homeRepository.UpdateHome(viewModel.ToEntity());
                 }
                 TempData["Success"] = "El cambio se ha guardado correctamente!";
