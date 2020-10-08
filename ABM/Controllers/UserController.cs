@@ -35,6 +35,7 @@ namespace ABM.Controllers
         public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
+                           where u.typeUserId == 1 
                            select new UserViewModel()
                            {
                                Id = u.id,

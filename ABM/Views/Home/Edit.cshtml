@@ -1,0 +1,52 @@
+﻿@model ABM.ViewModels.HomeViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Panel de administración de home</h2>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4>Editar texto de bienvenida</h4>
+            </div>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
+                @if (ViewData["Error"] != null)
+                {
+                    <div class="red">
+                        <span class="alert-danger"> @ViewData["Error"].ToString()</span>
+                    </div>
+                }
+                @if (TempData["Success"] != null)
+                {
+                    <div class="green">
+                        <span class="alert-success">@TempData["Success"].ToString()</span>
+                    </div>
+                }
+            </div>
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @{ Html.RenderPartial("UploadImage"); }
+</div>
+<div>
+    @Html.Action("ImageGallery")
+</div>
+
+<div>
+    @Html.ActionLink("Volver al home", "Index")
+</div>
+
