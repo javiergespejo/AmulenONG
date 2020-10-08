@@ -110,7 +110,7 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit()
         {
-            var homePageData = _homeRepository.GetById(1);
+            var homePageData = _homeRepository.GetById(6);
             HomeViewModel viewModel = new HomeViewModel()
             {
                 Id = homePageData.id,

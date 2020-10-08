@@ -34,8 +34,41 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
+            //var getUsers = from u in _userRepository.GetActiveUsers()
+            //               where u.typeUserId == 1 
+            //               select new UserViewModel()
+            //               {
+            //                   Id = u.id,
+            //                   Email = u.email,
+            //                   Name = u.name
+            //               };
+            //return View(getUsers.ToList());
+            if(Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            return View();
+        }
+        [HttpGet]
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Perfil()
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            UserViewModel userView = new UserViewModel();
+            userView.ToViewModel((User)Session["User"]);
+
+            return View(userView);
+        }
+
+
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Usuarios()
+        {
             var getUsers = from u in _userRepository.GetActiveUsers()
-                           where u.typeUserId == 1 
+                           where u.typeUserId == 1
                            select new UserViewModel()
                            {
                                Id = u.id,
@@ -344,6 +377,16 @@ namespace ABM.Controllers
             return View(model);
         }
         #endregion
+
+        public ActionResult _mostrarPerfil()
+        {
+            UserViewModel user = new UserViewModel();
+            User usuario = (User)Session["User"];
+            user.ToViewModel(usuario);
+            return PartialView(user);
+        }
     }
+
+    
 
 }

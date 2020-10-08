@@ -307,6 +307,8 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminPanel\assets\images\amulen.png" />
+    <Content Include="Content\AdminPanel\assets\images\AmulenLogo2.png" />
     <Content Include="Content\AdminPanel\assets\images\custom-select.png" />
     <Content Include="Content\AdminPanel\assets\images\favicon.png" />
     <Content Include="Content\AdminPanel\assets\images\logo-icon.png" />
@@ -403,6 +405,7 @@
     <Content Include="Content\AdminPanel\dist\js\pages\dashboards\dashboard1.js" />
     <Content Include="Content\AdminPanel\dist\js\sidebarmenu.js" />
     <Content Include="Content\AdminPanel\dist\js\waves.js" />
+    <Content Include="Content\AdminPanel\miEstilo.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -802,14 +805,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\old\Index.cshtml" />
     <Content Include="Views\User\UpdatePassword.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Proyect\Create.cshtml" />
-    <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\Proyect\Index.cshtml" />
     <Content Include="Views\Proyect\Details.cshtml" />
     <Content Include="Views\Home\UploadImage.cshtml" />
@@ -818,6 +818,13 @@
     <Content Include="Views\Home\AdminPanel.cshtml" />
     <Content Include="Views\User\ForgotPassword.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\User\_mostrarPerfil.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Usuarios.cshtml" />
+    <Content Include="Views\User\Perfil.cshtml" />
+    <Content Include="Views\Proyect\Edit.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
