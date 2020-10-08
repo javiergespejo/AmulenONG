@@ -21,7 +21,7 @@
     <link href="~/Content/AdminPanel/dist/css/style.min.css" rel="stylesheet">
 
     <link href="~/Content/AdminPanel/miEstilo.css" rel="stylesheet" />
-    
+
 </head>
 
 <body>
@@ -44,18 +44,17 @@
         <!-- ============================================================== -->
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md nav-bar-orange">
-                <div class="navbar-header" data-logobg="skin5">
+                <div class="navbar-header nav-bar-orange" data-logobg="skin5">
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand nav-bar-orange" href=@Url.Action("Index", "User")  >
+                    <a class="navbar-brand nav-bar-orange" href=@Url.Action("Index", "Home")>
                         <!-- Logo icon -->
-                        
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="~/Content/AdminPanel/assets/images/AmulenLogo2.png" alt="homepage" class="light-logo" height="30" width="100"/>
+                            <img src="~/Content/AdminPanel/assets/images/AmulenLogo2.png" alt="homepage" class="light-logo" height="30" width="100" />
                             <!-- Light Logo text -->
 
                         </span>
@@ -153,75 +152,78 @@
                     </div>
 
                 </div>*@
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Container fluid  -->
-                <!-- ============================================================== -->
-                <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
 
-                    <!-- ============================================================== -->
-                    <!-- Lista projectos -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- Table -->
-                    <!-- ============================================================== -->
-                       
-                    @RenderBody()
-                    <hr />
+                <!-- ============================================================== -->
+                <!-- Lista projectos -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Table -->
+                <!-- ============================================================== -->
 
-
-                    <!-- ============================================================== -->
-                    <!-- Table -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- DOBLE PANEL INFERIOR -->
-                    <!-- ============================================================== -->
+                @RenderBody()
+                <hr />
 
 
-                </div>
                 <!-- ============================================================== -->
-                <!-- End Container fluid  -->
+                <!-- Table -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
-                <!-- footer -->
+                <!-- DOBLE PANEL INFERIOR -->
                 <!-- ============================================================== -->
-                <footer class="footer text-center">
-                    All Rights Reserved by Xtreme Admin. Designed and Developed by <a href="https://www.wrappixel.com">WrapPixel</a>.
-                </footer>
-                <!-- ============================================================== -->
-                <!-- End footer -->
-                <!-- ============================================================== -->
+
+
             </div>
             <!-- ============================================================== -->
-            <!-- End Page wrapper  -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                All Rights Reserved by Xtreme Admin. Designed and Developed by <a href="https://www.wrappixel.com">WrapPixel</a>.
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
             <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Wrapper -->
+        <!-- End Page wrapper  -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- All Jquery -->
-        <!-- ============================================================== -->
-        <script src="~/Content/AdminPanel/assets/libs/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="~/Content/AdminPanel/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/Content/AdminPanel/assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Content/AdminPanel/assets/libs/popper.js/dist/umd/popper.min.js"></script>
 
-        <script src="~/Content/AdminPanel/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="~/Content/AdminPanel/dist/js/app-style-switcher.js"></script>
-        <!--Wave Effects -->
-        <script src="~/Content/AdminPanel/dist/js/waves.js"></script>
+    <script src="~/Content/AdminPanel/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/AdminPanel/dist/js/app-style-switcher.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Content/AdminPanel/dist/js/waves.js"></script>
 
-        <!--Menu sidebar -->
-        <script src="~/Content/AdminPanel/dist/js/sidebarmenu.js"></script>
-        <!--Custom JavaScript -->
-        <script src="~/Content/AdminPanel/dist/js/custom.js"></script>
-        <!--This page JavaScript -->
-        <!--chartis chart-->
-        <script src="~/Content/AdminPanel/assets/libs/chartist/dist/chartist.min.js"></script>
-        <script src="~/Content/AdminPanel/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-        <script src="~/Content/AdminPanel/dist/js/pages/dashboards/dashboard1.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/Content/AdminPanel/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/Content/AdminPanel/dist/js/custom.js"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="~/Content/AdminPanel/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="~/Content/AdminPanel/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/Content/AdminPanel/dist/js/pages/dashboards/dashboard1.js"></script>
 </body>
 
 </html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
