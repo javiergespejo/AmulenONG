@@ -89,7 +89,6 @@ namespace ABM.Repository
             return false;
         }
 
-
         public void DeleteUser(int userId)
         {
             User user = base.context.User.FirstOrDefault(x => x.id == userId);
