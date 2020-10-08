@@ -21,23 +21,32 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Quienes Somos", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
 
                     @if (Session["User"] == null)
                     {
-                        <li>@Html.ActionLink("Login", "Login", "Home")</li>
+                        <li>@Html.ActionLink("Login", "Login", "User")</li>
                     }
-                    @if (Session["isAdmin"] != null)
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
                     {
-                        <li>@Html.ActionLink("Manage Projects", "Index", "Proyect")</li>
+                        <li>@Html.ActionLink("Administrar Inicio", "Edit", "Home")</li>
+                    }
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Administrar Proyectos", "Index", "Proyect")</li>
+                    }
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Administrar Usuarios", "Edit", "User")</li>
                     }
                     @if (Session["User"] != null)
                     {
                         <li>@Html.ActionLink("Logout", "LogOff", "User")</li>
                     }
-                    @if (Session["User"] == null) { 
-                        <li>@Html.ActionLink("Register", "Create", "User")</li>
+                    @if (Session["User"] == null)
+                    {
+                        <li>@Html.ActionLink("Registrate", "Create", "User")</li>
                     }
                 </ul>
             </div>

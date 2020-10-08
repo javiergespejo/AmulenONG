@@ -213,21 +213,26 @@ namespace ABM.Controllers
         public ActionResult Login(FormCollection collection)
 
         {
+            
             UserViewModel usm = new UserViewModel
-
             {
                 Email = collection["Email"].ToString(),
                 Pass = Encrypt.GetSHA256(collection["Pass"].ToString())
             };
-            if (usm.Email == string.Empty)
+
+
+            if (usm.Email == string.Empty || usm.Pass == string.Empty)
             {
-                ViewBag.message = "No se pudo loguear";
+                if (usm.Email == string.Empty)
+                    ViewBag.message = "Los datos que ingresaste no son válidos";
                 return View();
             }
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
 
+
             try
             {
+
                 if (usm.Pass.Equals(getUser.pass))
                 {
 
@@ -236,19 +241,28 @@ namespace ABM.Controllers
                     {
                         Session["isAdmin"] = true;
                     }
+
                     else
                     {
                         Session["isAdmin"] = null;
                     }
                     return RedirectToAction("Index", "Home");
                 }
+
+                else
+                {
+
+                    ViewBag.message = "La contraseña es incorrecta";
+                }
                 return View();
+
             }
             catch (Exception)
             {
-                ViewBag.Message = "No se pudo loguear";
+                ViewBag.Message = "El email es incorrecto";
                 return View();
             }
+
         }
 
         public ActionResult LogOff()
