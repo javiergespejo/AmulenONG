@@ -4,15 +4,13 @@
     Layout = null;
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Amulen</title>
+    <title>Fundraiser &mdash; Website Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 
     <link href="https://fonts.googleapis.com/css?family=Mansalva|Roboto&display=swap" rel="stylesheet">
 
@@ -45,29 +43,44 @@
             <div class="site-mobile-menu-body"></div>
         </div>
 
-        <header class="site-navbar site-navbar-target bg-primary position-sticky" role="banner">
+        <header class="site-navbar site-navbar-target bg-primary position-fixed" role="banner">
             <div class="container-fluid">
                 <div class="row">
-                    <nav class="site-navigation ml-auto center " role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-                            <li><a href="../home" class="nav-link">Inicio</a></li>
-                            <li><a href="#" class="nav-link">Sobre nosotros</a></li>
-                            <li><a href="#" class="nav-link">Proyectos</a></li>
-                            <li><a href="#" class="nav-link">Trabajo en red</a></li>
-                            <li><a href="#" class="nav-link">Contacto</a></li>
-                        </ul>
-                    </nav>
-                    <div class="ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-white"><span class="icon-menu h3 text-white"></span></a></div>
+                    <div class="col-3">
+                        <!-- <a href="https://www.facebook.com/amulen.tallerproductivo"><span class="icon-facebook"></span></a> -->
+                    </div>
+                    <div class="col-6">
+                        <nav class="site-navigation ml-auto" role="navigation">
+                            <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                                <li><a href="#" class="nav-link">Inicio</a></li>
+                                <li><a href="#sobrenosotros" class="nav-link">Sobre nosotros</a></li>
+                                <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+                                <li><a href="#trabajoenred" class="nav-link">Trabajo en red</a></li>
+                                <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="ml-auto toggle-button d-inline-block d-lg-none">
+                            <a href="#"
+                               class="site-menu-toggle py-5 js-menu-toggle text-white">
+                                <span class="icon-menu h3 text-white"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
-        <div class="owl-carousel-wrapper">
 
+
+
+
+        <div class="owl-carousel-wrapper">
             <div class="box-92819">
                 <a href="../home/" class="center"><img width="300" src="~/Content/Template/images/AmulenLogo5.png" /></a>
                 <p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
             </div>
-
             <div class="owl-carousel owl-1 ">
                 @for (int i = 0; i < Model.SliderImages.Count(); i++)
                 {
@@ -80,21 +93,21 @@
         <div class="container">
             <div class="feature-29192-wrap d-md-flex" style="margin-top: -20px; position: relative; z-index: 2;">
 
-                <a href="#" class="feature-29192 overlay-warning" style=" background-image: url('../Content/Template/images/Amulen6.jpg');">
+                <a class="feature-29192 overlay-success" style="background-image: url('/Content/Template/images/Amulen6.jpg');">
                     <div class="text">
-                        <h3 class="text-cursive text-white h1">Talleres</h3>
+                        <h3 class="text-cursive text-white texto-sombra h1">Talleres</h3>
                     </div>
                 </a>
 
-                <a class="feature-29192 overlay-success" style="background-image: url('../Content/Template/images/Amulen5.jpg');">
+                <a class="feature-29192 overlay-warning" style="background-image: url('/Content/Template/images/Amulen5.jpg');">
                     <div class="text">
-                        <h3 class="text-cursive text-white h1">Ecoarte</h3>
+                        <h3 class="text-cursive text-white texto-sombra h1">Ecoarte</h3>
                     </div>
                 </a>
 
-                <div class="feature-29192 overlay-warning" style="background-image: url('../Content/Template/images/Amulen7.jpg');">
+                <div class="feature-29192 overlay-danger" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
                     <div class="text">
-                        <h3 class="text-cursive text-white h1">Junin Recicla</h3>
+                        <h3 class="text-cursive text-white texto-sombra h1">Junin Recicla</h3>
                     </div>
                 </div>
             </div>
@@ -107,7 +120,7 @@
             </div>
         </div>
 
-        <div class="bg-image overlay site-section" style="background-image: url('../Content/Template/images/Amulen2.jpg');">
+        <div class="bg-image overlay site-section" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
             <div class="container">
 
                 <div class="row align-items-center">
@@ -116,7 +129,13 @@
                             <div class="col-md-7">
                                 <div class="heading-20219">
                                     <h2 class="title text-white mb-4 text-cursive">Por qué elegirnos</h2>
-                                    <p class="text-white">El trabajo es un rasgo que define la existencia humana. Es el medio de sustento y de satisfacción de las necesidades básicas. Pero es también una actividad por la que los individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.<br> Es crucial para la elección individual, el bienestar de las familias y la estabilidad de las sociedades.</p>
+                                    <p class="text-white">
+                                        El trabajo es un rasgo que define la existencia humana. Es el medio de sustento
+                                        y de satisfacción de las necesidades básicas. Pero es también una actividad por la que los
+                                        individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.</br> Es
+                                        crucial para la elección individual, el bienestar de las familias y la estabilidad de las
+                                        sociedades.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +145,10 @@
                                     <div class="number mr-4"><span>1</span></div>
                                     <div>
                                         <h3>Actividades culturales y recreativas</h3>
-                                        <p>Brindamos talleres y salidas de esparcimiento</p>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
+                                            eaque accusamus labore necessitatibus.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -136,9 +158,13 @@
                                     <div>
                                         <h3>Convenios municipales</h3>
                                         <p>
-                                            La Municipalidad colabora con personal contratado para el reciclado (separación, recolección, prensado y acopio de los materiales), también con personas que ayudan con el trabajo en los diferentes talleres que se realizan y en la limpieza del lugar.
+                                            La Municipalidad colabora con personal contratado para el reciclado (separación, recolección,
+                                            prensado y acopio de los materiales), también con personas que ayudan con el trabajo en los
+                                            diferentes talleres que se realizan y en la limpieza del lugar.
 
-                                            <br>También empleados municipales realizan una vez por semana el recorrido por la ciudad recolectando botellas plásticas, de vidrio, papeles, etc. que las personas dejan en distintos puntos verdes.
+                                            </br>También empleados municipales realizan una vez por semana el recorrido por la ciudad
+                                            recolectando botellas plásticas, de vidrio, papeles, etc. que las personas dejan en distintos
+                                            puntos verdes.
                                         </p>
                                     </div>
                                 </div>
@@ -149,7 +175,10 @@
                                     <div class="number mr-4"><span>3</span></div>
                                     <div>
                                         <h3>Trabajo en red</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis eaque accusamus labore necessitatibus.</p>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
+                                            eaque accusamus labore necessitatibus.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +187,10 @@
                                     <div class="number mr-4"><span>4</span></div>
                                     <div>
                                         <h3>Compromiso con el reciclaje</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis eaque accusamus labore necessitatibus.</p>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
+                                            eaque accusamus labore necessitatibus.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -168,93 +200,165 @@
             </div>
         </div>
 
-
         <div class="site-section">
             <div class="container">
                 <div class="heading-20219 mb-5">
                     <div class="d-md-flex cta-20101 align-self-center bg-light p-5">
-                        <h2 class="title text-cursive text-center">Creemos posible convocar a la sociedad en su conjunto para sostener y construir espacios como el del taller productivo AMULEN, lugar de encuentro diario y significativo por ser lugar de trabajo, de derecho y de dignidad.</h2>
+                        <h2 class="title text-cursive text-center">
+                            Creemos posible convocar a la sociedad en su conjunto para
+                            sostener y construir espacios como el del taller productivo AMULEN, lugar de encuentro diario y
+                            significativo por ser lugar de trabajo, de derecho y de dignidad.
+                        </h2>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
-        <div class="site-section bg-image overlay-primary" style="background-image: url('../Content/Template/images/Amulen7.jpg');" id="donar">
-            <div class="container">
-                <div class="row align-items-stretch">
-                    <div class="col-md-6">
-                        <img src="~/Content/Template/images/Amulen2.jpg" alt="Image" class="img-fluid shadow img-thumbnail">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="bg-white h-100 p-4 shadow">
-                            <h3 class="mb-4 text-cursive">Contribuí con Amulen!</h3>
-                            <form action="#">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Nombre">
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Correo electrónico">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Monto">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Donar" class="btn btn-primary">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <div class="site-section bg-image overlay-primary" style="background-image: url('/Content/Template/images/Amulen2.jpg');" id="donar">
+        <div class="container">
+            <div class="row align-items-stretch">
+                <div class="col-md-6">
+                    <img src="~/Content/Template/images/Amulen2.jpg" alt="Image" class="img-fluid shadow img-thumbnail">
                 </div>
-            </div>
-        </div>
-
-        <div class="site-section" id=aboutus>
-            <div class="container">
-                <div class="mb-5">
-                    <h2 class="footer-heading mb-4">Suscríbete a nuestras noticias</h2>
-                    <form action="#" method="post" class="footer-suscribe-form">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control rounded-0 border-secondary text-white bg-transparent" placeholder="Ingrese su correo electrónico" aria-label="Enter Email" aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary text-white" type="button" id="button-addon2">Suscribir</button>
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <div class="bg-white h-100 p-4 shadow">
+                        <h3 class="mb-4 text-cursive">Contribuí con Amulen!</h3>
+                        <p>
+                            Las donaciones que recibe Amulen nos permiten sumar y/o mantener recursos, tanto materiales como humanos,
+                            a las causas por las cuales trabajamos día a día.
+                        </p>
+                        <p>Si deseas realizar un aporte económico, te dejamos aquí debajo un enlace para donar:</p>
+                        <input type="submit" value="Donar" class="btn btn-primary">
+                        <br></br>
+                        <p>Si deseas aportar tu ayuda con acciones, contactanos en redes sociales con los siguientes enlaces:</p>
+                        <a href="https://www.facebook.com/amulen.tallerproductivo">
+                            <img src="images/Facebook-Logo.png"
+                                 width="100">
+                        </a>
+                    </div>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
-        <footer class="site-footer bg-white">
-            <div class="container">
-                <div class="row pt-5 mt-5 text-center">
-                    <div class="col-md-12">
-                        <div class="pt-5">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
+    <div class="site-section">
+        <div class="container">
+            <div class="mb-5">
+                <h2 class="footer-heading mb-4">Suscríbete a nuestras noticias</h2>
+                <form action="#" method="post" class="footer-suscribe-form">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control rounded-0 border-secondary text-white bg-transparent"
+                               placeholder="Ingrese su correo electrónico" aria-label="Enter Email" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary text-white" type="button" id="button-addon2">Suscribir</button>
                         </div>
                     </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="site-section" id="sobrenosotros">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <h1 class="text-black mb-3 center text-cursive">Sobre nosotros</h1>
+                    <p>
+                        Estas secciones han sido nombradas de forma provisoria, de la misma manera que están en la página de Amulen
+                        hoy en día.
+                    </p><br>
+                    <p>Serán modificadas en un futuro al planificar de forma más eficiente el contenido</p>
+                </div>
+                <div class="col-4">
                 </div>
             </div>
-        </footer>
+            <div>
 
-        <script src="~/Content/Template/js/jquery-3.3.1.min.js"></script>
-        <script src="~/Content/Template/js/popper.min.js"></script>
-        <script src="~/Content/Template/js/bootstrap.min.js"></script>
-        <script src="~/Content/Template/js/owl.carousel.min.js"></script>
-        <script src="~/Content/Template/js/jquery.sticky.js"></script>
-        <script src="~/Content/Template/js/jquery.waypoints.min.js"></script>
-        <script src="~/Content/Template/js/jquery.animateNumber.min.js"></script>
-        <script src="~/Content/Template/js/jquery.fancybox.min.js"></script>
-        <script src="~/Content/Template/js/jquery.easing.1.3.js"></script>
-        <script src="~/Content/Template/js/aos.js"></script>
-
-        <script src="~/Content/Template/js/main.js"></script>
+            </div>
+        </div>
     </div>
+
+    <div class="site-section" id="proyectos">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <h1 class="text-black mb-3 center text-cursive">Proyectos</h1>
+                </div>
+                <div class="col-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section" id="trabajoenred">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <h1 class="text-black mb-3 center text-cursive">Trabajo en red</h1>
+                </div>
+                <div class="col-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section" id="contacto">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <h1 class="text-black mb-3 center text-cursive">Contacto</h1>
+                </div>
+                <div class="col-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer bg-white">
+        <div class="container">
+            <div class="row pt-5 mt-5 text-center">
+                <div class="col-md-12">
+                    <div class="pt-5">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                            with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                                 target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Content/Template/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Template/js/popper.min.js"></script>
+    <script src="~/Content/Template/js/bootstrap.min.js"></script>
+    <script src="~/Content/Template/js/owl.carousel.min.js"></script>
+    <script src="~/Content/Template/js/jquery.sticky.js"></script>
+    <script src="~/Content/Template/js/jquery.waypoints.min.js"></script>
+    <script src="~/Content/Template/js/jquery.animateNumber.min.js"></script>
+    <script src="~/Content/Template/js/jquery.fancybox.min.js"></script>
+    <script src="~/Content/Template/js/jquery.easing.1.3.js"></script>
+    <script src="~/Content/Template/js/aos.js"></script>
+
+    <script src="~/Content/Template/js/main.js"></script>
+
 </body>
 
 </html>
+
