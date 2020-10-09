@@ -58,6 +58,11 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             var getUsers = from u in _userRepository.GetActiveUsers()
                            where u.typeUserId == 1
                            select new UserViewModel()
