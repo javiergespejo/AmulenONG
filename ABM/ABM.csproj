@@ -1033,7 +1033,6 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\UpdatePassword.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
@@ -1048,11 +1047,10 @@
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\User\_mostrarPerfil.cshtml" />
+    <Content Include="Views\User\Admin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Usuarios.cshtml" />
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />

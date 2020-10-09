@@ -32,17 +32,8 @@ namespace ABM.Controllers
 
         // GET: Users
         [AuthorizeUser(new int[] { administrador })]
-        public ActionResult Index()
+        public ActionResult Admin()
         {
-            //var getUsers = from u in _userRepository.GetActiveUsers()
-            //               where u.typeUserId == 1 
-            //               select new UserViewModel()
-            //               {
-            //                   Id = u.id,
-            //                   Email = u.email,
-            //                   Name = u.name
-            //               };
-            //return View(getUsers.ToList());
             if(Session["User"] == null)
             {
                 return RedirectToAction("Login", "User");
@@ -65,7 +56,7 @@ namespace ABM.Controllers
 
 
         [AuthorizeUser(new int[] { administrador })]
-        public ActionResult Usuarios()
+        public ActionResult Index()
         {
             var getUsers = from u in _userRepository.GetActiveUsers()
                            where u.typeUserId == 1
@@ -156,7 +147,7 @@ namespace ABM.Controllers
                 }
                 _userRepository.UpdateUser(userViewModel.ToUserEntity());
                 _userRepository.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Admin));
             }
             return View(userViewModel);
 
@@ -240,6 +231,7 @@ namespace ABM.Controllers
                     if (getUser.typeUserId == 1)
                     {
                         Session["isAdmin"] = true;
+                        return RedirectToAction("Admin", "User");
                     }
 
                     else
