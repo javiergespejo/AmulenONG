@@ -1,7 +1,9 @@
 ﻿using ABM.Interfaces;
 using ABM.Models;
+using ABM.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -40,6 +42,66 @@ namespace ABM.Repository
                 return e.Message;
             }
             return welcomeText;
+        }
+
+        // Insert image in database as byte array
+        public bool UploadImageInDataBase(HttpPostedFileBase file, HomePageImage homePageImage)
+        {
+            try
+            {
+                homePageImage.imageData = ConvertToBytes(file);
+                int fileNotSelected = homePageImage.imageData.Length;
+                if (fileNotSelected >= 1)
+                {
+                    unitOfWork.HomePageImageRepository.Insert(homePageImage);
+                    unitOfWork.Save();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // Recieve image from uploadImage view and convert it in byte array.
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            try
+            {
+                byte[] imageBytes;
+                BinaryReader reader = new BinaryReader(image.InputStream);
+                imageBytes = reader.ReadBytes((int)image.ContentLength);
+                return imageBytes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
+        public byte[] GetImageById(int Id)
+        {
+            byte[] cover = unitOfWork.HomePageImageRepository.GetByID(Id).imageData;
+            return cover;
+        }
+        public HomePageData GetById(int Id)
+        {
+            var homePageData = unitOfWork.HomePageDataRepository.GetByID(Id);
+            return homePageData;
+        }
+        public void UpdateHome(HomePageData model)
+        {
+            unitOfWork.HomePageDataRepository.Update(model);
+            unitOfWork.Save();
+        }
+
+        public void DeleteImage(int id)
+        {
+            unitOfWork.HomePageImageRepository.Delete(id);
+            unitOfWork.Save();
         }
     }
 }

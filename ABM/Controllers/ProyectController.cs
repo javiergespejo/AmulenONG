@@ -62,6 +62,8 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var user = (Models.User)Session["User"];
+                    model.UserId = user.id;
                     _projectRepository.InsertProject(model.ToEntity());
                 }
 
@@ -98,6 +100,8 @@ namespace ABM.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var user = (Models.User)Session["User"];
+                    model.UserId = user.id;
                     _projectRepository.UpdateProject(model.ToEntity());
                 }
                 return RedirectToAction("Index");
@@ -113,6 +117,7 @@ namespace ABM.Controllers
         public ActionResult Delete(int id)
         {
             _projectRepository.DeleteProject(id);
+            ModelState.Clear();
             return RedirectToAction("Index", "Proyect");
         }
     }

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("UploadImage", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Cargar Imagen</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="custom-file">
+    <input type="file" name="ImageData" class="custom-file-input" id="input-b1" required>
+    <label class="custom-file-label" for="validatedCustomFile">Seleccionar archivo..</label>
+    <div class="invalid-feedback">No ha seleccionado ningun archivo!</div>
+    @if (TempData["ImageSuccess"] != null)
+    {
+        <div class="green">
+            <span class="alert-success">@TempData["ImageSuccess"].ToString()</span>
+        </div>
+    }
+</div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Guardar Imagen</button>
+        </div>
+    </div>
+</div>
+}

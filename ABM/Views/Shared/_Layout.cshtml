@@ -1,58 +1,87 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>Fundraiser &mdash; Website Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link href="https://fonts.googleapis.com/css?family=Mansalva|Roboto&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/Content/Template/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="~/Content/Template/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/Template/css/animate.min.css">
+    <link rel="stylesheet" href="~/Content/Template/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/Content/Template/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/Template/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Content/Template/fonts/flaticon-1/font/flaticon.css">
+    <link rel="stylesheet" href="~/Content/Template/css/aos.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/Content/Template/css/style.css">
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Amulen", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-                    @if (Session["User"] == null)
-                    {
-                        <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                    }
-                    @if (Session["isAdmin"] != null)
-                    {
-                        <li>@Html.ActionLink("Manage Projects", "Index", "Proyect")</li>
-                    }
-                    @if (Session["User"] != null)
-                    {
-                        <li>@Html.ActionLink("Logout", "LogOff", "User")</li>
-                    }
-                    @if (Session["User"] == null) { 
-                        <li>@Html.ActionLink("Register", "Create", "User")</li>
-                    }
-                </ul>
+    <div class="bg-primary site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <div class="site-mobile-menu-body"></div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <div class="site-wrap" id="home-section">
+        <header style="background-color: rgb(255, 153, 0)" class="site-navbar site-navbar-target position-sticky" role="banner">
+            <div class="container-fluid">
+                <div class="row">
+                    <nav style="background-color: rgb(255, 153, 0)" class="site-navigation ml-auto center" role="navigation">
+                        <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                            <li><a href="../home" class="nav-link">Inicio</a></li>
+                            <li><a href="#" class="nav-link">Sobre nosotros</a></li>
+                            <li><a href="#" class="nav-link">Proyectos</a></li>
+                            <li><a href="#" class="nav-link">Trabajo en red</a></li>
+                            <li><a href="#" class="nav-link">Contacto</a></li>
+                        </ul>
+                    </nav>
+                    <div class="ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-white"><span class="icon-menu h3 text-white"></span></a></div>
+
+                </div>
+            </div>
+        </header>
+    </div>
+
+        @RenderBody()
+
+
+        <footer class="site-footer bg-white">
+            <div class="container">
+                <div class="row pt-1 mt-1 text-center">
+                    <div class="col-md-12">
+                        <div class="pt-1">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="~/Content/Template/js/jquery-3.3.1.min.js"></script>
+        <script src="~/Content/Template/js/popper.min.js"></script>
+        <script src="~/Content/Template/js/bootstrap.min.js"></script>
+        <script src="~/Content/Template/js/owl.carousel.min.js"></script>
+        <script src="~/Content/Template/js/jquery.sticky.js"></script>
+        <script src="~/Content/Template/js/jquery.waypoints.min.js"></script>
+        <script src="~/Content/Template/js/jquery.animateNumber.min.js"></script>
+        <script src="~/Content/Template/js/jquery.fancybox.min.js"></script>
+        <script src="~/Content/Template/js/jquery.easing.1.3.js"></script>
+        <script src="~/Content/Template/js/aos.js"></script>
+
+        <script src="~/Content/Template/js/main.js"></script>
 </body>
 </html>
