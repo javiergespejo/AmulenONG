@@ -1061,6 +1061,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />

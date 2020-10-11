@@ -47,7 +47,7 @@ namespace ABM.Repository
                 username = model.username,
                 email = model.email,
                 pass = Encrypt.GetSHA256(model.pass),
-                typeUserId = 1,
+                typeUserId = model.typeUserId,
                 isActive = true
             };
             base.context.User.Add(user);
