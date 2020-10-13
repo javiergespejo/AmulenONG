@@ -74,12 +74,14 @@ namespace ABM.Controllers
             return View(getUsers.ToList());
         }
 
+        // This is the method that creates an admin user
         [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
         }
 
+        // This is the method that creates an admin user
         // POST: Posts/Create
         [HttpPost]
         [AllowAnonymous]
@@ -104,6 +106,7 @@ namespace ABM.Controllers
                         }
                         return View();
                     }
+                    model.UserType = 1;
                     _userRepository.InsertUser(model.ToEntity());
                 }
                 return RedirectToAction("Index", "User");
@@ -164,7 +167,6 @@ namespace ABM.Controllers
             return RedirectToAction("Index", "User");
         }
 
-        // FALTA IMPLEMENTAR AUTENTICACION
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
@@ -396,8 +398,47 @@ namespace ABM.Controllers
             user.ToViewModel(usuario);
             return PartialView(user);
         }
+
+        // This is the create method for suscriptor user type
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        // This is the create method for suscriptor user type
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Register(UserViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
+
+                    if (nameAlreadyExists || mailAlreadyExists)
+                    {
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
+                    }
+                    model.UserType = 2;
+                    _userRepository.InsertUser(model.ToEntity());
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
-
-    
-
 }

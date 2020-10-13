@@ -31,27 +31,37 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <div class="site-wrap" id="home-section">
-        <header style="background-color: rgb(255, 153, 0)" class="site-navbar site-navbar-target position-sticky" role="banner">
-            <div class="container-fluid">
-                <div class="row">
-                    <nav style="background-color: rgb(255, 153, 0)" class="site-navigation ml-auto center" role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-                            <li><a href="../home" class="nav-link">Inicio</a></li>
-                            <li><a href="#" class="nav-link">Sobre nosotros</a></li>
-                            <li><a href="#" class="nav-link">Proyectos</a></li>
-                            <li><a href="#" class="nav-link">Trabajo en red</a></li>
-                            <li><a href="#" class="nav-link">Contacto</a></li>
-                        </ul>
-                    </nav>
-                    <div class="ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-white"><span class="icon-menu h3 text-white"></span></a></div>
-
-                </div>
+                    @if (Session["User"] == null)
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "User")</li>
+                    }
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Administrar Inicio", "Edit", "Home")</li>
+                    }
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Administrar Proyectos", "Index", "Proyect")</li>
+                    }
+                    @if (Session["isAdmin"] != null && Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Administrar Usuarios", "Index", "User")</li>
+                    }
+                    @if (Session["User"] != null)
+                    {
+                        <li>@Html.ActionLink("Logout", "LogOff", "User")</li>
+                    }
+                    @if (Session["User"] == null)
+                    {
+                        <li>@Html.ActionLink("Registrate", "Create", "User")</li>
+                    }
+                </ul>
             </div>
-        </header>
+        </div>
     </div>
 
         @RenderBody()
+        @RenderSection("Scripts", required: false)
 
 
         <footer class="site-footer bg-white">

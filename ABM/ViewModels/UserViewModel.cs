@@ -30,6 +30,7 @@ namespace ABM.ViewModels
 
         [DataType(DataType.Password)]
         public string Pass { get; set; }
+        public int UserType { get; set; }
 
         public User ToEntity()
         {
@@ -39,6 +40,7 @@ namespace ABM.ViewModels
             u.pass = Pass;
             u.username = UserName;
             u.email = Email;
+            u.typeUserId = UserType;
 
             return u;
         }
@@ -54,6 +56,7 @@ namespace ABM.ViewModels
             this.Pass = user.pass;
             this.UserName = user.username;
             this.Email = user.email;
+            this.UserType = user.typeUserId;
         }
     }
 }
