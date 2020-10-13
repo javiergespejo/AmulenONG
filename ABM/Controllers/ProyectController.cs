@@ -42,7 +42,7 @@ namespace ABM.Controllers
         {
             var model = _projectRepository.GetById(id);
             ProyectViewModel project = new ProyectViewModel();
-                project.ToProyectViewModel(model);
+            project.ToProyectViewModel(model);
             return View(project);
         }
 
@@ -79,6 +79,11 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit(int id)
         {
+            if (Session["isAdmin"] == null)
+            {
+                return View("Error");
+            }
+
             var p = _projectRepository.GetById(id);
             ProyectViewModel viewModel = new ProyectViewModel()
             {
@@ -86,7 +91,7 @@ namespace ABM.Controllers
                 ProjectName = p.proyectName,
                 ProjectDetail = p.proyectDetail
             };
-            
+
             return View(viewModel);
         }
 
