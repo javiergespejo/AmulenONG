@@ -2,9 +2,31 @@
 
 @{
     ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
-<h2>Panel de administración de home</h2>
+@*<div class="page-breadcrumb">
+        <div class="row align-items-center">
+            <div class="col-5">
+                <h4 class="page-title">Panel de Inicio</h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Inicio</li>
+                            <li class="breadcrumb-item" aria-current="page">Administracion</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+<br />
+<h2>Panel de administracion de la pantalla de inicio</h2>
+<p>En este panel se puede editar el texto de bienvenida de la pantalla de inicio y cambiar imagenes de portada.</p>
 <hr />
 @using (Html.BeginForm())
 {
@@ -49,4 +71,8 @@
 <div>
     @Html.ActionLink("Volver al home", "Index")
 </div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+
 

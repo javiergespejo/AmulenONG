@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>Details</h2>
@@ -40,33 +40,23 @@
 <div>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Volver", "Index")
     </p>
-    <div class="float-right">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-            Eliminar cuenta
-        </button>
+    <div class="float-left">
+        <div>
+            <span id="confirmDeleteSpan_@Model.Id" style="display:none">
+                <span>Esta seguro que desea eliminar?</span>
+                <button onclick="location.href='@Url.Action("Delete", "User", new { id = Model.Id })'" class="btn btn-danger">Eliminar</button>
+                <a href="#deleteSpan_@Model.Id" class="btn btn-primary"
+                   onclick="confirmDelete('@Model.Id', false)">Cancelar</a>
+            </span>
 
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Eliminar cuenta</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ¿Está seguro que desea eliminar su cuenta?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-danger">@Html.ActionLink("Eliminar cuenta", "Delete", new { id = Model.Id })</button>
-                    </div>
-                </div>
-            </div>
+            <span id="deleteSpan_@Model.Id">
+                <a href="#deleteSpan_@Model.Id" class="btn btn-danger"
+                   onclick="confirmDelete('@Model.Id', true)">Eliminar</a>
+            </span>
         </div>
     </div>
 </div>
+
+<script src="~/Scripts/Custom/confirm-delete.js"></script>

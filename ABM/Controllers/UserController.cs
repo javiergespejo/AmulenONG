@@ -32,10 +32,39 @@ namespace ABM.Controllers
 
         // GET: Users
         [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Admin()
+        {
+            if(Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            return View();
+        }
+        [HttpGet]
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult Perfil()
+        {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            UserViewModel userView = new UserViewModel();
+            userView.ToViewModel((User)Session["User"]);
+
+            return View(userView);
+        }
+
+
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
             var getUsers = from u in _userRepository.GetActiveUsers()
-                           where u.typeUserId == 1 
+                           where u.typeUserId == 1
                            select new UserViewModel()
                            {
                                Id = u.id,
@@ -45,12 +74,14 @@ namespace ABM.Controllers
             return View(getUsers.ToList());
         }
 
+        // This is the method that creates an admin user
         [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
         }
 
+        // This is the method that creates an admin user
         // POST: Posts/Create
         [HttpPost]
         [AllowAnonymous]
@@ -75,6 +106,7 @@ namespace ABM.Controllers
                         }
                         return View();
                     }
+                    model.UserType = 1;
                     _userRepository.InsertUser(model.ToEntity());
                 }
                 return RedirectToAction("Index", "User");
@@ -123,7 +155,7 @@ namespace ABM.Controllers
                 }
                 _userRepository.UpdateUser(userViewModel.ToUserEntity());
                 _userRepository.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Admin));
             }
             return View(userViewModel);
 
@@ -135,7 +167,6 @@ namespace ABM.Controllers
             return RedirectToAction("Index", "User");
         }
 
-        // FALTA IMPLEMENTAR AUTENTICACION
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
@@ -180,7 +211,7 @@ namespace ABM.Controllers
         public ActionResult Login(FormCollection collection)
 
         {
-            User u = new User();
+            
             UserViewModel usm = new UserViewModel
             {
                 Email = collection["Email"].ToString(),
@@ -207,6 +238,7 @@ namespace ABM.Controllers
                     if (getUser.typeUserId == 1)
                     {
                         Session["isAdmin"] = true;
+                        return RedirectToAction("Admin", "User");
                     }
 
                     else
@@ -358,6 +390,55 @@ namespace ABM.Controllers
             return View(model);
         }
         #endregion
-    }
 
+        public ActionResult _mostrarPerfil()
+        {
+            UserViewModel user = new UserViewModel();
+            User usuario = (User)Session["User"];
+            user.ToViewModel(usuario);
+            return PartialView(user);
+        }
+
+        // This is the create method for suscriptor user type
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        // This is the create method for suscriptor user type
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Register(UserViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
+                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
+
+                    if (nameAlreadyExists || mailAlreadyExists)
+                    {
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
+                    }
+                    model.UserType = 2;
+                    _userRepository.InsertUser(model.ToEntity());
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+    }
 }
