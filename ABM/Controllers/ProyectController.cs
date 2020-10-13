@@ -25,23 +25,32 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
-            
+            try
+            {
                 var projects = from p in _projectRepository.GetActiveProjects()
-                           select new ProyectViewModel()
-                           {
-                               Id = p.id,
-                               ProjectName = p.proyectName,
-                               ProjectDetail = p.proyectDetail
-                           };
-            if (TempData["Error"] != null)
-            {
-                ViewBag.Error = TempData["Error"];
+                               select new ProyectViewModel()
+                               {
+                                   Id = p.id,
+                                   ProjectName = p.proyectName,
+                                   ProjectDetail = p.proyectDetail
+                               };
+                if (TempData["Error"] != null)
+                {
+                    ViewBag.Error = TempData["Error"];
+                }
+                else if (TempData["SucessMessage"] != null)
+                {
+                    ViewBag.Message = TempData["SucessMessage"];
+                }
+                return View(projects);
             }
-            else if(TempData["SucessMessage"] != null)
+            catch (Exception)
             {
-                ViewBag.Message = TempData["SucessMessage"];
+                TempData["Error"] = "Ocurrio un error al obtener la lista de proyectos.";
+                return RedirectToAction("Admin", "User");
+                throw;
             }
-            return View(projects);
+               
         }
 
         // GET: Proyect/Details/5
