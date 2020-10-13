@@ -250,10 +250,10 @@ namespace ABM.Controllers
 
                 else
                 {
-
                     ViewBag.message = "La contraseña es incorrecta";
+
+                    return View();
                 }
-                return View();
 
             }
             catch (Exception)
@@ -432,8 +432,9 @@ namespace ABM.Controllers
                     }
                     model.UserType = 2;
                     _userRepository.InsertUser(model.ToEntity());
+                    TempData["RegisterSuccess"] = "El usuario se ha registrado correctamente!";
                 }
-                return RedirectToAction("Index", "Home");
+                return View();
             }
             catch (Exception e)
             {
