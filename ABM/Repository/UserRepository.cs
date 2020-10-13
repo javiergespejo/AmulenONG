@@ -69,6 +69,12 @@ namespace ABM.Repository
             return false;
         }
 
+        public User CheckPassword(string Pass)
+        {
+            return  base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.pass == Pass);
+            
+        }
+
         public User GetUserByUserMail(string Email)
         {
             return base.context.User.Where(x => x.isActive == true).FirstOrDefault(x => x.email == Email);

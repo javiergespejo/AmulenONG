@@ -173,10 +173,12 @@ namespace ABM.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
+
+
         public ActionResult Login(FormCollection collection)
 
         {
-            
+
             UserViewModel usm = new UserViewModel
             {
                 Email = collection["Email"].ToString(),
@@ -188,15 +190,13 @@ namespace ABM.Controllers
             {
                 if (usm.Email == string.Empty)
                     ViewBag.message = "Los datos que ingresaste no son válidos";
+                
                 return View();
             }
             var getUser = _userRepository.GetUserByUserMail(usm.Email);
+            //var getPass = _userRepository.CheckPassword(usm.Pass);
 
-
-            try
-            {
-
-                if (usm.Pass.Equals(getUser.pass))
+                if (usm.Pass == getUser.pass)
                 {
 
                     Session["User"] = getUser;
@@ -209,22 +209,16 @@ namespace ABM.Controllers
                     {
                         Session["isAdmin"] = null;
                     }
+
+                    
                     return RedirectToAction("Index", "Home");
                 }
+                else 
+                    {
+                     ViewBag.message = "La contraseña es incorrecta";
+                    }
 
-                else
-                {
-
-                    ViewBag.message = "La contraseña es incorrecta";
-                }
-                return View();
-
-            }
-            catch (Exception)
-            {
-                ViewBag.Message = "El email es incorrecto";
-                return View();
-            }
+            return View("Error");
 
         }
 
