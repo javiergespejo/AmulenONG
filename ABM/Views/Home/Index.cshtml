@@ -45,12 +45,14 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top py-3">
                 <div class="container-fluid">
+                    <!-- LOGO / HOME -->
                     <a class="navbar-brand" href="#"><img width="50" src="~/Content/Template/images/AmulenLogo3.png" /></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
+                    <!-- NAVBAR ITEMS -->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
@@ -66,9 +68,23 @@
                                 <a class="nav-link " href="#contacto">Cómo llegar</a>
                             </li>
                         </ul>
+                        <!-- LOGIN -->
                         <form class="form-inline my-2 my-lg-0">
-                            <button class="btn btn-danger my-2 my-sm-0 btn-space" type="submit">@Html.ActionLink("Ingresar", "Login", "User")</button>
-                            <button class=" btn btn-danger my-2 my-sm-0" type="submit">@Html.ActionLink("Administrar", "Admin", "User")</button>
+                            <!-- NO USER SESSION -->
+                            @if (Session["User"] == null)
+                            {
+                                <button class="btn btn-danger my-2 my-sm-0 btn-space" type="submit">@Html.ActionLink("Ingresar", "Login", "User")</button>
+                            }
+                            <!-- ADMIN SESSION -->
+                            @if (Session["isAdmin"] != null && Session["User"] != null)
+                            {
+                                <button class=" btn btn-danger my-2 my-sm-0 btn-space" type="submit">@Html.ActionLink("Administrar", "Admin", "User")</button>
+                            }
+                            <!-- USER SESSION -->
+                            @if (Session["User"] != null)
+                            {
+                                <button class="btn btn-danger my-2 my-sm-0 btn-space" type="submit">@Html.ActionLink("Logout", "LogOff", "User")</button>
+                            }
                         </form>
                     </div>
                 </div>
@@ -132,7 +148,7 @@
                     <p class="text-white">
                         El trabajo es un rasgo que define la existencia humana. Es el medio de sustento
                         y de satisfacción de las necesidades básicas. Pero es también una actividad por la que los
-                        individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.</br> Es
+                        individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.<br />Es
                         crucial para la elección individual, el bienestar de las familias y la estabilidad de las
                         sociedades.
                     </p>
@@ -186,7 +202,7 @@
                         </p>
                         <p>Si deseas realizar un aporte económico, te dejamos aquí debajo un enlace para donar:</p>
                         <input type="submit" value="Donar" class="btn btn-primary">
-                        <br></br>
+                        <br />
                         <p>Si deseas aportar tu ayuda con acciones, contactanos en redes sociales con los siguientes enlaces:</p>
                         <a href="https://www.facebook.com/amulen.tallerproductivo">
                             <img src="~/Content/Template/images/Facebook-Logo.png"
