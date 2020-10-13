@@ -76,6 +76,9 @@
         </header>
 
         <div class="owl-carousel-wrapper">
+            <div class="box-29291">
+                <a href="../home/" class="center text-cursive h1">@Model.WelcomeText</a>
+            </div>
             <div class="box-92819">
                 <a href="../home/" class="center"><img width="300" src="~/Content/Template/images/AmulenLogo5.png" /></a>
                 <p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
@@ -118,100 +121,51 @@
                 <p>Favorecer procesos de inclusión social y laboral para jóvenes y adultos con capacidades diferentes.</p>
             </div>
         </div>
-
         <div class="bg-image overlay site-section" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
             <div class="container">
-
-                <div class="row align-items-center">
-                    <div class="col-12">
-                        <div class="row mb-5">
-                            <div class="col-md-7">
-                                <div class="heading-20219">
-                                    <h2 class="title text-white mb-4 text-cursive">Por qué elegirnos</h2>
-                                    <p class="text-white">
-                                        El trabajo es un rasgo que define la existencia humana. Es el medio de sustento
-                                        y de satisfacción de las necesidades básicas. Pero es también una actividad por la que los
-                                        individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.</br> Es
-                                        crucial para la elección individual, el bienestar de las familias y la estabilidad de las
-                                        sociedades.
-                                    </p>
-                                </div>
-                            </div>
+                <div class="heading-20219">
+                    <h2 class="title text-white mb-4 text-cursive">Por qué elegirnos</h2>
+                    <p class="text-white">
+                        El trabajo es un rasgo que define la existencia humana. Es el medio de sustento
+                        y de satisfacción de las necesidades básicas. Pero es también una actividad por la que los
+                        individuos afirman su identidad, para sí mismos/as y para aquellos/as que los rodean.</br> Es
+                        crucial para la elección individual, el bienestar de las familias y la estabilidad de las
+                        sociedades.
+                    </p>
+                    <hr />
+                    &nbsp;
+                </div>
+                <div class="row text-white">
+                    @foreach (var item in Model.Projects)
+                    {
+                        <div class="col-sm-3">
+                            <h3 class="text-white">@Html.DisplayFor(modelItem => item.proyectName)</h3>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-5">
-                                <div class="feature-29012 d-flex">
-                                    <div class="number mr-4"><span>1</span></div>
-                                    <div>
-                                        <h3>Actividades culturales y recreativas</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
-                                            eaque accusamus labore necessitatibus.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-5">
-                                <div class="feature-29012 d-flex">
-                                    <div class="number mr-4"><span>2</span></div>
-                                    <div>
-                                        <h3>Convenios municipales</h3>
-                                        <p>
-                                            La Municipalidad colabora con personal contratado para el reciclado (separación, recolección,
-                                            prensado y acopio de los materiales), también con personas que ayudan con el trabajo en los
-                                            diferentes talleres que se realizan y en la limpieza del lugar.
-
-                                            </br>También empleados municipales realizan una vez por semana el recorrido por la ciudad
-                                            recolectando botellas plásticas, de vidrio, papeles, etc. que las personas dejan en distintos
-                                            puntos verdes.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-5">
-                                <div class="feature-29012 d-flex">
-                                    <div class="number mr-4"><span>3</span></div>
-                                    <div>
-                                        <h3>Trabajo en red</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
-                                            eaque accusamus labore necessitatibus.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-5">
-                                <div class="feature-29012 d-flex">
-                                    <div class="number mr-4"><span>4</span></div>
-                                    <div>
-                                        <h3>Compromiso con el reciclaje</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi id sint explicabo odit reiciendis
-                                            eaque accusamus labore necessitatibus.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-sm-9">
+                            <p>@Html.DisplayFor(modelItem => item.proyectDetail)</p>
+                            <hr />
                         </div>
-                    </div>
+                    }
+                </div>
+            </div>
+            @*</div>*@
+        </div>
+    </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="heading-20219 mb-5">
+                <div class="d-md-flex cta-20101 align-self-center bg-light p-5">
+                    <h2 class="title text-cursive text-center">
+                        Creemos posible convocar a la sociedad en su conjunto para
+                        sostener y construir espacios como el del taller productivo AMULEN, lugar de encuentro diario y
+                        significativo por ser lugar de trabajo, de derecho y de dignidad.
+                    </h2>
                 </div>
             </div>
         </div>
-
-        <div class="site-section">
-            <div class="container">
-                <div class="heading-20219 mb-5">
-                    <div class="d-md-flex cta-20101 align-self-center bg-light p-5">
-                        <h2 class="title text-cursive text-center">
-                            Creemos posible convocar a la sociedad en su conjunto para
-                            sostener y construir espacios como el del taller productivo AMULEN, lugar de encuentro diario y
-                            significativo por ser lugar de trabajo, de derecho y de dignidad.
-                        </h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
     </div>
     </div>
 
