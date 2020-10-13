@@ -110,14 +110,27 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit()
         {
-            var homePageData = _homeRepository.GetById(1);
-            HomeViewModel viewModel = new HomeViewModel()
+            try
             {
-                Id = homePageData.id,
-                WelcomeText = homePageData.WelcomeText
-            };
-
-            return View(viewModel);
+                int idHomepage = _homeRepository.GetFirstHomePageDataID();
+                var homePageData = _homeRepository.GetById(idHomepage);
+                if (homePageData != null)
+                {
+                    HomeViewModel viewModel = new HomeViewModel()
+                    {
+                        Id = homePageData.id,
+                        WelcomeText = homePageData.WelcomeText
+                    };
+                    return View(viewModel);
+                }
+                TempData["Error"] = "No existe datos para la pantalla de inicio.";
+                return RedirectToAction("Admin", "User");
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Hubo un error al ingresar al panel de administracion de pantalla de inicio.";
+                return RedirectToAction("Admin", "User");
+            }
         }
         [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
