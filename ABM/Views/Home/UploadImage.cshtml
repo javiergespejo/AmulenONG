@@ -8,7 +8,6 @@
 
 <div class="form-horizontal">
     <h4>Cargar Imagen</h4>
-    @if (TempData["ImageSuccess"] != null) { @TempData["Error"].ToString()}
         <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="custom-file">

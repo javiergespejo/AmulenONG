@@ -1,4 +1,5 @@
-﻿using ABM.Filters;
+﻿using ABM.Business_Logic;
+using ABM.Filters;
 using ABM.Repository;
 using ABM.ViewModels;
 using Microsoft.Ajax.Utilities;
@@ -87,19 +88,27 @@ namespace ABM.Controllers
             try
             {
                 HttpPostedFileBase file = Request.Files["ImageData"];
-                var user = (Models.User)Session["User"];
-                model.UserId = user.id;
-                bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
-                if (isUploaded)
+                if (ValidateFile.ValidFileExtension(file))
                 {
-                    TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
-                    return RedirectToAction("Edit", "Home");
+                    if (ValidateFile.ValidateFileSize(file))
+                    {
+                        var user = (Models.User)Session["User"];
+                        model.UserId = user.id;
+                        bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
+                        if (isUploaded)
+                        {
+                            TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                            return RedirectToAction("Edit", "Home");
+                        }
+                        return View(model.ToEntity());
+                    }
+                    throw new Exception("El archivo supera el tamaño maximos permitido de 5 MB.");
                 }
-                return View(model.ToEntity());
+                throw new Exception("El formato del archivo debe ser jpg, jpeg o png.");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                TempData["Error"] = "Hubo un problema al guardar la imagen.";
+                TempData["Error"] = e.Message;
                 return RedirectToAction("Edit", "Home");
             }
             
