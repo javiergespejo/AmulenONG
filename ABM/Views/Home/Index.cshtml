@@ -93,12 +93,9 @@
 
         <!-- SLIDER IMAGES, WELCOME TEXT AND "CONTRIBUIR" BUTTON -->
         <div class="owl-carousel-wrapper">
-            <div class="box-29291">
-                <a href="../home/" class="center text-cursive h1 text-center">@Model.WelcomeText</a>
-            </div>
             <div class="box-92819">
                 <a href="../home/" class="center"><img width="300" src="~/Content/Template/images/AmulenLogo5.png" /></a>
-                <p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
+                <br /><p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
             </div>
             <div class="owl-carousel owl-1 ">
                 @for (int i = 0; i < Model.SliderImages.Count(); i++)
@@ -110,23 +107,27 @@
 
         <!-- OVERLAY IMAGES AMULEN ACTIVITIES -->
         <div class="container">
-            <div class="feature-29192-wrap d-md-flex" style="margin-top: -20px; position: relative; z-index: 2;">
+            <div class="center">
+                <p class="center text-cursive h1 text-center">@Model.WelcomeText</p>
+                &nbsp;
+                <div class="feature-29192-wrap d-md-flex" style="margin-top: -20px; position: relative; z-index: 2;">
 
-                <a class="feature-29192 overlay-success" style="background-image: url('/Content/Template/images/Amulen6.jpg');">
-                    <div class="text">
-                        <h3 class="text-cursive text-white texto-sombra h1">Talleres</h3>
-                    </div>
-                </a>
+                    <a class="feature-29192 overlay-success" style="background-image: url('/Content/Template/images/Amulen6.jpg');">
+                        <div class="text">
+                            <h3 class="text-cursive text-white texto-sombra h1">Talleres</h3>
+                        </div>
+                    </a>
 
-                <a class="feature-29192 overlay-warning" style="background-image: url('/Content/Template/images/Amulen5.jpg');">
-                    <div class="text">
-                        <h3 class="text-cursive text-white texto-sombra h1">Ecoarte</h3>
-                    </div>
-                </a>
+                    <a class="feature-29192 overlay-warning" style="background-image: url('/Content/Template/images/Amulen5.jpg');">
+                        <div class="text">
+                            <h3 class="text-cursive text-white texto-sombra h1">Ecoarte</h3>
+                        </div>
+                    </a>
 
-                <div class="feature-29192 overlay-danger" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
-                    <div class="text">
-                        <h3 class="text-cursive text-white texto-sombra h1">Junin Recicla</h3>
+                    <div class="feature-29192 overlay-danger" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
+                        <div class="text">
+                            <h3 class="text-cursive text-white texto-sombra h1">Junin Recicla</h3>
+                        </div>
                     </div>
                 </div>
             </div>
