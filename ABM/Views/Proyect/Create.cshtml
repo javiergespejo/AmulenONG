@@ -1,16 +1,21 @@
 ﻿@model ABM.ViewModels.ProyectViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear proyecto";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Create</h2>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h2>Aca se crea proyectos nuevos</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ProyectViewModel</h4>
         <hr />
@@ -40,9 +45,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>

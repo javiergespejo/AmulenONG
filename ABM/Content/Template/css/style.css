@@ -206,7 +206,7 @@ html {
 
 body {
   line-height: 1.7;
-  color: #364d59 !important;
+  color: black !important;
   font-weight: 300;
   font-size: 1rem;
   background-color: #fff; }
@@ -248,7 +248,7 @@ a {
 h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
   font-weight: 300;
-  color: #364d59;
+  color: black;
   font-family: "Roboto", serif; }
 
 .border-2 {
@@ -272,7 +272,10 @@ h1, h2, h3, h4, h5,
   box-shadow: none !important; }
 
 .btn.btn-primary {
-  color: #fff; }
+  color: black;
+  background-color: #ff9900!important;
+  border-color: #ff9900!important;
+ }
 
 .btn.btn-outline-white {
   border-color: #fff;
@@ -1245,7 +1248,7 @@ h1, h2, h3, h4, h5,
     color: #000 !important; }
 
 .footer-suscribe-form .btn {
-  color: #fff; }
+  color: black; }
 
 .ftco-blocks-cover-1 .ftco-service-image-1 {
   margin-top: -70px;
@@ -1829,3 +1832,95 @@ h1, h2, h3, h4, h5,
   line-height: 1.5; }
   .event-29191 h3 a {
     color: #000; }
+
+/* AGREGADOR POR LOS SHARPGUYS */
+
+.bg-primary{
+  background-color: rgb(255, 153, 0)!important;
+}
+
+.bg-image.overlay-primary:after{
+  background: #ffa50099!important;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+.feature-29192.overlay-warning{
+  background-image: #ffa5009c!important;
+  color:  #ffa5009c!important;
+  background-color:  #ffa5009c!important;
+  color:  #ffa5009c!important;
+}
+
+.site-navbar{
+  text-decoration-color: rgb(255, 153, 0)!important;
+  text-emphasis-color: rgb(255, 153, 0)!important;
+}
+
+.container-fluid header nav ul li a{
+  text-decoration:none;
+  color: rgb(255, 153, 0) !important;
+}
+
+.center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-orange{
+  color: rgb(255, 153, 0) !important;
+}
+
+/* 261366 */
+/* 080024 */
+.feature-29192.overlay-success:before{
+  background-color: #270B68!important;
+}
+
+.feature-29192.overlay-warning:before{
+  background-color: #EF4308!important;
+}
+
+.feature-29192.overlay-danger:before{
+  background-color: #27902D!important;
+}
+
+/* .text-white{
+  border: #000000!important;
+  border-color: #000000!important;
+  background-color: #00000085;
+} */
+
+.texto-borde {
+  -webkit-text-stroke: 1px  white;
+}
+
+.texto-sombra{
+  text-shadow: -1px -1px 0 white, 1px 2px 0 black
+}
+
+.nav-link.active{
+  color: black;
+}
+
+.btn-outline-primary{
+  border-color: #000!important;
+  background-color: transparent!important;
+}
+
+.replace-color-black{
+  color: #000;
+}
+
+.btn.btn-danger{
+  color: black;
+  background-color:  #ff7300;
+  border-color: rgba(109, 109, 109, 0.664);
+}
+
+.btn-space{
+  margin-right: 5px;
+}

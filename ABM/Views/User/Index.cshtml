@@ -1,14 +1,30 @@
 ﻿@model IEnumerable<ABM.ViewModels.UserViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@*<div class="page-breadcrumb">
+    <div class="row align-items-center">
+        <div class="col-5">
+            <h4 class="page-title">Panel de de usuarios</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Usuarios</li>
+                        <li class="breadcrumb-item active" aria-current="page">Administrador</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>*@
+<br />
+<h2>Panel administracion de usuarios</h2>
+<p>En este panel se administra los usuarios, se puede ver los detalles de los mismos, editar y eliminar.</p>
+<hr />
+    @Html.ActionLink("Crear nuevo usuario", "Create")
 <table class="table">
     <tr>
         <th>
@@ -20,44 +36,35 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-                Eliminar cuenta
-            </button>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                <div>
+                    <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                        <span>Esta seguro que desea eliminar?</span>
+                        <button onclick="location.href='@Url.Action("Delete", "User", new { id = item.Id })'" class="btn btn-danger">Eliminar</button>
+                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                           onclick="confirmDelete('@item.Id', false)">Cancelar</a>
+                    </span>
 
-            <!-- Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Eliminar cuenta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Está seguro que desea eliminar su cuenta?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-danger">@Html.ActionLink("Eliminar cuenta", "Delete", new { id = item.Id })</button>
-                        </div>
-                    </div>
+                    <span id="deleteSpan_@item.Id">
+                        <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                           onclick="confirmDelete('@item.Id', true)">Eliminar</a>
+                    </span>
                 </div>
-            </div>
-        </td>
-    </tr>
-}
+            </td>
+        </tr>
+    }
 
 </table>
+
+<script src="~/Scripts/Custom/confirm-delete.js"></script>

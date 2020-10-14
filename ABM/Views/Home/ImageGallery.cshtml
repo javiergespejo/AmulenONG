@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ABM.ViewModels.HomePageImageViewModel>
+
+@{
+    ViewBag.Title = "ImageGallery";
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EditDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EditDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25" />
+                
+                <div>
+                    <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                        <span>Esta seguro que desea eliminar?</span>
+                        <button onclick="location.href='@Url.Action("DeleteImage", "Home", new { id = item.Id })'" class="btn btn-danger">Eliminar</button>
+                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                            onclick="confirmDelete('@item.Id', false)">Cancelar</a>
+                    </span>
+
+                    <span id="deleteSpan_@item.Id">
+                        <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                            onclick="confirmDelete('@item.Id', true)">Eliminar</a>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+
+<script src="~/Scripts/Custom/confirm-delete.js"></script>
+
