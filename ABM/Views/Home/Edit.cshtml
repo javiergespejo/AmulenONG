@@ -44,6 +44,12 @@
                     @TempData["SucessMessage"].ToString()
                 </div>
             }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["Error"].ToString()
+                </div>
+            }
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })

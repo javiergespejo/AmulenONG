@@ -1,6 +1,7 @@
 ﻿using ABM.Filters;
 using ABM.Repository;
 using ABM.ViewModels;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,25 +39,36 @@ namespace ABM.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var welcomeText = _homeRepository.GetWelcomeText();
-            var images = from i in _homeRepository.GetHomeSliderImages()
-                         select new HomePageImageViewModel()
-                         {
-                             Id = i.id,
-                             ImageData = i.imageData,
-                             EditDate = i.editDate,
-                             UserId = i.UserId
-                         };
-            var projects = _projectRepository.GetActiveProjects();
-
-            HomeViewModel homeViewModel = new HomeViewModel
+            try
             {
-                SliderImages = images,
-                WelcomeText = welcomeText,
-                Projects = projects.ToList()
-            };
+                var welcomeText = _homeRepository.GetWelcomeText();
+                var images = from i in _homeRepository.GetHomeSliderImages()
+                             select new HomePageImageViewModel()
+                             {
+                                 Id = i.id,
+                                 ImageData = i.imageData,
+                                 EditDate = i.editDate,
+                                 UserId = i.UserId
+                             };
+                var projects = _projectRepository.GetActiveProjects();
+                if (welcomeText.IsNullOrWhiteSpace())
+                {
+                    welcomeText = "Bienvenido a Amulen";
+                }
+                HomeViewModel homeViewModel = new HomeViewModel
+                {
+                    SliderImages = images,
+                    WelcomeText = welcomeText,
+                    Projects = projects.ToList()
+                };
 
-            return View(homeViewModel);
+                return View(homeViewModel);
+            }
+            catch (Exception)
+            {
+                return HttpNotFound();
+            }
+            
         }
 
         // GET: Home/UploadImage
@@ -72,16 +84,25 @@ namespace ABM.Controllers
         [Route("~/Home/UploadImage")]
         public ActionResult UploadImage(UploadImageViewModel model)
         {
-            HttpPostedFileBase file = Request.Files["ImageData"];
-            var user = (Models.User)Session["User"];
-            model.UserId = user.id;
-            bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
-            if (isUploaded)
+            try
             {
-                TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                HttpPostedFileBase file = Request.Files["ImageData"];
+                var user = (Models.User)Session["User"];
+                model.UserId = user.id;
+                bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
+                if (isUploaded)
+                {
+                    TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                    return RedirectToAction("Edit", "Home");
+                }
+                return View(model.ToEntity());
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Hubo un problema al guardar la imagen.";
                 return RedirectToAction("Edit", "Home");
             }
-            return View(model.ToEntity());
+            
         }
 
         // This view shows a list of images
@@ -166,7 +187,8 @@ namespace ABM.Controllers
             }
             catch (Exception)
             {
-                throw;
+                TempData["Error"] = "Hubo un problema al eliminar la imagen.";
+                return RedirectToAction("Edit", "Home");
             }
         }
 

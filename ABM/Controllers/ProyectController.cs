@@ -168,8 +168,6 @@ namespace ABM.Controllers
         {
             try
             {
-                //VERIFICA QUE LA ID SEA VALIDA Y EXISTA UN USARIO CON LA MISMA. QUIZAS NO SEA NECESARIO?
-                //REVISAR DESPUES CON PABLO
                 if (_projectRepository.GetById(id) != null)
                 {
                     _projectRepository.DeleteProject(id);

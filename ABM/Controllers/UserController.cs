@@ -210,7 +210,7 @@ namespace ABM.Controllers
                     }
                     _userRepository.UpdateUser(userViewModel.ToUserEntity());
                     _userRepository.Save();
-                    TempData["SuccessMessage"] = "El usuario fue editado con exito";
+                    TempData["SuccessMessage"] = "El usuario fue editado con exito.s";
                     return RedirectToAction("Index", "User");
                 }
                 throw new Exception();
@@ -232,7 +232,7 @@ namespace ABM.Controllers
                 if (_userRepository.GetByID(id) != null)
                 {
                     _userRepository.DeleteUser(id);
-                    TempData["SuccessMessage"] = "El usuario fue eliminado con exito";
+                    TempData["SuccessMessage"] = "El usuario fue eliminado con exito.";
                     return RedirectToAction("Index", "User");
                 }
                 throw new Exception();
@@ -524,10 +524,22 @@ namespace ABM.Controllers
 
         public ActionResult _mostrarPerfil()
         {
-            UserViewModel user = new UserViewModel();
-            User usuario = (User)Session["User"];
-            user.ToViewModel(usuario);
-            return PartialView(user);
+            try
+            {
+                if(Session["User"] != null)
+                {
+                    UserViewModel user = new UserViewModel();
+                    User usuario = (User)Session["User"];
+                    user.ToViewModel(usuario);
+                    return PartialView(user);
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                return PartialView(new UserViewModel() { Name = "No disponible", Email = "No disponible" });
+            }
+            
         }
 
         // This is the create method for suscriptor user type
@@ -563,12 +575,16 @@ namespace ABM.Controllers
                     }
                     model.UserType = 2;
                     _userRepository.InsertUser(model.ToEntity());
+                    TempData["SucessMessage"] = "Usuario creado con exito";
+
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
+                throw new Exception();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                ViewBag.Error = "Hubo un error al crear el usuario";
+                return View();
             }
         }
     }
