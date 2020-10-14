@@ -14,6 +14,7 @@ namespace ABM.ViewModels
         public int Id { get; set; }
         [Display(Name = "Nombre completo")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [StringLength(30, ErrorMessage = "El campo nombre no puede tener mas de 30 caracteres! ")]
         public string Name { get; set; }
 
         [Display(Name = "Email")]
@@ -23,6 +24,7 @@ namespace ABM.ViewModels
 
         [Display(Name = "Nombre de usuario")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [StringLength(10, ErrorMessage = "El campo usuario no puede tener mas de 10 caracteres! ")]
         public string UserName { get; set; }
 
         [Display(Name = "Contraseña")]

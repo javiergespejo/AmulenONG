@@ -3,7 +3,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@if (@ViewBag.Error != null)
+{
+    <div class="alert alert-info" role="alert">
+        @ViewBag.Error
+    </div>
+}
 <h2>Bienvenido al menu de administración</h2>
 <p>Desde aqui podra administrar y editar:</p>
 <ul>

@@ -14,12 +14,14 @@ using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
+using Newtonsoft.Json;
 using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
 {
     public class UserController : Controller
     {
+        #region Controller Startup
         private readonly UnitOfWork unit = new UnitOfWork();
         private readonly UserRepository _userRepository;
         public UserController()
@@ -30,13 +32,19 @@ namespace ABM.Controllers
         const int suscriptor = 2;
         const string keyEncriptacion = "1234567891234567";
 
+        #endregion
+
         // GET: Users
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Admin()
         {
-            if(Session["User"] == null)
+            if (Session["User"] == null)
             {
                 return RedirectToAction("Login", "User");
+            }
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"];
             }
             return View();
         }
@@ -44,35 +52,70 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Perfil()
         {
-            if (Session["User"] == null)
+            try
             {
-                return RedirectToAction("Login", "User");
-            }
-            UserViewModel userView = new UserViewModel();
-            userView.ToViewModel((User)Session["User"]);
+                if (Session["User"] != null)
+                {
+                    UserViewModel userView = new UserViewModel();
+                    userView.ToViewModel((User)Session["User"]);
+                    return View(userView);
 
-            return View(userView);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "No se puede mostrar la informacion de perfil del usuario.";
+                return RedirectToAction("Admin", "User");
+            }
         }
 
 
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
-            if (Session["User"] == null)
+            try
             {
-                return RedirectToAction("Login", "User");
+                if (Session["User"] != null)
+                {
+                    var getUsers = from u in _userRepository.GetActiveUsers()
+                                   where u.typeUserId == 1
+                                   select new UserViewModel()
+                                   {
+                                       Id = u.id,
+                                       Email = u.email,
+                                       Name = u.name
+                                   };
+                    if (TempData["Error"] != null)
+                    {
+                        ViewBag.Error = TempData["Error"];
+                    }
+                    else if (TempData["SuccessMessage"] != null)
+                    {
+                        ViewBag.Message = TempData["SuccessMessage"];
+                    }
+
+                    return View(getUsers.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al obtener la lista de usuarios.";
+                return RedirectToAction("Admin", "User");
             }
 
-            var getUsers = from u in _userRepository.GetActiveUsers()
-                           where u.typeUserId == 1
-                           select new UserViewModel()
-                           {
-                               Id = u.id,
-                               Email = u.email,
-                               Name = u.name
-                           };
-            return View(getUsers.ToList());
         }
+
+        #region ABM Usuarios
+
 
         // This is the method that creates an admin user
         [AllowAnonymous]
@@ -108,26 +151,36 @@ namespace ABM.Controllers
                     }
                     model.UserType = 1;
                     _userRepository.InsertUser(model.ToEntity());
+                    TempData["SuccessMessage"] = "Usuario agregado con exito";
+                    return RedirectToAction("Index", "User");
                 }
-                return RedirectToAction("Index", "User");
+                throw new Exception();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                TempData["Error"] = "Ocurrio un error al agregar el usuario, puede que sea invalido.";
+                return RedirectToAction("Index", "User");
             }
         }
 
         public ActionResult Edit(int id)
         {
-            User user = _userRepository.GetByID(id);
-            UserEditViewModel userEditViewModel = new UserEditViewModel(user);
-
-            if (userEditViewModel == null)
+            try
             {
-                return View("Error");
+                User user = _userRepository.GetByID(id);
+                if (user != null)
+                {
+                    UserEditViewModel userEditViewModel = new UserEditViewModel(user);
+                    return View(userEditViewModel);
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al mostrar el usuario, puede que sea invalido.";
+                return RedirectToAction("Index", "User");
             }
 
-            return View(userEditViewModel);
         }
 
         // POST: User/Edit/5
@@ -135,69 +188,138 @@ namespace ABM.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserEditViewModel userViewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool mailAlreadyExists = _userRepository.CheckMail(userViewModel.ToUserEntity());
-                bool nameAlreadyExists = _userRepository.CheckUserName(userViewModel.ToUserEntity());
-
-                if (mailAlreadyExists || nameAlreadyExists)
+                if (ModelState.IsValid)
                 {
-                    if (mailAlreadyExists)
-                    {
-                        ModelState.AddModelError("email", "Email no disponible!");
-                    }
+                    bool mailAlreadyExists = _userRepository.CheckMail(userViewModel.ToUserEntity());
+                    bool nameAlreadyExists = _userRepository.CheckUserName(userViewModel.ToUserEntity());
 
-                    if (nameAlreadyExists)
+                    if (mailAlreadyExists || nameAlreadyExists)
                     {
-                        ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        if (mailAlreadyExists)
+                        {
+                            ModelState.AddModelError("email", "Email no disponible!");
+                        }
+
+                        if (nameAlreadyExists)
+                        {
+                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
+                        }
+                        return View();
                     }
-                    return View();
+                    _userRepository.UpdateUser(userViewModel.ToUserEntity());
+                    _userRepository.Save();
+                    TempData["SuccessMessage"] = "El usuario fue editado con exito";
+                    return RedirectToAction("Index", "User");
                 }
-                _userRepository.UpdateUser(userViewModel.ToUserEntity());
-                _userRepository.Save();
-                return RedirectToAction(nameof(Admin));
+                throw new Exception();
             }
-            return View(userViewModel);
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al editar el usuario, puede que sea invalido.";
+                return View(userViewModel);
+            }
+
+
 
         }
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Delete(int id)
         {
-            _userRepository.DeleteUser(id);
-            return RedirectToAction("Index", "User");
+            try
+            {
+                if (_userRepository.GetByID(id) != null)
+                {
+                    _userRepository.DeleteUser(id);
+                    TempData["SuccessMessage"] = "El usuario fue eliminado con exito";
+                    return RedirectToAction("Index", "User");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al eliminar el usuario, puede que sea invalido.";
+                return RedirectToAction("Index", "User");
+            }
+
         }
 
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
-            var user = unit.UserRepository.GetByID(id);
-            UserViewModel userDetails = new UserViewModel();
-            userDetails.ToViewModel(user);
+            try
+            {
+                var user = unit.UserRepository.GetByID(id);
+                if (user != null)
+                {
+                    UserViewModel userDetails = new UserViewModel();
+                    userDetails.ToViewModel(user);
+                    return View(userDetails);
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al mostrar el usuario, puede que sea invalido.";
+                return RedirectToAction("Index", "User");
+            }
 
-            return View(userDetails);
         }
+
+        //UPDATE PASSWORD  DESDE PANEL ADMINISTRACION
         [HttpGet]
         [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(int id)
         {
-            var user = unit.UserRepository.GetByID(id);
-            UserViewModel userUpdate = new UserViewModel();
-            userUpdate.ToViewModel(user);
-            return View(userUpdate);
+            try
+            {
+                var user = unit.UserRepository.GetByID(id);
+                if (user != null)
+                {
+                    UserViewModel userUpdate = new UserViewModel();
+                    userUpdate.ToViewModel(user);
+                    return View(userUpdate);
+                }
+                throw new Exception();
+
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al mostrar el usuario, puede que sea invalido.";
+                return RedirectToAction("Index", "User");
+            }
+
         }
 
         [HttpPost]
         [AuthorizeUser(new int[] { administrador, suscriptor })]
         public ActionResult UpdatePassword(UserViewModel userUpdated)
         {
-
-            var user = unit.UserRepository.GetByID(userUpdated.Id);
-            var encryptedPass = Encrypt.GetSHA256(userUpdated.Pass);
-            user.pass = encryptedPass;
-            unit.UserRepository.Update(user);
-            unit.UserRepository.Save();
-            return RedirectToAction("Index", "User");
+            try
+            {
+                var user = unit.UserRepository.GetByID(userUpdated.Id);
+                if (user != null)
+                {
+                    var encryptedPass = Encrypt.GetSHA256(userUpdated.Pass);
+                    user.pass = encryptedPass;
+                    unit.UserRepository.Update(user);
+                    unit.UserRepository.Save();
+                    TempData["SuccessMessage"] = "Contraseña actualizada con exito";
+                    return RedirectToAction("Index", "User");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al actualizar la contraseña, puede que el usuario sea invalido.";
+                return View();
+            }
+            
         }
+        #endregion
+
+        #region Login / LogOff
 
         //GET LOGIN
         [HttpGet]
@@ -211,7 +333,6 @@ namespace ABM.Controllers
         public ActionResult Login(FormCollection collection)
 
         {
-            
             UserViewModel usm = new UserViewModel
             {
                 Email = collection["Email"].ToString(),
@@ -269,7 +390,7 @@ namespace ABM.Controllers
             Session["User"] = null;
             return RedirectToAction("Index", "Home");
         }
-
+        #endregion
         #region Recuperacion de password
 
         [AllowAnonymous]
@@ -339,7 +460,7 @@ namespace ABM.Controllers
             })
                 smtp.Send(message);
         }
-        
+
         [AllowAnonymous]
         public ActionResult ResetPassword()
         {
@@ -349,18 +470,24 @@ namespace ABM.Controllers
                 return HttpNotFound();
             }
             // DECRIPTA EL RESET CODE CON UNA KEY
-            var idDecrypted = Business_Logic.EncryptionManager.Decrypt(resetCode, keyEncriptacion);
-            var user = unit.UserRepository.GetByID(Int32.Parse(idDecrypted));
-            if (user != null)
+            try
             {
-                ResetPasswordModel model = new ResetPasswordModel();
-                model.ResetCode = resetCode;
-                return View(model);
+                var idDecrypted = Business_Logic.EncryptionManager.Decrypt(resetCode, keyEncriptacion);
+                var user = unit.UserRepository.GetByID(Int32.Parse(idDecrypted));
+                if (user != null)
+                {
+                    ResetPasswordModel model = new ResetPasswordModel();
+                    model.ResetCode = resetCode;
+                    return View(model);
+                }
+                throw new Exception();
             }
-            else
+            catch (Exception)
             {
-                return HttpNotFound();
+                TempData["Error"] = "El usuario es invalido o no existe.";
+                return RedirectToAction("Login", "User");
             }
+            
 
         }
         [AllowAnonymous]
@@ -368,26 +495,30 @@ namespace ABM.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
-            var message = "";
-            if (ModelState.IsValid)
+            try
             {
-                var decryptedId = Business_Logic.EncryptionManager.Decrypt(model.ResetCode, keyEncriptacion);
-                var user = unit.UserRepository.GetByID(Int32.Parse(decryptedId));
-                if (user != null)
+                if (ModelState.IsValid)
                 {
-                    user.pass = Encrypt.GetSHA256(model.NewPassword);
-                    unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
-                    unit.UserRepository.Save();
-                    message = "Nueva contraseña actualizada correctamente";
+                    var decryptedId = Business_Logic.EncryptionManager.Decrypt(model.ResetCode, keyEncriptacion);
+                    var user = unit.UserRepository.GetByID(Int32.Parse(decryptedId));
+                    if (user != null)
+                    {
+                        user.pass = Encrypt.GetSHA256(model.NewPassword);
+                        unit.UserRepository.context.Configuration.ValidateOnSaveEnabled = false;
+                        unit.UserRepository.Save();
+                        TempData["SuccessMessage"] = "Contraseña actualizada con exito";
+                        return RedirectToAction("Login", "User");
+                    }
+                    
                 }
-
+                throw new Exception();
             }
-            else
+            catch (Exception)
             {
-                message = "Hubo un problema con la verificacion!";
+                TempData["Error"] = "Hubo un problema con la verificacion!";
+                return View(model);
             }
-            ViewBag.Message = message;
-            return View(model);
+            
         }
         #endregion
 

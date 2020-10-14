@@ -6,25 +6,40 @@
 }
 
 @*<div class="page-breadcrumb">
-    <div class="row align-items-center">
-        <div class="col-5">
-            <h4 class="page-title">Panel de de usuarios</h4>
-            <div class="d-flex align-items-center">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Usuarios</li>
-                        <li class="breadcrumb-item active" aria-current="page">Administrador</li>
-                    </ol>
-                </nav>
+        <div class="row align-items-center">
+            <div class="col-5">
+                <h4 class="page-title">Panel de de usuarios</h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Usuarios</li>
+                            <li class="breadcrumb-item active" aria-current="page">Administrador</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 <br />
 <h2>Panel administracion de usuarios</h2>
 <p>En este panel se administra los usuarios, se puede ver los detalles de los mismos, editar y eliminar.</p>
 <hr />
+<p>
     @Html.ActionLink("Crear nuevo usuario", "Create")
+</p>
+
+@if (@ViewBag.Error != null)
+{
+    <div class="alert alert-info" role="alert">
+        @ViewBag.Error
+    </div>
+}
+@if (@ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
 <table class="table">
     <tr>
         <th>
