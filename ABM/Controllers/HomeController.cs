@@ -121,6 +121,7 @@ namespace ABM.Controllers
                         Id = homePageData.id,
                         WelcomeText = homePageData.WelcomeText
                     };
+
                     return View(viewModel);
                 }
                 TempData["Error"] = "No existe datos para la pantalla de inicio.";
@@ -160,6 +161,7 @@ namespace ABM.Controllers
             try
             {
                 _homeRepository.DeleteImage(id);
+                TempData["SucessMessage"] = "Se elimino la imagen correctamente";
                 return RedirectToAction("Edit", "Home");
             }
             catch (Exception)

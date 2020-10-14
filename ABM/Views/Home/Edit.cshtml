@@ -38,6 +38,12 @@
             <div class="col-md-10">
                 <h4>Editar texto de bienvenida</h4>
             </div>
+            @if (TempData["SucessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SucessMessage"].ToString()
+                </div>
+            }
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
