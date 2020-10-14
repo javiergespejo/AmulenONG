@@ -48,7 +48,6 @@ namespace ABM.Controllers
             {
                 TempData["Error"] = "Ocurrio un error al obtener la lista de proyectos.";
                 return RedirectToAction("Admin", "User");
-                throw;
             }
                
         }
@@ -70,7 +69,7 @@ namespace ABM.Controllers
             }
             catch (Exception)
             {
-                TempData["Error"] = "El proyecto es invalido, se redirigio a la pantalla principal.";
+                TempData["Error"] = "Ocurrio un error al mostrar el proyecto, puede que sea invalido.";
                 return RedirectToAction("Index");
             }
 
@@ -156,9 +155,9 @@ namespace ABM.Controllers
                 }
                 throw new Exception();
             }
-            catch
+            catch (Exception)
             {
-                TempData["Error"] = "Hubo un error al editar el proyecto.";
+                TempData["Error"] = "Hubo un error al editar el proyecto, puede que sea invalido.";
                 return View();
             }
         }
