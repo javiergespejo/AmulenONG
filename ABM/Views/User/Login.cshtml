@@ -45,12 +45,14 @@
                     @Html.AntiForgeryToken()
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    
+                    //Icon on the top
                     <img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin-left: 130px; " alt="">
                     <span class="login100-form-title p-b-43">
 
                     </span>
 
-
+                    //Emmail Input
                     <div class="wrap-input100 ">
                         <input class="input100" type="text" name="email" id="Email">
                         <span class="focus-input100"></span>
@@ -58,6 +60,7 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
+                    //Password Input
                     <div class="wrap-input100">
                         <input class="input100" type="password" name="Pass">
                         <span class="focus-input100"></span>
@@ -65,50 +68,38 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.Pass, "", new { @class = "text-danger" })
 
-                    <div class="flex-sb-m w-full p-t-3 p-b-32">
-                        <div class="contact100-form-checkbox">
-
-                        </div>
-
-                        <div class="center">
-                            <a href="../User/ForgotPassword" class="txt1">
-                                ¿Olvido su contraseña?
-                            </a>
-                        </div>
-                    </div>
-                    <div class="container-login100-form-btn" style="margin-bottom:20px">
-                        <a href="~/User/Register">
-                            <button class="login100-form-btn " type="button" value="Register">
-
-                                Registrate
-
-                            </button>
-                        </a>
-                    </div>
-
-
-
-                    <div class="container-login100-form-btn">
+                    //SignIn Button
+                    <div class="container-login100-form-btn" style="margin-bottom: 20px; margin-top:20px">
                         <button class="login100-form-btn " type="submit" value="Login" id="loginButton">
                             Iniciar Sesión
                         </button>
                     </div>
 
-                    <div class="text-center p-t-46 p-b-20">
-                        <span class="txt2">
-
-                        </span>
+                    //Register Button
+                    <div class="center" style="margin-bottom: 20px; margin-top:20px">
+                        <a href="../User/Register" class="txt1">
+                            <button class="login100-form-btn " type="button" value="Login" id="loginButton">
+                                Registrate acá
+                            </button>
+                        </a>
                     </div>
 
+                    //ForgotPassword Button
+                    <div class="container-login100-form-btn" style="margin-bottom: 20px; margin-top:20px">
+                        <a href="../User/ForgotPassword" class="txt1">
+                            ¿Olvido su contraseña?
+                        </a>
+                    </div>
+
+                    //Facebook Button
                     <div class="login100-form-social flex-c-m">
                         <a href="https://www.facebook.com/amulen.tallerproductivo" class="login100-form-social-item flex-c-m bg1 m-r-5">
                             <i class="fa fa-facebook-f" aria-hidden="true"></i>
                         </a>
-
-
                     </div>
                 }
 
+                @* Image to the left *@
                 <div class="login100-more" style="background-image: url('/Content/Template/images/Amulen2.jpg')">
                 </div>
 
