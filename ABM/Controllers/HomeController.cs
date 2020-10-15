@@ -1,6 +1,8 @@
-﻿using ABM.Filters;
+﻿using ABM.Business_Logic;
+using ABM.Filters;
 using ABM.Repository;
 using ABM.ViewModels;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,25 +40,36 @@ namespace ABM.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var welcomeText = _homeRepository.GetWelcomeText();
-            var images = from i in _homeRepository.GetHomeSliderImages()
-                         select new HomePageImageViewModel()
-                         {
-                             Id = i.id,
-                             ImageData = i.imageData,
-                             EditDate = i.editDate,
-                             UserId = i.UserId
-                         };
-            var projects = _projectRepository.GetActiveProjects();
-
-            HomeViewModel homeViewModel = new HomeViewModel
+            try
             {
-                SliderImages = images,
-                WelcomeText = welcomeText,
-                Projects = projects.ToList()
-            };
+                var welcomeText = _homeRepository.GetWelcomeText();
+                var images = from i in _homeRepository.GetHomeSliderImages()
+                             select new HomePageImageViewModel()
+                             {
+                                 Id = i.id,
+                                 ImageData = i.imageData,
+                                 EditDate = i.editDate,
+                                 UserId = i.UserId
+                             };
+                var projects = _projectRepository.GetActiveProjects();
+                if (welcomeText.IsNullOrWhiteSpace())
+                {
+                    welcomeText = "Bienvenido a Amulen";
+                }
+                HomeViewModel homeViewModel = new HomeViewModel
+                {
+                    SliderImages = images,
+                    WelcomeText = welcomeText,
+                    Projects = projects.ToList()
+                };
 
-            return View(homeViewModel);
+                return View(homeViewModel);
+            }
+            catch (Exception)
+            {
+                return HttpNotFound();
+            }
+            
         }
 
         // GET: Home/UploadImage
@@ -72,16 +85,33 @@ namespace ABM.Controllers
         [Route("~/Home/UploadImage")]
         public ActionResult UploadImage(UploadImageViewModel model)
         {
-            HttpPostedFileBase file = Request.Files["ImageData"];
-            var user = (Models.User)Session["User"];
-            model.UserId = user.id;
-            bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
-            if (isUploaded)
+            try
             {
-                TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                HttpPostedFileBase file = Request.Files["ImageData"];
+                if (ValidateFile.ValidFileExtension(file))
+                {
+                    if (ValidateFile.ValidateFileSize(file))
+                    {
+                        var user = (Models.User)Session["User"];
+                        model.UserId = user.id;
+                        bool isUploaded = _homeRepository.UploadImageInDataBase(file, model.ToEntity());
+                        if (isUploaded)
+                        {
+                            TempData["ImageSuccess"] = "La imagen se ha guardado correctamente!";
+                            return RedirectToAction("Edit", "Home");
+                        }
+                        return View(model.ToEntity());
+                    }
+                    throw new Exception("El archivo supera el tamaño maximos permitido de 5 MB.");
+                }
+                throw new Exception("El formato del archivo debe ser jpg, jpeg o png.");
+            }
+            catch (Exception e)
+            {
+                TempData["Error"] = e.Message;
                 return RedirectToAction("Edit", "Home");
             }
-            return View(model.ToEntity());
+            
         }
 
         // This view shows a list of images
@@ -110,14 +140,28 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit()
         {
-            var homePageData = _homeRepository.GetById(1);
-            HomeViewModel viewModel = new HomeViewModel()
+            try
             {
-                Id = homePageData.id,
-                WelcomeText = homePageData.WelcomeText
-            };
+                int idHomepage = _homeRepository.GetFirstHomePageDataID();
+                var homePageData = _homeRepository.GetById(idHomepage);
+                if (homePageData != null)
+                {
+                    HomeViewModel viewModel = new HomeViewModel()
+                    {
+                        Id = homePageData.id,
+                        WelcomeText = homePageData.WelcomeText
+                    };
 
-            return View(viewModel);
+                    return View(viewModel);
+                }
+                TempData["Error"] = "No existe datos para la pantalla de inicio.";
+                return RedirectToAction("Admin", "User");
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Hubo un error al ingresar al panel de administracion de pantalla de inicio.";
+                return RedirectToAction("Admin", "User");
+            }
         }
         [AuthorizeUser(new int[] { administrador })]
         [HttpPost]
@@ -147,11 +191,13 @@ namespace ABM.Controllers
             try
             {
                 _homeRepository.DeleteImage(id);
+                TempData["SucessMessage"] = "Se elimino la imagen correctamente";
                 return RedirectToAction("Edit", "Home");
             }
             catch (Exception)
             {
-                throw;
+                TempData["Error"] = "Hubo un problema al eliminar la imagen.";
+                return RedirectToAction("Edit", "Home");
             }
         }
 

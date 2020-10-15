@@ -25,25 +25,54 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
-            var projects = from p in _projectRepository.GetActiveProjects()
-                           select new ProyectViewModel()
-                           {
-                               Id = p.id,
-                               ProjectName = p.proyectName,
-                               ProjectDetail = p.proyectDetail
-                           };
-
-            return View(projects);
+            try
+            {
+                var projects = from p in _projectRepository.GetActiveProjects()
+                               select new ProyectViewModel()
+                               {
+                                   Id = p.id,
+                                   ProjectName = p.proyectName,
+                                   ProjectDetail = p.proyectDetail
+                               };
+                if (TempData["Error"] != null)
+                {
+                    ViewBag.Error = TempData["Error"];
+                }
+                else if (TempData["SucessMessage"] != null)
+                {
+                    ViewBag.Message = TempData["SucessMessage"];
+                }
+                return View(projects);
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al obtener la lista de proyectos.";
+                return RedirectToAction("Admin", "User");
+            }
+               
         }
 
         // GET: Proyect/Details/5
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Details(int id)
         {
-            var model = _projectRepository.GetById(id);
-            ProyectViewModel project = new ProyectViewModel();
-            project.ToProyectViewModel(model);
-            return View(project);
+            try
+            {
+                var model = _projectRepository.GetById(id);
+                if (model != null)
+                {
+                    ProyectViewModel project = new ProyectViewModel();
+                    project.ToProyectViewModel(model);
+                    return View(project);
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al mostrar el proyecto, puede que sea invalido.";
+                return RedirectToAction("Index");
+            }
+
         }
 
         // GET: Proyect/Create
@@ -65,13 +94,16 @@ namespace ABM.Controllers
                     var user = (Models.User)Session["User"];
                     model.UserId = user.id;
                     _projectRepository.InsertProject(model.ToEntity());
+                    TempData["SucessMessage"] = "El proyecto fue creado con exito.";
+                    return RedirectToAction("Index");
                 }
+                throw new Exception();
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                TempData["Error"] = "Operacion invalida, se redirigio a la pantalla principal.";
+                return RedirectToAction("Index");
             }
         }
 
@@ -79,20 +111,29 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Edit(int id)
         {
-            if (Session["isAdmin"] == null)
+            try
             {
-                return View("Error");
+                var p = _projectRepository.GetById(id);
+                if (p != null)
+                {
+                    ProyectViewModel viewModel = new ProyectViewModel()
+                    {
+                        Id = p.id,
+                        ProjectName = p.proyectName,
+                        ProjectDetail = p.proyectDetail
+                    };
+
+                    return View(viewModel);
+                }
+                throw new Exception();
             }
-
-            var p = _projectRepository.GetById(id);
-            ProyectViewModel viewModel = new ProyectViewModel()
+            catch (Exception)
             {
-                Id = p.id,
-                ProjectName = p.proyectName,
-                ProjectDetail = p.proyectDetail
-            };
-
-            return View(viewModel);
+                TempData["Error"] = "Proyecto invalido, se redirigio a la pantalla principal.";
+                return RedirectToAction("Index");
+            }
+            
+            
         }
 
         // POST: Proyect/Edit/5
@@ -108,11 +149,15 @@ namespace ABM.Controllers
                     var user = (Models.User)Session["User"];
                     model.UserId = user.id;
                     _projectRepository.UpdateProject(model.ToEntity());
+                    TempData["SucessMessage"] = "El proyecto fue editado con exito.";
+                    return RedirectToAction("Index");
+
                 }
-                return RedirectToAction("Index");
+                throw new Exception();
             }
-            catch
+            catch (Exception)
             {
+                TempData["Error"] = "Hubo un error al editar el proyecto, puede que sea invalido.";
                 return View();
             }
         }
@@ -121,9 +166,22 @@ namespace ABM.Controllers
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult Delete(int id)
         {
-            _projectRepository.DeleteProject(id);
-            ModelState.Clear();
-            return RedirectToAction("Index", "Proyect");
+            try
+            {
+                if (_projectRepository.GetById(id) != null)
+                {
+                    _projectRepository.DeleteProject(id);
+                    ModelState.Clear();
+                    TempData["SucessMessage"] = "El proyecto fue eliminado con exito.";
+                    return RedirectToAction("Index", "Proyect");
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Hubo un error al eliminar el proyecto.";
+                return View();
+            }
         }
     }
 }
