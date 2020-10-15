@@ -51,24 +51,25 @@
                 </div>
             }
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
-                @if (ViewData["Error"] != null)
-                {
-                    <div class="red">
-                        <span class="alert-danger"> @ViewData["Error"].ToString()</span>
-                    </div>
-                }
-                @if (TempData["Success"] != null)
-                {
-                    <div class="green">
-                        <span class="alert-success">@TempData["Success"].ToString()</span>
-                    </div>
-                }
+                <textarea class="form-control" asp-for="Content" rows="5" cols="12" id="WelcomeText" name="WelcomeText">Texto de bienvenida de prueba</textarea>
+                @*@Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control", style = "height: 150px" } })*@
             </div>
-            <div class="col-md-10">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
+            @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
+            @if (ViewData["Error"] != null)
+            {
+                <div class="red">
+                    <span class="alert-danger"> @ViewData["Error"].ToString()</span>
+                </div>
+            }
+            @if (TempData["Success"] != null)
+            {
+                <div class="green">
+                    <span class="alert-success">@TempData["Success"].ToString()</span>
+                </div>
+            }
+        </div>
+        <div class="col-md-10">
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 20px">Guardar</button>
         </div>
     </div>
 }
