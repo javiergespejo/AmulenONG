@@ -52,6 +52,12 @@
                     </div>
 
                     <br />
+                    if (TempData["RegisterSuccess"] != null)
+                    {
+                        <div class="green">
+                            <span class="alert-success">@TempData["RegisterSuccess"].ToString()</span>
+                        </div>
+                    }
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="Name">
                         <span class="focus-input100"></span>
