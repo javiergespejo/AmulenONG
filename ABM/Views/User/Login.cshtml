@@ -1,6 +1,6 @@
 ﻿@model ABM.ViewModels.UserViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -45,9 +45,9 @@
                     @Html.AntiForgeryToken()
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    
+
                     //Icon on the top
-                    <img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin-left: 130px; " alt="">
+                    <a href="../Home/Index"><img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin:auto; " alt=""></a>
                     <span class="login100-form-title p-b-43">
 
                     </span>
@@ -92,6 +92,18 @@
                     </div>
 
                     //Facebook Button
+                    if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @TempData["SuccessMessage"].ToString()
+                        </div>
+                    }
+                    if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            @TempData["Error"].ToString()
+                        </div>
+                    }
                     <div class="login100-form-social flex-c-m">
                         <a href="https://www.facebook.com/amulen.tallerproductivo" class="login100-form-social-item flex-c-m bg1 m-r-5">
                             <i class="fa fa-facebook-f" aria-hidden="true"></i>
@@ -127,44 +139,3 @@
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
-
-
-
-@*<fieldset>
-        <legend>Login</legend>
-        @using (Html.BeginForm())
-        {
-            <Form method="post" action="/User/Login">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-                @if (@ViewBag.Message != null)
-                {
-                    <div style="border: 1px solid red">
-                        @ViewBag.Message
-                    </div>
-                }
-                <div>
-                    <div>@Html.LabelFor(a => a.Email)</div>
-                    <div>@Html.TextBoxFor(a => a.Email)</div>
-                    <div>@Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })</div>
-                </div>
-                <div>
-                    <div>
-                        @Html.LabelFor(a => a.Pass)
-                    </div>
-                    <div>
-                        @Html.PasswordFor(a => a.Pass)
-                    </div>
-                    <div>
-                        @Html.ValidationMessageFor(a => a.Pass, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px">
-                    <button class="btn btn-primary btn-lg" type="submit" value="Login"> Iniciar Sesión </button>
-                </div>
-
-
-            </Form>
-        }
-    </fieldset>*@
