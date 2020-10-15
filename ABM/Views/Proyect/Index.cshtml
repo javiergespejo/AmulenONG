@@ -23,7 +23,8 @@
 
 <br />
 <h2>Panel de administracion de proyectos</h2>
-<p>En este panel se administran los proyectos, se puede ver los detalles de los mismos, editar y eliminar.</p>
+<p>En este panel se administran los proyectos, se puede ver los detalles de los mismos, editar y eliminar. 
+    <br /> Los proyectos aquí creados serán mostrados en la página principal, en la sección de Proyectos.</p>
 
 
 <hr />
@@ -64,14 +65,16 @@
                 @Html.DisplayFor(modelItem => item.ProjectDetail)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
-                <!-- Button trigger modal -->
-
                 <div>
+                    <!-- CRUD BUTTONS -->
+                    <button onclick="location.href='@Url.Action("Edit", "Proyect", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Editar</button>
+                    <button onclick="location.href='@Url.Action("Details", "Proyect", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Detalles</button>
+                    <!-- Button trigger modal -->
+
+
                     <span id="confirmDeleteSpan_@item.Id" style="display:none">
                         <span>Esta seguro que desea eliminar?</span>
-                        <button onclick="location.href='@Url.Action("Delete", "Proyect", new { id = item.Id })'" class="btn btn-danger">Eliminar</button>
+                        <button onclick="location.href='@Url.Action("Delete", "Proyect", new { id = item.Id })'" class="btn btn-danger" style="margin-bottom:2px">Eliminar</button>
                         <a href="#deleteSpan_@item.Id" class="btn btn-primary"
                            onclick="confirmDelete('@item.Id', false)">Cancelar</a>
                     </span>
