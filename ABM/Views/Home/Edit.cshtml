@@ -53,7 +53,6 @@
             }
             <div class="col-md-10">
                 <textarea class="form-control" asp-for="Content" rows="5" cols="12" id="WelcomeText" name="WelcomeText">Texto de bienvenida de prueba</textarea>
-                @*@Html.TextAreaFor(model => model.WelcomeText, new { htmlAttributes = new { @class = "form-control", style = "height: 150px" } })*@
             </div>
             @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
             @if (ViewData["Error"] != null)
@@ -83,9 +82,9 @@
 <div>
     @Html.Action("ImageGallery")
 </div>
-
+&nbsp;
 <div>
-    @Html.ActionLink("Volver al home", "Index")
+    <a href="../Home/Index" class="btn btn-outline-primary">Volver a la página principal</a>
 </div>
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
