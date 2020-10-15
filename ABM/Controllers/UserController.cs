@@ -322,7 +322,7 @@ namespace ABM.Controllers
         #region Login / LogOff
 
         //GET LOGIN
-        [HttpGet]
+        
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -330,29 +330,36 @@ namespace ABM.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(FormCollection collection)
+
+        //login with valid mail and password
+        public ActionResult Login(UserViewModel userViewModel)
 
         {
-            UserViewModel usm = new UserViewModel
+            
+    
+            ModelState["UserName"].Errors.Clear();
+            ModelState["Name"].Errors.Clear();
+
+            if (ModelState.IsValid)
             {
-                Email = collection["Email"].ToString(),
-                Pass = Encrypt.GetSHA256(collection["Pass"].ToString())
-            };
+                bool MailExists = _userRepository.CheckMail(userViewModel.ToEntity());
+                var getUser = _userRepository.GetUserByUserMail(userViewModel.Email);
+                var getPass = _userRepository.CheckPassword(userViewModel.ToEntity());
+                if (!MailExists || !getPass)
+                {
+                    if (!MailExists)
+                    {
+                        ModelState.AddModelError("email", "El email es incorrecto!");
+                    }
+                    if (!getPass)
+                    {
+                        ModelState.AddModelError("pass", "La contraseña es incorrecta!");
+                    }
+                    return View();
+                }
 
 
-            if (usm.Email == string.Empty || usm.Pass == string.Empty)
-            {
-                if (usm.Email == string.Empty)
-                    ViewBag.message = "Los datos que ingresaste no son válidos";
-                return View();
-            }
-            var getUser = _userRepository.GetUserByUserMail(usm.Email);
-
-
-            try
-            {
-
-                if (usm.Pass.Equals(getUser.pass))
+                if (getPass && getUser.email == userViewModel.Email)
                 {
 
                     Session["User"] = getUser;
@@ -371,20 +378,21 @@ namespace ABM.Controllers
 
                 else
                 {
-                    ViewBag.message = "La contraseña es incorrecta";
 
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
+                return View();
 
             }
-            catch (Exception)
+            else
             {
                 ViewBag.Message = "El email es incorrecto";
                 return View();
             }
-
+            return View();
         }
 
+        //LogOff
         public ActionResult LogOff()
         {
             Session["User"] = null;
@@ -460,7 +468,7 @@ namespace ABM.Controllers
             })
                 smtp.Send(message);
         }
-
+        
         [AllowAnonymous]
         public ActionResult ResetPassword()
         {

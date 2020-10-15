@@ -39,6 +39,7 @@ namespace ABM.Repository
         {
             return (User)base.context.User.Where(x => x.isActive == true).Where(x => (x.username.Equals(username)) && (x.pass.Equals(pass)));
         }
+
         public void InsertUser(User model)
         {
             User user = new User
@@ -67,6 +68,22 @@ namespace ABM.Repository
             }
 
             return false;
+        }
+
+        public bool CheckPassword(User user)
+        {
+            var encryptedPassword = Encrypt.GetSHA256(user.pass);
+            var userPass = from u in GetActiveUsers()
+                           where u.email == user.email 
+                           select u.pass;
+
+            if (userPass.FirstOrDefault() == encryptedPassword)
+            {
+                return true;
+            }
+
+            return false;
+
         }
 
         public User GetUserByUserMail(string Email)
