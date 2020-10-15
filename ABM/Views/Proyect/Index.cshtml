@@ -4,22 +4,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@*<div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-5">
-                <h4 class="page-title">Panel de projectos</h4>
-                <div class="d-flex align-items-center">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">Proyectos</li>
-                            <li class="breadcrumb-item" aria-current="page">Administracion</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-
-        </div>
-    </div>*@
 
 <br />
 <h2>Panel de administracion de proyectos</h2>
@@ -29,7 +13,7 @@
 
 <hr />
 <p>
-    @Html.ActionLink("Crear nuevo proyecto", "Create")
+    <a href="../Proyect/Create" class="btn btn-primary">Crear nuevo proyecto</a>
 </p>
 
 @if (@ViewBag.Error != null)
