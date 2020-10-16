@@ -575,9 +575,10 @@ namespace ABM.Controllers
                     }
                     model.UserType = 2;
                     _userRepository.InsertUser(model.ToEntity());
-                    TempData["SucessMessage"] = "Usuario creado con exito";
+                    TempData["SuccessMessage"] = "Usuario creado con exito";
 
-                    return RedirectToAction("Index", "Home");
+
+                    return RedirectToAction("Login", "User");
                 }
                 throw new Exception();
             }
