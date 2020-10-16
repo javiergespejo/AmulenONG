@@ -1,7 +1,7 @@
 ﻿@model ABM.ViewModels.UserViewModel
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -50,7 +50,13 @@
                     <div class="center">
                         <img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin: auto; " alt="">
                     </div>
-
+                    <br />
+                    if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            @ViewBag.Error
+                        </div>
+                    }
                     <br />
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="Name">
@@ -85,12 +91,8 @@
                             Registrarme
                         </button>
                     </div>
-                }
-                @if (ViewBag.Error != null)
-                {
-                    <div class="alert alert-info" role="alert">
-                        @ViewBag.Error
-                    </div>
+
+
                 }
                 <div class="login100-more" style="background-image: url('/Content/Template/images/Amulen2.jpg')">
                 </div>

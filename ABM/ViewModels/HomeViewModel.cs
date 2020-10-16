@@ -19,7 +19,7 @@ namespace ABM.ViewModels
         {
             HomePageData homePageData = new HomePageData()
             {
-                id = 1,
+                id = 6,
                 WelcomeText = WelcomeText,
                 editDate = DateTime.Now,
                 UserId = UserId
