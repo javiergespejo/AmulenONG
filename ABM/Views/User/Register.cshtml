@@ -48,16 +48,18 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="center">
-                        <img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin: auto; " alt="">
+                        <a href="../Home/Index"><img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin: auto; " alt=""></a>
                     </div>
-                    <br />
+
+                    <br></br>
                     if (ViewBag.Error != null)
                     {
                         <div class="alert alert-info" role="alert">
                             @ViewBag.Error
                         </div>
                     }
-                    <br />
+                    <br></br>
+
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="Name">
                         <span class="focus-input100"></span>
@@ -91,8 +93,6 @@
                             Registrarme
                         </button>
                     </div>
-
-
                 }
                 <div class="login100-more" style="background-image: url('/Content/Template/images/Amulen2.jpg')">
                 </div>

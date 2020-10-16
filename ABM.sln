@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABM", "ABM\ABM.csproj", "{8497DFD6-FCC3-4964-B11C-4ACFDF408C8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmulenTest", "AmulenTest\AmulenTest.csproj", "{D0BACA49-49C9-4B70-8A6C-BBEF84510853}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8497DFD6-FCC3-4964-B11C-4ACFDF408C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8497DFD6-FCC3-4964-B11C-4ACFDF408C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8497DFD6-FCC3-4964-B11C-4ACFDF408C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0BACA49-49C9-4B70-8A6C-BBEF84510853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0BACA49-49C9-4B70-8A6C-BBEF84510853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0BACA49-49C9-4B70-8A6C-BBEF84510853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0BACA49-49C9-4B70-8A6C-BBEF84510853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
