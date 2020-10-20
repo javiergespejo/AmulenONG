@@ -16,7 +16,14 @@ namespace ABM.Repository
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Gets the id of the first element in HomePageData table.
+        /// </summary>
+        /// <returns></returns>
+        public int GetFirstHomePageDataID()
+        {
+            return unitOfWork.HomePageDataRepository.Get().First().id;
+        }
         public IEnumerable<HomePageImage> GetHomeSliderImages()
         {
             try

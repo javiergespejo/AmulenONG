@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-<h2>Aca se crea proyectos nuevos</h2>
+<h2>Crear proyecto nuevo</h2>
 
 
 @using (Html.BeginForm())
@@ -17,7 +17,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ProyectViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -38,15 +37,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a href="../Proyect" class="btn btn-outline-primary">Volver</a>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Volver", "Index")
-</div>
+
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>

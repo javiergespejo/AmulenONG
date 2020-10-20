@@ -6,10 +6,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.EditDate)
+            Fecha de edicion
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            Usuario editor
         </th>
         <th></th>
     </tr>
@@ -24,18 +24,18 @@
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25" />
+                <img src="/Home/RetrieveImage/@item.Id" alt="" class="d-block w-25 img-thumbnail" />
                 
                 <div>
                     <span id="confirmDeleteSpan_@item.Id" style="display:none">
                         <span>Esta seguro que desea eliminar?</span>
-                        <button onclick="location.href='@Url.Action("DeleteImage", "Home", new { id = item.Id })'" class="btn btn-danger">Eliminar</button>
-                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                        <button onclick="location.href='@Url.Action("DeleteImage", "Home", new { id = item.Id })'" class="btn btn-danger" style="margin-top:20px">Eliminar</button>
+                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"  style="margin-top:20px"
                             onclick="confirmDelete('@item.Id', false)">Cancelar</a>
                     </span>
 
                     <span id="deleteSpan_@item.Id">
-                        <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                        <a href="#deleteSpan_@item.Id" class="btn btn-danger" style="margin-top:2px"
                             onclick="confirmDelete('@item.Id', true)">Eliminar</a>
                     </span>
                 </div>

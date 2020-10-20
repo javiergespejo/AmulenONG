@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-<h2>Create</h2>
+<h2>Crear nuevo usuario </h2>
 
 
 @using (Html.BeginForm())
@@ -54,16 +54,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button class="btn btn-primary btn-lg" type="submit" value="Create">Crear</button>
+                <button class="btn btn-primary" type="submit" value="Create">Crear</button>
+                <a href="../User" class="btn btn-outline-primary">Volver</a>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Volver", "Index")
-</div>
-
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>

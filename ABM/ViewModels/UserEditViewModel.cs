@@ -13,12 +13,14 @@ namespace ABM.ViewModels
         public int Id { get; set; }
         [Required]
         [DisplayName(displayName: "Nombre")]
+        [StringLength(30, ErrorMessage = "El campo nombre no puede tener mas de 30 caracteres! ")]
         public string Name { get; set; }
         [Required]
         [DisplayName(displayName: "Correo electrónico")]
-        [EmailAddress(ErrorMessage = "Dirección invalida")]
+        [EmailAddress(ErrorMessage = "Dirección de correo no válida")]
         public string Email { get; set; }
         [Required]
+        [StringLength(10, ErrorMessage = "El campo usuario no puede tener mas de 10 caracteres! ")]
         [DisplayName(displayName: "Usuario")]
         public string Username { get; set; }
 

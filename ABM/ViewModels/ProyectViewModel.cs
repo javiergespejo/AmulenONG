@@ -13,9 +13,11 @@ namespace ABM.ViewModels
         public int Id { get; set; }
         [Display(Name = "Titulo del proyecto")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [StringLength(30, ErrorMessage = "El campo nombre no puede tener mas de 30 caracteres! ")]
         public string ProjectName { get; set; }
         [Display(Name = "Detalles del proyecto")]
         [Required(ErrorMessage = "Este campo es obligatorio!")]
+        [StringLength(150, ErrorMessage = "El campo detalles no puede tener mas de 150 caracteres! ")]
         public string ProjectDetail { get; set; }
         public int UserId { get; set; }
 

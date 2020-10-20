@@ -1,6 +1,9 @@
 ﻿@model ABM.ViewModels.UserViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
 
 <!DOCTYPE html>
@@ -37,62 +40,81 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
-                <form class="login100-form validate-form" method="post" action="/User/Login">
-                    <div class="center">
-                        <img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin: auto; " alt="">
-                    </div>
+                @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "login100-form" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                    <br />
-                    <div class="wrap-input100 validate-input" data-validate="El email es incorrecto. Ej: usuario@gmail.com">
-                        <input class="input100" type="text" name="email">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    //Icon on the top
+                    <a href="../Home/Index"><img src="~/Content/Template/images/icons/AmulenLogo.png" class="login100-form-title" style="height: 150px; width: 150px; margin:auto; " alt=""></a>
+                    <span class="login100-form-title p-b-43">
+
+                    </span>
+
+                    //Emmail Input
+                    <div class="wrap-input100 ">
+                        <input class="input100" type="text" name="email" id="Email">
                         <span class="focus-input100"></span>
                         <span class="label-input100">Correo</span>
                     </div>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
-
-                    <div class="wrap-input100 validate-input" data-validate="La contraseña es incorrecta">
-                        <input class="input100" type="password" name="pass">
+                    //Password Input
+                    <div class="wrap-input100">
+                        <input class="input100" type="password" name="Pass">
                         <span class="focus-input100"></span>
                         <span class="label-input100">Contraseña</span>
                     </div>
+                    @Html.ValidationMessageFor(model => model.Pass, "", new { @class = "text-danger" })
 
-                    <div class="flex-sb-m w-full p-t-3 p-b-32">
-                        <div class="contact100-form-checkbox">
-
-                        </div>
-
-                        <div class="center">
-                            <a href="../User/ForgotPassword" class="txt1">
-                                ¿Olvido su contraseña?
-                            </a>
-                        </div>
-                    </div>
-
-
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn " type="submit" value="Login">
+                    //SignIn Button
+                    <div class="container-login100-form-btn" style="margin-bottom: 20px; margin-top:20px">
+                        <button class="login100-form-btn " type="submit" value="Login" id="loginButton">
                             Iniciar Sesión
                         </button>
-
                     </div>
 
-                    <div class="text-center p-t-46 p-b-20">
-                        <span class="txt2">
-
-                        </span>
+                    //Register Button
+                    <div class="center" style="margin-bottom: 20px; margin-top:20px">
+                        <a href="../User/Register" class="txt1">
+                            <button class="login100-form-btn " type="button" value="Login" id="loginButton">
+                                Registrate acá
+                            </button>
+                        </a>
                     </div>
 
+                    //ForgotPassword Button
+                    <div class="container-login100-form-btn" style="margin-bottom: 20px; margin-top:20px">
+                        <a href="../User/ForgotPassword" class="txt1">
+                            ¿Olvido su contraseña?
+                        </a>
+                    </div>
+
+                    //Facebook Button
+                    if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @TempData["SuccessMessage"].ToString()
+                        </div>
+                    }
+                    if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            @TempData["Error"].ToString()
+                        </div>
+                    }
                     <div class="login100-form-social flex-c-m">
                         <a href="https://www.facebook.com/amulen.tallerproductivo" class="login100-form-social-item flex-c-m bg1 m-r-5">
                             <i class="fa fa-facebook-f" aria-hidden="true"></i>
                         </a>
-
-
                     </div>
-                </form>
+                }
 
+                @* Image to the left *@
                 <div class="login100-more" style="background-image: url('/Content/Template/images/Amulen2.jpg')">
                 </div>
+
             </div>
         </div>
     </div>
@@ -114,3 +136,6 @@
 <script src="~/Content/Template/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 <script src="~/Content/Template/js/main_login.js"></script>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
