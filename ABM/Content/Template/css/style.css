@@ -1604,9 +1604,10 @@ h1, h2, h3, h4, h5,
       border-radius: 50%;
       margin: 3px; }
     .slide-one-item .owl-dots .owl-dot.active > span, .owl-1 .owl-dots .owl-dot.active > span, .owl-2 .owl-dots .owl-dot.active > span, .owl-3 .owl-dots .owl-dot.active > span {
-      width: 7px;
-      height: 7px;
-      background: #00a651; }
+        width: 7px;
+        height: 7px;
+        background: #ff7300;
+    }
 
 .owl-1 .owl-dots, .owl-3 .owl-dots {
   bottom: 80px;
@@ -1923,4 +1924,19 @@ html{
 
 .btn-space{
   margin-right: 5px;
+}
+
+.map-responsive{
+    overflow:hidden;
+    padding-bottom:50%;
+    position:relative;
+    height:0;
+}
+
+.map-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
 }
