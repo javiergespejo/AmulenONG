@@ -16,6 +16,7 @@
         <AssociationConnector Association="AmulenModel.FK_SuscriptorProyect_Proyect" ManuallyRouted="false" />
         <AssociationConnector Association="AmulenModel.FK_SuscriptorProyect_User" ManuallyRouted="false" />
         <AssociationConnector Association="AmulenModel.FK_User_TypeUser" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AmulenModel.ImportantFile" Width="1.5" PointX="8.125" PointY="5.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

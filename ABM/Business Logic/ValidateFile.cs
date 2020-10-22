@@ -41,6 +41,17 @@ namespace ABM.Business_Logic
             return isValid;
         }
 
+        public static bool ValidImportantFileExtension(HttpPostedFileBase file, string extensions = "pdf,doc,docx")
+        {
+            bool isValid = false;
+            List<string> allowedExtensions = extensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (file != null)
+            {
+                var fileName = file.FileName.ToLower();
+                isValid = allowedExtensions.Any(y => fileName.EndsWith(y));
+            }
+            return isValid;
+        }
 
     }
 }

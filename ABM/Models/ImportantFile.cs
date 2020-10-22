@@ -12,14 +12,12 @@ namespace ABM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SuscriptorProyect
+    public partial class ImportantFile
     {
         public int id { get; set; }
-        public int ProyectId { get; set; }
+        public string description { get; set; }
+        public byte[] fileData { get; set; }
+        public System.DateTime editDate { get; set; }
         public int UserId { get; set; }
-        public bool isActive { get; set; }
-    
-        public virtual Proyect Proyect { get; set; }
-        public virtual User User { get; set; }
     }
 }
