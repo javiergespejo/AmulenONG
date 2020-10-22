@@ -24,13 +24,13 @@ namespace ABM.Controllers
         public ActionResult Index()
         {
             var files = from i in _fileRepository.GetAll()
-                         select new ImportantFileViewModel()
-                         {
-                             Id = i.id,
-                             Description = i.description,
-                             EditDate = i.editDate,
-                             UserId = i.UserId
-                         };
+                        select new ImportantFileViewModel()
+                        {
+                            Id = i.id,
+                            Description = i.description,
+                            EditDate = i.editDate,
+                            UserId = i.UserId
+                        };
 
             return View(files.ToList());
         }
@@ -62,7 +62,7 @@ namespace ABM.Controllers
                             TempData["SucessMessage"] = "El archivo se ha guardado correctamente!";
                             return RedirectToAction("UploadFile", "File");
                         }
-                        return View(model.ToEntity());
+                        throw new Exception("Hubo un error al cargar la imagen.");
                     }
                     throw new Exception("El archivo supera el tamaño maximo permitido de 5 MB.");
                 }
@@ -95,19 +95,28 @@ namespace ABM.Controllers
         [AllowAnonymous]
         public FileResult Download(int id)
         {
-            var file = _fileRepository.GetById(id);
-            byte[] cover = file.fileData;
-            string description = file.description + ".pdf";
-            string fileName = description.Replace(' ', '_');
+            try
+            {
+                var file = _fileRepository.GetById(id);
+                byte[] cover = file.fileData;
+                string description = file.description + ".pdf";
+                string fileName = description.Replace(' ', '_');
 
-            if (cover != null)
-            {
-                return File(cover, "text/plain", fileName);
+                if (cover != null)
+                {
+                    return File(cover, "text/plain", fileName);
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (InvalidOperationException)
             {
-                return null;
+                
+                throw;
             }
+
         }
     }
 }

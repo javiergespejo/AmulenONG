@@ -8,6 +8,14 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+<br />
+<h2>Panel de administracion de documentación importante</h2>
+<p>
+    En este panel será posible cargar y eliminar archivos, que tendrán que ser de formato pdf.
+    <br />
+</p>
+
+
 
 @using (Html.BeginForm("UploadFile", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -25,7 +33,7 @@
             </div>
             <br />
             <div class="custom-file">
-                <input type="file" name="FileData" class="custom-file-input" id="input-b1" required accept=".pdf, .doc, .docx">
+                <input type="file" name="FileData" class="file" id="input-b1" required accept=".pdf, .doc, .docx">
                 <label class="custom-file-label" for="validatedCustomFile">Seleccionar archivo..</label>
                 <div class="invalid-feedback">No ha seleccionado ningun archivo!</div>
             </div>
