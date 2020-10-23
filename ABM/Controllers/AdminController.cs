@@ -55,7 +55,7 @@ namespace ABM.Controllers
                         if (mpVieModel.Amount > 0 && uri.Scheme == "https" && uri.Host == "mpago.la")
                         {
                             unit.AdminRepository.InsertDonationButton(mpVieModel.ToEntity());
-                            TempData["Sucess"] = "El boton de MercadoPago fue guardado con exito.";
+                            TempData["Success"] = "El boton de MercadoPago fue guardado con exito.";
                             return RedirectToAction("DonationPanel", "Admin");
                         }
                         ViewBag.Error = "Hubo un error al guardar el botón de MercadoPago, el monto es invalido o la URL no es valida";
@@ -110,7 +110,7 @@ namespace ABM.Controllers
                         if (mpVieModel.Amount > 0 && uri.Scheme == "https" && uri.Host == "mpago.la")
                         {
                             unit.AdminRepository.UpdateDonationButton(mpVieModel.ToEntity());
-                            TempData["Sucess"] = "El proyecto fue editado con exito.";
+                            TempData["Success"] = "El proyecto fue editado con exito.";
                             return RedirectToAction("DonationPanel", "Admin");
                         }
                         ViewBag.Error = "Hubo un error al guardar el botón de MercadoPago, el monto es invalido o la URL no es valida";
@@ -131,9 +131,9 @@ namespace ABM.Controllers
             {
                 if (unit.AdminRepository.GetByID(id) != null)
                 {
-                    unit.AdminRepository.Delete(id);
+                    unit.AdminRepository.RemoveDonationButton(id);
                     ModelState.Clear();
-                    TempData["SucessMessage"] = "El proyecto fue eliminado con exito.";
+                    TempData["Success"] = "El proyecto fue eliminado con exito.";
                     return RedirectToAction("DonationPanel", "Admin");
                 }
                 throw new Exception();
