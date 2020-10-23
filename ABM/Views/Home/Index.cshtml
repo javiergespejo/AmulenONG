@@ -224,7 +224,7 @@
                     </p>
                 </div>
             </div>
-            
+
 
         </div>
     </div>
@@ -244,7 +244,8 @@
                             a las causas por las cuales trabajamos día a día.
                         </p>
                         <p>Si deseas realizar un aporte económico, te dejamos aquí debajo un enlace para donar:</p>
-                        <input type="submit" value="Donar" class="btn btn-primary">
+
+                        @Html.Action("showDonationButtons", "Admin")
                         <br><br>
                         <p>Si deseas aportar tu ayuda con acciones, contactanos en redes sociales con los siguientes enlaces:</p>
                         <a href="https://www.facebook.com/amulen.tallerproductivo">
@@ -304,7 +305,7 @@
                 <div class="col-4"></div>
                 <div class="col-4">
                     <h1 class="text-black mb-3 center text-cursive text-center">Trabajo en red</h1>
-                    
+
                 </div>
             </div>
         </div>
@@ -364,7 +365,6 @@
     <script src="~/Content/Template/js/aos.js"></script>
 
     <script src="~/Content/Template/js/main.js"></script>
-
 </body>
 
 </html>

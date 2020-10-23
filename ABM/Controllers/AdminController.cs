@@ -15,12 +15,13 @@ namespace ABM.Controllers
         private readonly UnitOfWork unit = new UnitOfWork();
 
         // GET: Admin
-        //[AuthorizeUser(new int[] { administrador })]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
             return RedirectToAction("Admin", "User");
         }
         [HttpGet]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationPanel()
         {
             var listButons = from b in unit.AdminRepository.GetDonationButtonList()
@@ -38,11 +39,13 @@ namespace ABM.Controllers
             return View();
         }
         [HttpGet]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationCreate()
         {
             return View();
         }
         [HttpPost]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationCreate(ABM.ViewModels.MercadoPagoViewModel mpVieModel)
         {
             try
@@ -54,24 +57,28 @@ namespace ABM.Controllers
                     {
                         if (mpVieModel.Amount > 0 && uri.Scheme == "https" && uri.Host == "mpago.la")
                         {
-                            unit.AdminRepository.InsertDonationButton(mpVieModel.ToEntity());
-                            TempData["Success"] = "El boton de MercadoPago fue guardado con exito.";
-                            return RedirectToAction("DonationPanel", "Admin");
+                            if (unit.AdminRepository.GetDonationButtonList().Count() < 4)
+                            {
+                                unit.AdminRepository.InsertDonationButton(mpVieModel.ToEntity());
+                                TempData["Success"] = "El boton de MercadoPago fue guardado con exito.";
+                                return RedirectToAction("DonationPanel", "Admin");
+                            }
+                            throw new Exception("El maximo de botones permitidos es 4!");
                         }
-                        ViewBag.Error = "Hubo un error al guardar el botón de MercadoPago, el monto es invalido o la URL no es valida";
-                        return View();
+                        throw new Exception("Hubo un error al guardar el botón de MercadoPago, el monto es invalido o la URL no es valida( Ejemplo: https://mpago.la/xxxxxxx)");
                     }
                 }
-                throw new Exception();
+                throw new Exception("Hubo un error al guardar el boton de MercadoPago");
             }
-            catch(Exception)
+            catch(Exception exception)
             {
-                ViewBag.Error = "Hubo un error al guardar el boton de MercadoPago";
+                ViewBag.Error = exception.Message;
                 return View();
             }
         }
 
         [HttpGet]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationEdit(int id)
         {
             try
@@ -98,6 +105,7 @@ namespace ABM.Controllers
 
         }
         [HttpPost]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationEdit(MercadoPagoViewModel mpVieModel)
         {
             try
@@ -125,6 +133,8 @@ namespace ABM.Controllers
                 return View();
             }
         }
+        
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult DonationDelete(int id)
         {
             try
@@ -133,7 +143,7 @@ namespace ABM.Controllers
                 {
                     unit.AdminRepository.RemoveDonationButton(id);
                     ModelState.Clear();
-                    TempData["Success"] = "El proyecto fue eliminado con exito.";
+                    TempData["Success"] = "El boton de donacion fue eliminado con exito.";
                     return RedirectToAction("DonationPanel", "Admin");
                 }
                 throw new Exception();
@@ -143,6 +153,18 @@ namespace ABM.Controllers
                 TempData["Error"] = "Hubo un error al eliminar el boton de MercadoPago.";
                 return View();
             }
+        }
+        [AllowAnonymous]
+        public ActionResult showDonationButtons()
+        {
+            var listButons = from b in unit.AdminRepository.GetDonationButtonList()
+                             select new MercadoPagoViewModel()
+                             {
+                                 Id = b.id,
+                                 Amount = b.amount,
+                                 Link = b.link
+                             };
+            return PartialView("_showDonationButtons", listButons);
         }
     }
 }
