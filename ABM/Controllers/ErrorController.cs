@@ -10,6 +10,10 @@ namespace ABM.Controllers
     public class ErrorController : Controller
     {
         // GET: Error
+        public ActionResult Index()
+        {
+            return RedirectToAction("NotFound");
+        }
         public ActionResult NotFound()
         {
             return View();

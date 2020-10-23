@@ -23,16 +23,23 @@ namespace ABM.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var files = from i in _fileRepository.GetAll()
-                        select new ImportantFileViewModel()
-                        {
-                            Id = i.id,
-                            Description = i.description,
-                            EditDate = i.editDate,
-                            UserId = i.UserId
-                        };
+            try
+            {
+                var files = from i in _fileRepository.GetAll()
+                            select new ImportantFileViewModel()
+                            {
+                                Id = i.id,
+                                Description = i.description,
+                                EditDate = i.editDate,
+                                UserId = i.UserId
+                            };
 
-            return View(files.ToList());
+                return View(files.ToList());
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
         }
 
         [AuthorizeUser(new int[] { administrador })]
@@ -93,7 +100,7 @@ namespace ABM.Controllers
         }
 
         [AllowAnonymous]
-        public FileResult Download(int id)
+        public ActionResult Download(int id)
         {
             try
             {
@@ -106,17 +113,15 @@ namespace ABM.Controllers
                 {
                     return File(cover, "text/plain", fileName);
                 }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                
-                throw;
-            }
 
+                return RedirectToAction("NotFound", "Error");
+
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "El archivo solicitado no se encuentra disponible";
+                return RedirectToAction("UploadFile");
+            }
         }
     }
 }

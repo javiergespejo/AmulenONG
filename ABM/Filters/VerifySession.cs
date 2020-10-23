@@ -25,7 +25,7 @@ namespace ABM.Filters
                 {
                     if (filterContext.Controller is UserController == false)
                     {
-                        filterContext.HttpContext.Response.Redirect("/User/Login");
+                        filterContext.HttpContext.Response.Redirect("/User/Login", false);
                     }
                 }
             }

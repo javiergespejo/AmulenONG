@@ -49,7 +49,7 @@
             <td>
                 <div>
                     <button onclick="location.href='@Url.Action("Edit", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Editar</button>
-                    <button onclick="location.href='@Url.Action("Detalles", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Detalles</button>
+                    <button onclick="location.href='@Url.Action("Details", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Detalles</button>
 
                     <span id="confirmDeleteSpan_@item.Id" style="display:none">
                         <span>Esta seguro que desea eliminar?</span>
