@@ -1178,8 +1178,7 @@ h1, h2, h3, h4, h5,
     border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
 
 .slide {
-  height: 100vh;
-  min-height: 900px;
+  
   background-size: cover; }
 
 .btn-md {
