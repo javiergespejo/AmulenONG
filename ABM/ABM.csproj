@@ -1063,6 +1063,8 @@
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\Home\QueHacemos.cshtml" />
+    <Content Include="Views\Home\TrabajoEnRed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />
