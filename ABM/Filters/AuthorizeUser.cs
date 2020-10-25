@@ -8,7 +8,7 @@ using ABM.Repository;
 
 namespace ABM.Filters
 {
-    
+
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AuthorizeUser : AuthorizeAttribute
     {
@@ -28,33 +28,31 @@ namespace ABM.Filters
 
                 // SE PODRIA CAMBIAR PARA QUE SE GUARDE UNA ID EN VES DE USER COMPLETO Y BUSCARLO EN REPO
                 _user = (User)HttpContext.Current.Session["User"];
+
+                var userTypeList = db.User.Select(x => x.TypeUser);
                 if (_user != null)
                 {
-                    var userTypeList = db.User.Select(x => x.TypeUser);
-                    if (_user != null)
+                    if (_authorizedTypes.Count() == 1)
                     {
-                        if (_authorizedTypes.Count() == 1)
+                        if (!(_authorizedTypes.Contains(userTypeList.First().id) && _authorizedTypes.Contains(_user.typeUserId)))
                         {
-                            if (!(_authorizedTypes.Contains(userTypeList.First().id) && _authorizedTypes.Contains(_user.typeUserId)))
-                            {
-                                filterContext.Result = new RedirectResult("~/Home/Index");
-                            }
-                        }
-                        else
-                        {
-                            foreach (var item in userTypeList)
-                            {
-                                if ((_authorizedTypes.Contains(item.id) && _authorizedTypes.Contains(_user.typeUserId)) != true)
-                                {
-                                    filterContext.Result = new RedirectResult("~/Home/Index");
-                                }
-                            }
+                            filterContext.Result = new RedirectResult("~/Home/Index");
                         }
                     }
                     else
                     {
-                        filterContext.Result = new RedirectResult("~/Home/Index");
+                        foreach (var item in userTypeList)
+                        {
+                            if ((_authorizedTypes.Contains(item.id) && _authorizedTypes.Contains(_user.typeUserId)) != true)
+                            {
+                                filterContext.Result = new RedirectResult("~/Home/Index");
+                            }
+                        }
                     }
+                }
+                else
+                {
+                    filterContext.Result = new RedirectResult("~/User/Login");
                 }
             }
             catch (NullReferenceException)

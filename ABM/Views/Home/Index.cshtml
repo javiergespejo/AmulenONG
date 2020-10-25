@@ -83,6 +83,9 @@
                                 </div>
                             </li>
                             <li class="nav-item active">
+                                <a class="nav-link " href="#doc">Documentación Pública</a>
+                            </li>
+                            <li class="nav-item active">
                                 <a class="nav-link " href="#contacto">Cómo llegar</a>
                             </li>
                         </ul>
@@ -564,6 +567,29 @@
                     &nbsp;
                 </div>
                 <div class="col-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUBLIC DOCUMENTATION -->
+    <div id="doc" class="bg-image overlay site-section" style="background-image: url('/Content/Template/images/Amulen7.jpg');">
+        <div class="container">
+            <div class="heading-20219">
+                <h2 class="title text-white mb-4 text-cursive">Documentación Pública</h2>
+                <p class="text-white">
+                    Aquí se encuentra la documentacion pública de nuestra ONG.<br />
+                    Podras descargar los documentos que necesites clickeando sobre el nombre de cada uno de ellos.
+                </p>
+                <hr />
+            </div>
+            <div class="row text-white">
+                @foreach (var item in Model.Files)
+                {
+                    <div class="col-sm-9">
+                        <a class="text-white" href="../File/Download/@item.id">@item.description</a>
+                        <hr />
+                    </div>
+                }
             </div>
         </div>
     </div>

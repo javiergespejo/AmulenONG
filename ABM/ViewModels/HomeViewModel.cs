@@ -15,6 +15,7 @@ namespace ABM.ViewModels
         [Required(ErrorMessage = "Este campo es obligatorio!")]
         public string WelcomeText { get; set; }
         public List<Proyect> Projects { get; set; }
+        public List<ImportantFile> Files { get; set; }
         public int UserId { get; set; }
 
         public HomePageData ToEntity()

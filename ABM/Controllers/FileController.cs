@@ -20,7 +20,7 @@ namespace ABM.Controllers
             _fileRepository = new FileRepository();
         }
 
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Index()
         {
             try
