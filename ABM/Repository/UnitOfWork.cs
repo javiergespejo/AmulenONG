@@ -14,6 +14,7 @@ namespace ABM.Repository
         private GenericRepository<HomePageData> homePageDataRepository;
         private GenericRepository<Proyect> projectRepository;
         private UserRepository userRepository;
+        private AdminRepository adminRepository;
 
         public GenericRepository<ImportantFile> FileRepository
         {
@@ -49,6 +50,17 @@ namespace ABM.Repository
                     this.userRepository = new UserRepository(context);
                 }
                 return userRepository;
+            }
+        }
+        public AdminRepository AdminRepository 
+        {
+            get
+            {
+                if(this.adminRepository == null)
+                {
+                    this.adminRepository = new AdminRepository(context);
+                }
+                return adminRepository;
             }
         }
         public GenericRepository<HomePageData> HomePageDataRepository

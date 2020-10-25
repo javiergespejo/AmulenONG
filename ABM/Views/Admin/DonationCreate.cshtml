@@ -1,0 +1,56 @@
+﻿@model ABM.ViewModels.MercadoPagoViewModel
+
+@{
+    ViewBag.Title = "Agregar boton de donacion";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Agregar boton de MercadoPago</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-info" role="alert">
+        @ViewBag.Error
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>
+            En este panel se puede agregar un nuevo boton de MercadoPago.<br />
+            1- Primero se debe crear un Link de Pago en <a href="https://www.mercadopago.com.ar/tools/list" target="_blank">MercadoPago</a><br />
+            2- Se debe seleccionar la opcion" Crear Nuevo" dentro de la pagina de MercadoPago y rellenar los datos correspondientes.<br />
+            3- Al terminar, seleccionar "Crear y Compartir" y luego copiar el Link generado, rellenar el formulario de este panel con la informacion necesaria.<br />
+            En monto se debe ingresar lo mismo que al crear el boton en MercadoPago, ya que este es el que se mostrara a los posibles contribuyentes, y<br />
+            en Link de MercadoPago se debe ingresar el link generado anteriormente en el paso 3.
+        </h4>
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a href="../Admin/DonationPanel" class="btn btn-outline-primary">Volver</a>
+            </div>
+        </div>
+    </div>
+}

@@ -33,6 +33,14 @@
           <Property Name="editDate" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="MercadoPagoButton">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="amount" Type="money" Nullable="false" />
+          <Property Name="link" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="Proyect">
           <Key>
             <PropertyRef Name="id" />
@@ -131,6 +139,7 @@
           <EntitySet Name="HomePageData" EntityType="Self.HomePageData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HomePageImage" EntityType="Self.HomePageImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImportantFile" EntityType="Self.ImportantFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MercadoPagoButton" EntityType="Self.MercadoPagoButton" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyect" EntityType="Self.Proyect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectState" EntityType="Self.ProyectState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuscriptorProyect" EntityType="Self.SuscriptorProyect" Schema="dbo" store:Type="Tables" />
@@ -302,6 +311,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
           <EntitySet Name="ImportantFile" EntityType="AmulenModel.ImportantFile" />
+          <EntitySet Name="MercadoPagoButton" EntityType="AmulenModel.MercadoPagoButton" />
         </EntityContainer>
         <EntityType Name="ImportantFile">
           <Key>
@@ -312,6 +322,14 @@
           <Property Name="fileData" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="editDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MercadoPagoButton">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -397,6 +415,15 @@
                 <ScalarProperty Name="editDate" ColumnName="editDate" />
                 <ScalarProperty Name="fileData" ColumnName="fileData" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MercadoPagoButton">
+            <EntityTypeMapping TypeName="AmulenModel.MercadoPagoButton">
+              <MappingFragment StoreEntitySet="MercadoPagoButton">
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

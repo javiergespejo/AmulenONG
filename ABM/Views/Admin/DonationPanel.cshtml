@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ABM.ViewModels.MercadoPagoViewModel>
+
+@{
+    ViewBag.Title = "Panel de donaciones";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Lista de botones de MercadoPago</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"].ToString()
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        @TempData["Error"].ToString()
+    </div>
+}
+<h4>
+    En este panel se muestran los botones activos de MercadoPago.<br />
+    Los links o botones de MercadoPago son generados <a href="https://www.mercadopago.com.ar/tools/list" target="_blank">aqui</a><br />
+    Los botones generados en este panel son los que se muestran a los posibles contribuyentes.<br />
+    Se puede crear, editar y eliminar los botones, cada opcion tiene sus instrucciones mas detalladas en su panel correspondiente<br />
+</h4>
+<hr />
+
+<p>
+    <a href="../Admin/DonationCreate" class="btn btn-primary">Crear nuevo boton de MercadoPago</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Link)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Link)
+            </td>
+            <td>
+                <div>
+                    <!-- CRUD BUTTONS -->
+                    <button onclick="location.href='@Url.Action("DonationEdit", "Admin", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Editar</button>
+                    <!-- Button trigger modal -->
+
+
+                    <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                        <span>Esta seguro que desea eliminar?</span>
+                        <button onclick="location.href='@Url.Action("DonationDelete", "Admin", new { id = item.Id })'" class="btn btn-danger" style="margin-bottom:2px">Eliminar</button>
+                        <a href="#deleteSpan_@item.Id" class="btn btn-primary"
+                           onclick="confirmDelete('@item.Id', false)">Cancelar</a>
+                    </span>
+
+                    <span id="deleteSpan_@item.Id">
+                        <a href="#deleteSpan_@item.Id" class="btn btn-danger"
+                           onclick="confirmDelete('@item.Id', true)">Eliminar</a>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Scripts/Custom/confirm-delete.js"></script>

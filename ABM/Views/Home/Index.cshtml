@@ -29,7 +29,8 @@
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v8.0" nonce="WrPOJ87o"></script>
     <!-- NAVBAR -->
     <div class="site-wrap" id="home-section">
 
@@ -59,7 +60,7 @@
                                 <a class="nav-link " href="#proyectos">Proyectos</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link " href="About">Sobre Nosotros</a>
+                                <a class="nav-link " href="~/Home/About">Sobre Nosotros</a>
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="dropdown-toggle text-black nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -214,6 +215,47 @@
             </div>
         </div>
     </div>
+    <!-- UPDATES -->
+    <div class="site-section" id="novedades">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h1 class="text-black mb-3 center text-cursive text-center">Novedades</h1>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+        </div>
+
+        <!-- GOOGLE MAPS -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <div class="fb-page" data-href="https://www.facebook.com/amulen.tallerproductivo" data-tabs="timeline" data-width="375" data-height="" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/amulen.tallerproductivo" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/amulen.tallerproductivo">Amulen Taller Productivo</a></blockquote></div>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <p>
+                        <br />
+                        <br />
+                        Podes conocer más novedades en nuestro <a href="https://www.facebook.com/amulen.tallerproductivo" target="_blank">Facebook</a>!
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 
     <!-- CONTRIBUTION -->
     <div class="site-section bg-image overlay-primary" style="background-image: url('/Content/Template/images/Amulen2.jpg');" id="donar">
@@ -230,8 +272,9 @@
                             a las causas por las cuales trabajamos día a día.
                         </p>
                         <p>Si deseas realizar un aporte económico, te dejamos aquí debajo un enlace para donar:</p>
-                        <input type="submit" value="Donar" class="btn btn-primary">
-                        <br/>
+
+                        @Html.Action("showDonationButtons", "Admin")
+                        <br><br>
                         <p>Si deseas aportar tu ayuda con acciones, contactanos en redes sociales con los siguientes enlaces:</p>
                         <a href="https://www.facebook.com/amulen.tallerproductivo">
                             <img src="~/Content/Template/images/Facebook-Logo.png"
@@ -651,7 +694,6 @@
     <script src="~/Content/Template/js/aos.js"></script>
 
     <script src="~/Content/Template/js/main.js"></script>
-
 </body>
 
 </html>

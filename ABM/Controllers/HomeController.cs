@@ -182,7 +182,7 @@ namespace ABM.Controllers
                 TempData["Success"] = "El cambio se ha guardado correctamente!";
                 return RedirectToAction("Edit", "Home");
             }
-            catch
+            catch(Exception)
             {
                 ViewData["Error"] = "Error al guardar los cambios";
                 return View();
