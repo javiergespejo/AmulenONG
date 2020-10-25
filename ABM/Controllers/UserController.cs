@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Security.Cryptography.Xml;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using ABM.Filters;
+﻿using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
-using Newtonsoft.Json;
-using OfficeOpenXml;
+using System;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
@@ -407,7 +399,7 @@ namespace ABM.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string providedEmail)
         {
-            string message = "";
+            string message;
 
             var account = unit.UserRepository.GetUserByUserMail(providedEmail);
             if (account != null)
@@ -479,8 +471,10 @@ namespace ABM.Controllers
                 var user = unit.UserRepository.GetByID(Int32.Parse(idDecrypted));
                 if (user != null)
                 {
-                    ResetPasswordModel model = new ResetPasswordModel();
-                    model.ResetCode = resetCode;
+                    ResetPasswordModel model = new ResetPasswordModel
+                    {
+                        ResetCode = resetCode
+                    };
                     return View(model);
                 }
                 throw new Exception();
@@ -545,52 +539,6 @@ namespace ABM.Controllers
 
         }
 
-        // This is the create method for suscriptor user type
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        // This is the create method for suscriptor user type
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Register(UserViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
-                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
-
-                    if (nameAlreadyExists || mailAlreadyExists)
-                    {
-                        if (mailAlreadyExists)
-                        {
-                            ModelState.AddModelError("email", "Email no disponible!");
-                        }
-                        if (nameAlreadyExists)
-                        {
-                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
-                        }
-                        return View();
-                    }
-                    model.UserType = 2;
-                    _userRepository.InsertUser(model.ToEntity());
-                    TempData["SuccessMessage"] = "Usuario creado con exito";
-
-                    return RedirectToAction("Login", "User");
-                }
-                throw new Exception();
-            }
-            catch (Exception)
-            {
-                ViewBag.Error = "Hubo un error al crear el usuario";
-                return View();
-            }
-        }
-
         [AuthorizeUser(new int[] { administrador })]
         public ActionResult SuscriptorList()
         {
@@ -598,9 +546,8 @@ namespace ABM.Controllers
             {
                 if (Session["User"] != null)
                 {
-                    var getUsers = from u in _userRepository.GetActiveUsers()
-                                   where u.typeUserId == 2
-                                   select new UserViewModel()
+                    var getUsers = from u in _userRepository.GetSubs()
+                                   select new SubViewModel()
                                    {
                                        Id = u.id,
                                        Email = u.email,
@@ -644,6 +591,39 @@ namespace ABM.Controllers
             catch (Exception)
             {
                 RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        public ActionResult SubRegister()
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        public ActionResult SubRegister(SubViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool mailAlreadyExists = _userRepository.CheckSubMail(model.ToEntity());
+
+
+                    if (mailAlreadyExists)
+                    {
+                        ModelState.AddModelError("email", "Email no disponible!");
+                        return PartialView();
+                    }
+                    _userRepository.InsertSub(model.ToEntity());
+                    TempData["SuccessMessage"] = "Datos cargados con exito!";
+
+                    return PartialView();
+                }
+                throw new Exception();
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Hubo un error al cargar los datos";
+                return PartialView();
             }
         }
     }

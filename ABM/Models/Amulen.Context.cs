@@ -32,7 +32,8 @@ namespace ABM.Models
         public virtual DbSet<SuscriptorProyect> SuscriptorProyect { get; set; }
         public virtual DbSet<TypeUser> TypeUser { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<MercadoPagoButton> MercadoPagoButton { get; set; }
         public virtual DbSet<ImportantFile> ImportantFile { get; set; }
+        public virtual DbSet<MercadoPagoButton> MercadoPagoButton { get; set; }
+        public virtual DbSet<Suscriptor> Suscriptor { get; set; }
     }
 }

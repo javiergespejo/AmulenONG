@@ -12,10 +12,10 @@ namespace ABM.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MercadoPagoButton
+    public partial class Suscriptor
     {
         public int id { get; set; }
-        public decimal amount { get; set; }
-        public string link { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
     }
 }

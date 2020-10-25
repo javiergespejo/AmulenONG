@@ -59,6 +59,14 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="Suscriptor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="SuscriptorProyect">
           <Key>
             <PropertyRef Name="id" />
@@ -142,6 +150,7 @@
           <EntitySet Name="MercadoPagoButton" EntityType="Self.MercadoPagoButton" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyect" EntityType="Self.Proyect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectState" EntityType="Self.ProyectState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suscriptor" EntityType="Self.Suscriptor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuscriptorProyect" EntityType="Self.SuscriptorProyect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeUser" EntityType="Self.TypeUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -312,6 +321,7 @@
           </AssociationSet>
           <EntitySet Name="ImportantFile" EntityType="AmulenModel.ImportantFile" />
           <EntitySet Name="MercadoPagoButton" EntityType="AmulenModel.MercadoPagoButton" />
+          <EntitySet Name="Suscriptor" EntityType="AmulenModel.Suscriptor" />
         </EntityContainer>
         <EntityType Name="ImportantFile">
           <Key>
@@ -330,6 +340,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="link" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Suscriptor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -424,6 +442,15 @@
               <MappingFragment StoreEntitySet="MercadoPagoButton">
                 <ScalarProperty Name="link" ColumnName="link" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suscriptor">
+            <EntityTypeMapping TypeName="AmulenModel.Suscriptor">
+              <MappingFragment StoreEntitySet="Suscriptor">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

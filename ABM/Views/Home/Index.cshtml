@@ -288,19 +288,8 @@
 
     <!-- NEWSLETTER -->
     <div class="site-section">
-        <div class="container">
-            <div class="mb-5">
-                <h2 class="footer-heading mb-4">Suscríbete a nuestras noticias</h2>
-                <form action="#" method="post" class="footer-suscribe-form">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control rounded-0 border-secondary text-white bg-transparent"
-                               placeholder="Ingrese su correo electrónico" aria-label="Enter Email" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary text-white" type="button" id="button-addon2">Suscribir</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="container" style="margin: auto">
+            @Html.Action("SubRegister", "User")
         </div>
     </div>
 

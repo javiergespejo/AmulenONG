@@ -297,6 +297,9 @@
     <Compile Include="Models\ProyectState.cs">
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Suscriptor.cs">
+      <DependentUpon>Amulen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SuscriptorProyect.cs">
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
@@ -317,6 +320,7 @@
     <Compile Include="ViewModels\HomePageImageViewModel.cs" />
     <Compile Include="ViewModels\ImportantFileViewModel.cs" />
     <Compile Include="ViewModels\MercadoPagoViewModel.cs" />
+    <Compile Include="ViewModels\SubViewModel.cs" />
     <Compile Include="ViewModels\UploadImageViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ProyectViewModel.cs" />
@@ -1097,7 +1101,6 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\File\UploadFile.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\User\SuscriptorList.cshtml" />
@@ -1105,6 +1108,7 @@
     <Content Include="Views\Admin\DonationCreate.cshtml" />
     <Content Include="Views\Admin\DonationEdit.cshtml" />
     <Content Include="Views\Admin\ShowDonationButtons.cshtml" />
+    <Content Include="Views\User\SubRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />

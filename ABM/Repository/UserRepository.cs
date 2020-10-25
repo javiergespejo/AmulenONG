@@ -119,8 +119,7 @@ namespace ABM.Repository
 
         public byte[] ExportToExcel()
         {
-            var userList = from u in GetActiveUsers()
-                           where u.typeUserId == 2
+            var userList = from u in GetSubs()
                            select (u.id, u.name, u.email);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -138,11 +137,11 @@ namespace ABM.Repository
                 ws.Row(3).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
                 int rowStart = 4;
 
-                foreach (var item in userList)
+                foreach (var (id, name, email) in userList)
                 {
-                    ws.Cells[string.Format("A{0}", rowStart)].Value = item.id;
-                    ws.Cells[string.Format("B{0}", rowStart)].Value = item.name;
-                    ws.Cells[string.Format("C{0}", rowStart)].Value = item.email;
+                    ws.Cells[string.Format("A{0}", rowStart)].Value = id;
+                    ws.Cells[string.Format("B{0}", rowStart)].Value = name;
+                    ws.Cells[string.Format("C{0}", rowStart)].Value = email;
                     rowStart++;
                 }
 
@@ -150,6 +149,35 @@ namespace ABM.Repository
 
                 return pck.GetAsByteArray();
             }
+        }
+        public bool CheckSubMail(Suscriptor sub)
+        {
+            var subMail = from s in GetSubs()
+                           where s.email == sub.email &&
+                           s.id != sub.id
+                           select s;
+
+            if (subMail.Count() == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public void InsertSub(Suscriptor model)
+        {
+            Suscriptor sub = new Suscriptor
+            {
+                name = model.name,
+                email = model.email
+            };
+            base.context.Suscriptor.Add(sub);
+            Save();
+        }
+
+        public IEnumerable<Suscriptor> GetSubs()
+        {
+            return base.context.Suscriptor.AsNoTracking();
         }
 
         public void Save()
