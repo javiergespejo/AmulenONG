@@ -1104,7 +1104,7 @@
     <Content Include="Views\Admin\DonationPanel.cshtml" />
     <Content Include="Views\Admin\DonationCreate.cshtml" />
     <Content Include="Views\Admin\DonationEdit.cshtml" />
-    <Content Include="Views\Admin\_showDonationButtons.cshtml" />
+    <Content Include="Views\Admin\ShowDonationButtons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />

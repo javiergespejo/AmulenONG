@@ -155,7 +155,7 @@ namespace ABM.Controllers
             }
         }
         [AllowAnonymous]
-        public ActionResult showDonationButtons()
+        public ActionResult ShowDonationButtons()
         {
             var listButons = from b in unit.AdminRepository.GetDonationButtonList()
                              select new MercadoPagoViewModel()
@@ -164,7 +164,7 @@ namespace ABM.Controllers
                                  Amount = b.amount,
                                  Link = b.link
                              };
-            return PartialView("_showDonationButtons", listButons);
+            return PartialView("ShowDonationButtons", listButons);
         }
     }
 }
