@@ -40,6 +40,18 @@ namespace ABM.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult QueHacemos()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult TrabajoEnRed()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         public ActionResult Index()
         {
             try

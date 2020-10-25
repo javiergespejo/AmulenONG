@@ -1109,6 +1109,9 @@
     <Content Include="Views\Admin\DonationEdit.cshtml" />
     <Content Include="Views\Admin\ShowDonationButtons.cshtml" />
     <Content Include="Views\User\SubRegister.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\Home\QueHacemos.cshtml" />
+    <Content Include="Views\Home\TrabajoEnRed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />
