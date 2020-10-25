@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ABM.ViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "SuscriptorList";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br />
+<h2>Lista de usuarios para mailing</h2>
+<p>En esta sección podrá descargar una planilla de excel con los datos de todos los usuarios activos.</p>
+<hr />
+<button onclick="location.href='@Url.Action("ExportToExcel", "User")'" class="btn btn-primary" style="margin-bottom:2px">Exportar planilla</button>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+</tr>
+}
+
+</table>

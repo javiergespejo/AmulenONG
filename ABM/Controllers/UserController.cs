@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -15,6 +16,7 @@ using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
@@ -315,14 +317,14 @@ namespace ABM.Controllers
                 TempData["Error"] = "Ocurrio un error al actualizar la contraseña, puede que el usuario sea invalido.";
                 return View();
             }
-            
+
         }
         #endregion
 
         #region Login / LogOff
 
         //GET LOGIN
-        
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -461,7 +463,7 @@ namespace ABM.Controllers
             })
                 smtp.Send(message);
         }
-        
+
         [AllowAnonymous]
         public ActionResult ResetPassword()
         {
@@ -488,7 +490,7 @@ namespace ABM.Controllers
                 TempData["Error"] = "El usuario es invalido o no existe.";
                 return RedirectToAction("Login", "User");
             }
-            
+
 
         }
         [AllowAnonymous]
@@ -510,7 +512,7 @@ namespace ABM.Controllers
                         TempData["SuccessMessage"] = "Contraseña actualizada con exito";
                         return RedirectToAction("Login", "User");
                     }
-                    
+
                 }
                 throw new Exception();
             }
@@ -519,7 +521,7 @@ namespace ABM.Controllers
                 TempData["Error"] = "Hubo un problema con la verificacion!";
                 return View(model);
             }
-            
+
         }
         #endregion
 
@@ -527,7 +529,7 @@ namespace ABM.Controllers
         {
             try
             {
-                if(Session["User"] != null)
+                if (Session["User"] != null)
                 {
                     UserViewModel user = new UserViewModel();
                     User usuario = (User)Session["User"];
@@ -540,7 +542,7 @@ namespace ABM.Controllers
             {
                 return PartialView(new UserViewModel() { Name = "No disponible", Email = "No disponible" });
             }
-            
+
         }
 
         // This is the create method for suscriptor user type
@@ -586,6 +588,62 @@ namespace ABM.Controllers
             {
                 ViewBag.Error = "Hubo un error al crear el usuario";
                 return View();
+            }
+        }
+
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult SuscriptorList()
+        {
+            try
+            {
+                if (Session["User"] != null)
+                {
+                    var getUsers = from u in _userRepository.GetActiveUsers()
+                                   where u.typeUserId == 2
+                                   select new UserViewModel()
+                                   {
+                                       Id = u.id,
+                                       Email = u.email,
+                                       Name = u.name
+                                   };
+                    if (TempData["Error"] != null)
+                    {
+                        ViewBag.Error = TempData["Error"];
+                    }
+                    else if (TempData["SuccessMessage"] != null)
+                    {
+                        ViewBag.Message = TempData["SuccessMessage"];
+                    }
+
+                    return View(getUsers.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al obtener la lista de usuarios.";
+                return RedirectToAction("Admin", "User");
+            }
+        }
+
+        [AuthorizeUser(new int[] { administrador })]
+        public void ExportToExcel()
+        {
+            try
+            {
+                var excelArray = _userRepository.ExportToExcel();
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment: filename=" + "ExcelReport.xlsx");
+                Response.BinaryWrite(excelArray);
+                Response.End();
+            }
+            catch (Exception)
+            {
+                RedirectToAction("NotFound", "Error");
             }
         }
     }

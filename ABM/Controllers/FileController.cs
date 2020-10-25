@@ -83,7 +83,7 @@ namespace ABM.Controllers
 
         }
 
-        [AllowAnonymous]
+        [AuthorizeUser(new int[] { administrador })]
         public ActionResult Delete(int id)
         {
             try

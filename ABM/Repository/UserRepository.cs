@@ -1,7 +1,10 @@
 using ABM.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -112,6 +115,41 @@ namespace ABM.Repository
             user.isActive = false;
             base.context.Entry(user).State = System.Data.Entity.EntityState.Modified;
             Save();
+        }
+
+        public byte[] ExportToExcel()
+        {
+            var userList = from u in GetActiveUsers()
+                           where u.typeUserId == 2
+                           select (u.id, u.name, u.email);
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (var pck = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
+
+                ws.Cells["A1"].Value = "Fecha";
+                ws.Cells["B1"].Value = string.Format("{0:dd MMMM yyyy} | {0:H:mm tt}", DateTimeOffset.Now);
+
+                ws.Cells["A3"].Value = "Id";
+                ws.Cells["B3"].Value = "Nombre";
+                ws.Cells["C3"].Value = "Email";
+                ws.Row(3).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                ws.Row(3).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml(string.Format("pink")));
+                int rowStart = 4;
+
+                foreach (var item in userList)
+                {
+                    ws.Cells[string.Format("A{0}", rowStart)].Value = item.id;
+                    ws.Cells[string.Format("B{0}", rowStart)].Value = item.name;
+                    ws.Cells[string.Format("C{0}", rowStart)].Value = item.email;
+                    rowStart++;
+                }
+
+                ws.Cells["A:AZ"].AutoFitColumns();
+
+                return pck.GetAsByteArray();
+            }
         }
 
         public void Save()
