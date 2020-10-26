@@ -26,8 +26,10 @@
     </div>*@
 <br />
 <h2>Panel de administración de la pantalla de inicio</h2>
-<p>En este panel se puede editar el texto de bienvenida que se muestra en la página de Amulen.<br />
-    Las imágenes del carrusel de fotos pueden ser agregadas, editadas o eliminadas, desde aquí.</p>
+<p>
+    En este panel se puede editar el texto de bienvenida que se muestra en la página de Amulen.<br />
+    Las imágenes del carrusel de fotos pueden ser agregadas, editadas o eliminadas, desde aquí.
+</p>
 <hr />
 @using (Html.BeginForm())
 {
@@ -52,7 +54,7 @@
                 </div>
             }
             <div class="col-md-10">
-                <textarea class="form-control" asp-for="Content" rows="5" cols="12" id="WelcomeText" name="WelcomeText">Texto de bienvenida de prueba</textarea>
+                <textarea class="form-control" asp-for="Content" rows="5" cols="12" id="WelcomeText" name="WelcomeText">@Model.WelcomeText</textarea>
             </div>
             @Html.ValidationMessageFor(model => model.WelcomeText, "", new { @class = "text-danger" })
             @if (ViewData["Error"] != null)

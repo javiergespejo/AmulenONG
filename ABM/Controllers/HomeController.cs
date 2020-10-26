@@ -16,11 +16,13 @@ namespace ABM.Controllers
     {
         private readonly HomeRepository _homeRepository;
         private readonly ProjectRepository _projectRepository;
+        private readonly FileRepository _fileRepository;
 
         public HomeController()
         {
             _homeRepository = new HomeRepository();
             _projectRepository = new ProjectRepository();
+            _fileRepository = new FileRepository();
         }
 
         const int administrador = 1;
@@ -55,6 +57,7 @@ namespace ABM.Controllers
             try
             {
                 var welcomeText = _homeRepository.GetWelcomeText();
+                var importantDoc = _fileRepository.GetAll();
                 var images = from i in _homeRepository.GetHomeSliderImages()
                              select new HomePageImageViewModel()
                              {
@@ -70,6 +73,7 @@ namespace ABM.Controllers
                 }
                 HomeViewModel homeViewModel = new HomeViewModel
                 {
+                    Files = importantDoc.ToList(),
                     SliderImages = images,
                     WelcomeText = welcomeText,
                     Projects = projects.ToList()
@@ -190,7 +194,7 @@ namespace ABM.Controllers
                 TempData["Success"] = "El cambio se ha guardado correctamente!";
                 return RedirectToAction("Edit", "Home");
             }
-            catch
+            catch(Exception)
             {
                 ViewData["Error"] = "Error al guardar los cambios";
                 return View();

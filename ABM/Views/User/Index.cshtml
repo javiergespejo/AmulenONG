@@ -7,8 +7,10 @@
 
 <br />
 <h2>Panel administracion de usuarios</h2>
-<p>En este panel se administra los usuarios, se puede ver los detalles de los mismos, editar y eliminar.<br />
-    <b class="font-weight-bold">¡Atención!</b> Los usuarios creados desde este panel, tendrán los permisos para ADMINISTRAR la página.</p>
+<p>
+    En este panel se administra los usuarios, se puede ver los detalles de los mismos, editar y eliminar.<br />
+    <b class="font-weight-bold">¡Atención!</b> Los usuarios creados desde este panel, tendrán los permisos para ADMINISTRAR la página.
+</p>
 <hr />
 <p>
     <a href="../User/Create" class="btn btn-primary">Crear nuevo administrador</a>
@@ -49,7 +51,7 @@
             <td>
                 <div>
                     <button onclick="location.href='@Url.Action("Edit", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Editar</button>
-                    <button onclick="location.href='@Url.Action("Detalles", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Detalles</button>
+                    <button onclick="location.href='@Url.Action("Details", "User", new { id = item.Id })'" class="btn btn-primary" style="margin-bottom:2px">Detalles</button>
 
                     <span id="confirmDeleteSpan_@item.Id" style="display:none">
                         <span>Esta seguro que desea eliminar?</span>

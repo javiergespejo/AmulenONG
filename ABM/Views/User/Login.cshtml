@@ -75,15 +75,6 @@
                         </button>
                     </div>
 
-                    //Register Button
-                    <div class="center" style="margin-bottom: 20px; margin-top:20px">
-                        <a href="../User/Register" class="txt1">
-                            <button class="login100-form-btn " type="button" value="Login" id="loginButton">
-                                Registrate acá
-                            </button>
-                        </a>
-                    </div>
-
                     //ForgotPassword Button
                     <div class="container-login100-form-btn" style="margin-bottom: 20px; margin-top:20px">
                         <a href="../User/ForgotPassword" class="txt1">
@@ -91,7 +82,7 @@
                         </a>
                     </div>
 
-                    //Facebook Button
+                    
                     if (TempData["SuccessMessage"] != null)
                     {
                         <div class="alert alert-success" role="alert">
@@ -104,6 +95,7 @@
                             @TempData["Error"].ToString()
                         </div>
                     }
+                    //Facebook Button
                     <div class="login100-form-social flex-c-m">
                         <a href="https://www.facebook.com/amulen.tallerproductivo" class="login100-form-social-item flex-c-m bg1 m-r-5">
                             <i class="fa fa-facebook-f" aria-hidden="true"></i>

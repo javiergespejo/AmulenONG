@@ -1,0 +1,12 @@
+﻿@using ABM.ViewModels
+@model IEnumerable<MercadoPagoViewModel>
+
+<div class ="row">
+    
+    @foreach (var item in Model)
+    {
+    <div class="col" style=" margin-top: 15px;">
+        <a href="@item.Link" class="btn btn-primary" role="button" target="_blank">$@item.Amount.ToString("N")</a>
+    </div>
+    }
+</div>

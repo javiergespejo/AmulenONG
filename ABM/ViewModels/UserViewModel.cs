@@ -9,7 +9,7 @@ namespace ABM.ViewModels
 {
     public class UserViewModel
     {
-        public IEnumerable<User> users { get; set; }
+        public IEnumerable<User> Users { get; set; }
 
         public int Id { get; set; }
         [Display(Name = "Nombre completo")]
@@ -36,13 +36,15 @@ namespace ABM.ViewModels
 
         public User ToEntity()
         {
-            User u = new User();
-            u.id = Id;
-            u.name = Name;
-            u.pass = Pass;
-            u.username = UserName;
-            u.email = Email;
-            u.typeUserId = UserType;
+            User u = new User
+            {
+                id = Id,
+                name = Name,
+                pass = Pass,
+                username = UserName,
+                email = Email,
+                typeUserId = UserType
+            };
 
             return u;
         }

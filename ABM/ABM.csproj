@@ -53,6 +53,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=5.4.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.4.0\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
     </Reference>
@@ -138,12 +141,13 @@
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -170,6 +174,7 @@
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -246,6 +251,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business Logic\Encription.cs" />
     <Compile Include="Business Logic\ValidateFile.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProyectController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -277,10 +285,19 @@
     <Compile Include="Models\HomePageImage.cs">
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImportantFile.cs">
+      <DependentUpon>Amulen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MercadoPagoButton.cs">
+      <DependentUpon>Amulen.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Proyect.cs">
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProyectState.cs">
+      <DependentUpon>Amulen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Suscriptor.cs">
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SuscriptorProyect.cs">
@@ -293,12 +310,17 @@
       <DependentUpon>Amulen.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\FileRepository.cs" />
+    <Compile Include="Repository\AdminRepository.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\HomeRepository.cs" />
     <Compile Include="Repository\ProjectRepository.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="ViewModels\HomePageImageViewModel.cs" />
+    <Compile Include="ViewModels\ImportantFileViewModel.cs" />
+    <Compile Include="ViewModels\MercadoPagoViewModel.cs" />
+    <Compile Include="ViewModels\SubViewModel.cs" />
     <Compile Include="ViewModels\UploadImageViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ProyectViewModel.cs" />
@@ -484,12 +506,29 @@
     <Content Include="Content\Template\images\img_3.jpg" />
     <Content Include="Content\Template\images\img_3_gray.jpg" />
     <Content Include="Content\Template\images\img_4.jpg" />
+    <Content Include="Content\Template\images\Invernadero.jpg" />
+    <Content Include="Content\Template\images\jardin_01.jpg" />
+    <Content Include="Content\Template\images\lacar.jpg" />
     <Content Include="Content\Template\images\mision_10.jpg" />
+    <Content Include="Content\Template\images\objetivos_01.jpg" />
+    <Content Include="Content\Template\images\origen_1.jpg" />
+    <Content Include="Content\Template\images\origen_2.jpg" />
+    <Content Include="Content\Template\images\origen_3.jpg" />
+    <Content Include="Content\Template\images\origen_4.jpg" />
+    <Content Include="Content\Template\images\origen_5.jpg" />
     <Content Include="Content\Template\images\person_1.jpg" />
     <Content Include="Content\Template\images\person_2.jpg" />
     <Content Include="Content\Template\images\person_3.jpg" />
     <Content Include="Content\Template\images\person_4.jpg" />
     <Content Include="Content\Template\images\person_5.jpg" />
+    <Content Include="Content\Template\images\recicladores_01.jpg" />
+    <Content Include="Content\Template\images\recicla_01.jpg" />
+    <Content Include="Content\Template\images\recicla_02.jpg" />
+    <Content Include="Content\Template\images\recicla_03.jpg" />
+    <Content Include="Content\Template\images\recicla_04.jpg" />
+    <Content Include="Content\Template\images\salidas_03.jpg" />
+    <Content Include="Content\Template\images\Transporte.jpg" />
+    <Content Include="Content\Template\images\visitas_01.jpg" />
     <Content Include="Content\Template\js\aos.js" />
     <Content Include="Content\Template\js\bootstrap-datepicker.min.js" />
     <Content Include="Content\Template\js\bootstrap.min.js" />
@@ -1028,7 +1067,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -1060,6 +1099,14 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
+    <Content Include="Views\File\UploadFile.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
+    <Content Include="Views\User\SuscriptorList.cshtml" />
+    <Content Include="Views\Admin\DonationPanel.cshtml" />
+    <Content Include="Views\Admin\DonationCreate.cshtml" />
+    <Content Include="Views\Admin\DonationEdit.cshtml" />
+    <Content Include="Views\Admin\ShowDonationButtons.cshtml" />
+    <Content Include="Views\User\SubRegister.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Home\WhatDoWeDo.cshtml" />
     <Content Include="Views\Home\Network.cshtml" />
@@ -1067,6 +1114,7 @@
   <ItemGroup>
     <Folder Include=".vscode\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Files\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

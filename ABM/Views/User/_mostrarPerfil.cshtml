@@ -10,18 +10,8 @@
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <h5 class="m-b-0 user-name font-medium">
                 @Html.DisplayFor(modelItem => Model.Name)
-                <i class="fa fa-angle-down"></i>
             </h5>
             <span class="op-5 user-email">@Html.DisplayFor(modelItem => Model.Email)</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
-            <a class="dropdown-item" href="@Url.Action("Perfil", "User")">
-                <i class="ti-user m-r-5 m-l-5"></i> Mi perfil
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="@Url.Action("LogOff", "User")">
-                <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
-            </a>
-        </div>
     </div>
 </div>

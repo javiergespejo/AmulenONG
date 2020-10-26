@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Security.Cryptography.Xml;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using ABM.Filters;
+﻿using ABM.Filters;
 using ABM.Models;
 using ABM.Repository;
 using ABM.ViewModels;
-using Newtonsoft.Json;
+using System;
+using System.Data;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using static ABM.Repository.UserRepository;
 
 namespace ABM.Controllers
@@ -315,14 +309,14 @@ namespace ABM.Controllers
                 TempData["Error"] = "Ocurrio un error al actualizar la contraseña, puede que el usuario sea invalido.";
                 return View();
             }
-            
+
         }
         #endregion
 
         #region Login / LogOff
 
         //GET LOGIN
-        
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -405,7 +399,7 @@ namespace ABM.Controllers
         [HttpPost]
         public ActionResult ForgotPassword(string providedEmail)
         {
-            string message = "";
+            string message;
 
             var account = unit.UserRepository.GetUserByUserMail(providedEmail);
             if (account != null)
@@ -461,7 +455,7 @@ namespace ABM.Controllers
             })
                 smtp.Send(message);
         }
-        
+
         [AllowAnonymous]
         public ActionResult ResetPassword()
         {
@@ -477,8 +471,10 @@ namespace ABM.Controllers
                 var user = unit.UserRepository.GetByID(Int32.Parse(idDecrypted));
                 if (user != null)
                 {
-                    ResetPasswordModel model = new ResetPasswordModel();
-                    model.ResetCode = resetCode;
+                    ResetPasswordModel model = new ResetPasswordModel
+                    {
+                        ResetCode = resetCode
+                    };
                     return View(model);
                 }
                 throw new Exception();
@@ -488,7 +484,7 @@ namespace ABM.Controllers
                 TempData["Error"] = "El usuario es invalido o no existe.";
                 return RedirectToAction("Login", "User");
             }
-            
+
 
         }
         [AllowAnonymous]
@@ -510,7 +506,7 @@ namespace ABM.Controllers
                         TempData["SuccessMessage"] = "Contraseña actualizada con exito";
                         return RedirectToAction("Login", "User");
                     }
-                    
+
                 }
                 throw new Exception();
             }
@@ -519,7 +515,7 @@ namespace ABM.Controllers
                 TempData["Error"] = "Hubo un problema con la verificacion!";
                 return View(model);
             }
-            
+
         }
         #endregion
 
@@ -527,7 +523,7 @@ namespace ABM.Controllers
         {
             try
             {
-                if(Session["User"] != null)
+                if (Session["User"] != null)
                 {
                     UserViewModel user = new UserViewModel();
                     User usuario = (User)Session["User"];
@@ -540,52 +536,94 @@ namespace ABM.Controllers
             {
                 return PartialView(new UserViewModel() { Name = "No disponible", Email = "No disponible" });
             }
-            
+
         }
 
-        // This is the create method for suscriptor user type
-        [AllowAnonymous]
-        public ActionResult Register()
+        [AuthorizeUser(new int[] { administrador })]
+        public ActionResult SuscriptorList()
         {
-            return View();
+            try
+            {
+                if (Session["User"] != null)
+                {
+                    var getUsers = from u in _userRepository.GetSubs()
+                                   select new SubViewModel()
+                                   {
+                                       Id = u.id,
+                                       Email = u.email,
+                                       Name = u.name
+                                   };
+                    if (TempData["Error"] != null)
+                    {
+                        ViewBag.Error = TempData["Error"];
+                    }
+                    else if (TempData["SuccessMessage"] != null)
+                    {
+                        ViewBag.Message = TempData["SuccessMessage"];
+                    }
+
+                    return View(getUsers.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ocurrio un error al obtener la lista de usuarios.";
+                return RedirectToAction("Admin", "User");
+            }
         }
 
-        // This is the create method for suscriptor user type
+        [AuthorizeUser(new int[] { administrador })]
+        public void ExportToExcel()
+        {
+            try
+            {
+                var excelArray = _userRepository.ExportToExcel();
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment: filename=" + "ExcelReport.xlsx");
+                Response.BinaryWrite(excelArray);
+                Response.End();
+            }
+            catch (Exception)
+            {
+                RedirectToAction("NotFound", "Error");
+            }
+        }
+
+        public ActionResult SubRegister()
+        {
+            return PartialView();
+        }
         [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Register(UserViewModel model)
+        public ActionResult SubRegister(SubViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool mailAlreadyExists = _userRepository.CheckMail(model.ToEntity());
-                    bool nameAlreadyExists = _userRepository.CheckUserName(model.ToEntity());
+                    bool mailAlreadyExists = _userRepository.CheckSubMail(model.ToEntity());
 
-                    if (nameAlreadyExists || mailAlreadyExists)
+
+                    if (mailAlreadyExists)
                     {
-                        if (mailAlreadyExists)
-                        {
-                            ModelState.AddModelError("email", "Email no disponible!");
-                        }
-                        if (nameAlreadyExists)
-                        {
-                            ModelState.AddModelError("username", "Nombre de usuario no disponible!");
-                        }
-                        return View();
+                        ModelState.AddModelError("email", "Email no disponible!");
+                        return PartialView();
                     }
-                    model.UserType = 2;
-                    _userRepository.InsertUser(model.ToEntity());
-                    TempData["SuccessMessage"] = "Usuario creado con exito";
+                    _userRepository.InsertSub(model.ToEntity());
+                    TempData["SuccessMessage"] = "Datos cargados con exito!";
 
-                    return RedirectToAction("Login", "User");
+                    return PartialView();
                 }
                 throw new Exception();
             }
             catch (Exception)
             {
-                ViewBag.Error = "Hubo un error al crear el usuario";
-                return View();
+                ViewBag.Error = "Hubo un error al cargar los datos";
+                return PartialView();
             }
         }
     }

@@ -9,11 +9,25 @@ namespace ABM.Repository
     public class UnitOfWork : IDisposable
     {
         private AmulenEntities context = new AmulenEntities();
+        private GenericRepository<ImportantFile> fileRepository;
         private GenericRepository<HomePageImage> homePageImageRepository;
         private GenericRepository<HomePageData> homePageDataRepository;
         private GenericRepository<Proyect> projectRepository;
         private UserRepository userRepository;
+        private AdminRepository adminRepository;
 
+        public GenericRepository<ImportantFile> FileRepository
+        {
+            get
+            {
+
+                if (this.fileRepository == null)
+                {
+                    this.fileRepository = new GenericRepository<ImportantFile>(context);
+                }
+                return fileRepository;
+            }
+        }
         public GenericRepository<HomePageImage> HomePageImageRepository
         {
             get
@@ -36,6 +50,17 @@ namespace ABM.Repository
                     this.userRepository = new UserRepository(context);
                 }
                 return userRepository;
+            }
+        }
+        public AdminRepository AdminRepository 
+        {
+            get
+            {
+                if(this.adminRepository == null)
+                {
+                    this.adminRepository = new AdminRepository(context);
+                }
+                return adminRepository;
             }
         }
         public GenericRepository<HomePageData> HomePageDataRepository

@@ -116,8 +116,32 @@
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="@Url.Action("UploadFile", "File")" aria-expanded="false">
+                                <i class="mdi"><img width="24" src="~/Content/Template/images/doc2.png" /></i><span class="hide-menu">Administrar documentación</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="@Url.Action("DonationPanel", "Admin")" aria-expanded="false">
+                                <i class="mdi mdi-box-shadow"></i><span class="hide-menu">Botones Mercadopago</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="@Url.Action("SuscriptorList", "User")" aria-expanded="false">
+                                <i class="mdi"><img width="20" src="~/Content/Template/images/paper-plane.png" /></i><span class="hide-menu">Lista de mailing</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                href="@Url.Action("Perfil", "User")" aria-expanded="false">
                                 <i class="mdi mdi-account-network"></i><span class="hide-menu">Mi perfil</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                               href="@Url.Action("LogOff", "User")" aria-expanded="false">
+                                <i class="fa fa-power-off m-r-5 m-l-5"></i><span class="hide-menu">Cerrar sesión</span>
                             </a>
                         </li>
                     </ul>

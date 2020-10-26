@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ABM.ViewModels.ImportantFileViewModel>
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Archivo
+            </th>
+            <th>
+                Fecha de carga
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="../File/Download/@item.Id">@item.Description</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EditDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+
+                    <div>
+                        <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                            <span>Esta seguro que desea eliminar?</span>
+                            <button onclick="location.href='@Url.Action("Delete", "File", new { id = item.Id })'" class="btn btn-danger" style="margin-top:20px">Eliminar</button>
+                            <a href="#deleteSpan_@item.Id" class="btn btn-primary" style="margin-top:20px"
+                               onclick="confirmDelete('@item.Id', false)">Cancelar</a>
+                        </span>
+
+                        <span id="deleteSpan_@item.Id">
+                            <a href="#deleteSpan_@item.Id" class="btn btn-danger" style="margin-top:2px"
+                               onclick="confirmDelete('@item.Id', true)">Eliminar</a>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

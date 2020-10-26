@@ -23,6 +23,24 @@
           <Property Name="editDate" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ImportantFile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fileData" Type="image" />
+          <Property Name="editDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MercadoPagoButton">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="amount" Type="money" Nullable="false" />
+          <Property Name="link" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="Proyect">
           <Key>
             <PropertyRef Name="id" />
@@ -40,6 +58,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Suscriptor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="SuscriptorProyect">
           <Key>
@@ -120,8 +146,11 @@
         <EntityContainer Name="AmulenModelStoreContainer">
           <EntitySet Name="HomePageData" EntityType="Self.HomePageData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HomePageImage" EntityType="Self.HomePageImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImportantFile" EntityType="Self.ImportantFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MercadoPagoButton" EntityType="Self.MercadoPagoButton" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyect" EntityType="Self.Proyect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectState" EntityType="Self.ProyectState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suscriptor" EntityType="Self.Suscriptor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SuscriptorProyect" EntityType="Self.SuscriptorProyect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeUser" EntityType="Self.TypeUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -290,7 +319,36 @@
             <End Role="TypeUser" EntitySet="TypeUser" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <EntitySet Name="ImportantFile" EntityType="AmulenModel.ImportantFile" />
+          <EntitySet Name="MercadoPagoButton" EntityType="AmulenModel.MercadoPagoButton" />
+          <EntitySet Name="Suscriptor" EntityType="AmulenModel.Suscriptor" />
         </EntityContainer>
+        <EntityType Name="ImportantFile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fileData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="editDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MercadoPagoButton">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="link" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Suscriptor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -365,6 +423,35 @@
                 <ScalarProperty Name="pass" ColumnName="pass" />
                 <ScalarProperty Name="typeUserId" ColumnName="typeUserId" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImportantFile">
+            <EntityTypeMapping TypeName="AmulenModel.ImportantFile">
+              <MappingFragment StoreEntitySet="ImportantFile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="editDate" ColumnName="editDate" />
+                <ScalarProperty Name="fileData" ColumnName="fileData" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MercadoPagoButton">
+            <EntityTypeMapping TypeName="AmulenModel.MercadoPagoButton">
+              <MappingFragment StoreEntitySet="MercadoPagoButton">
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suscriptor">
+            <EntityTypeMapping TypeName="AmulenModel.Suscriptor">
+              <MappingFragment StoreEntitySet="Suscriptor">
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

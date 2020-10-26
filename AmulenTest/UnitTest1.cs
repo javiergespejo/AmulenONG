@@ -32,6 +32,8 @@ namespace AmulenTest
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+
         [TestMethod]
         public void TestImageGalleryViewData()
         {
