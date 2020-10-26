@@ -1110,6 +1110,7 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Home\WhatDoWeDo.cshtml" />
     <Content Include="Views\Home\Network.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />
