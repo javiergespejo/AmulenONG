@@ -106,12 +106,12 @@
                             <!-- NO USER SESSION -->
                             @if (Session["User"] == null)
                             {
-                                <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingresar</a>
+                                <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingreso administración</a>
                             }
                             <!-- ADMIN SESSION -->
                             @if (Session["isAdmin"] != null && Session["User"] != null)
                             {
-                                <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Administrar</a>
+                                <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Panel de administrador</a>
                             }
                             <!-- USER SESSION -->
                             @if (Session["User"] != null)
@@ -320,7 +320,14 @@
                 @foreach (var item in Model.Files)
                 {
                     <div class="col-sm-9">
-                        <a class="text-white" href="../File/Download/@item.id">@item.description</a>
+                        <div class="row">
+                            <div class="col-6">
+                                <a class="text-white">@item.description</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="../File/Download/@item.id" class="text-white" style="text-decoration: underline">Descargar</a>
+                            </div>
+                        </div>
                         <hr />
                     </div>
                 }

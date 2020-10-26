@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fundraiser &mdash; Website Template by Colorlib</title>
+    <title>Amulen</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -99,12 +99,12 @@
                             <!-- NO USER SESSION -->
                             @if (Session["User"] == null)
                             {
-                                <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingresar</a>
+                                <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingreso administración</a>
                             }
                             <!-- ADMIN SESSION -->
                             @if (Session["isAdmin"] != null && Session["User"] != null)
                             {
-                                <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Administrar</a>
+                                <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Panel de administrador</a>
                             }
                             <!-- USER SESSION -->
                             @if (Session["User"] != null)
