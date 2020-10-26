@@ -19,7 +19,7 @@ namespace ABM.ViewModels
             ImportantFile importantFile = new ImportantFile()
             {
                 id = Id,
-                description = Description,
+                description = Description.ToUpper(),
                 editDate = DateTime.Now,
                 UserId = UserId
             };
