@@ -22,82 +22,101 @@
 
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v8.0" nonce="WrPOJ87o"></script>
     <!-- NAVBAR -->
-    <div class="bg-primary site-mobile-menu site-navbar-target">
-        <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-                <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-        </div>
-        <div class="site-mobile-menu-body"></div>
-    </div>
+    <div class="site-wrap" id="home-section">
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top py-3 ">
-            <div class="container-fluid">
-                <!-- LOGO / HOME -->
-                <a class="navbar-brand" href="../Home/Index"><img width="50" src="~/Content/Template/images/AmulenLogo3.png" /></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- NAVBAR ITEMS -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link " href="../Home/Index#proyectos">Proyectos</a>
-                        </li>
-                        <li class="nav-item active dropdown">
-                            <a class="dropdown-toggle text-black nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Qué hacemos
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="../Home/WhatDoWeDo#enmarcha">En marcha</a>
-                                <a class="dropdown-item" href="../Home/WhatDoWeDo#actividades">Actividades culturales y recreativas</a>
-                                <a class="dropdown-item" href="../Home/WhatDoWeDo#premiaciones">Proyectos ganados</a>
-                                <a class="dropdown-item" href="../Home/WhatDoWeDo#transporte">Transporte institucional propio</a>
-                            </div>
-                        </li>
-                        <li class="nav-item active dropdown">
-                            <a class="dropdown-toggle text-black nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Trabajo en red
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="../Home/Network#conveniosmunicipales">Convenios municipales</a>
-                                <a class="dropdown-item" href="../Home/Network#mesadeorganizaciones">Mesa de organizaciones</a>
-                                <a class="dropdown-item" href="../Home/Network#educacion">Educación</a>
-                                <a class="dropdown-item" href="../Home/Network#voluntarios">Voluntarios</a>
-                                <a class="dropdown-item" href="../Home/Network#recicladores">Circuito de Recicladores</a>
-                            </div>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link " href="../Home/Index#contacto">Cómo llegar</a>
-                        </li>
-                    </ul>
-                    <!-- LOGIN -->
-                    <form class="form-inline my-2 my-lg-0 text-black">
-                        <!-- NO USER SESSION -->
-                        @if (Session["User"] == null)
-                        {
-                            <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingresar</a>
-                        }
-                        <!-- ADMIN SESSION -->
-                        @if (Session["isAdmin"] != null && Session["User"] != null)
-                        {
-                            <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Administrar</a>
-                        }
-                        <!-- USER SESSION -->
-                        @if (Session["User"] != null)
-                        {
-                            <a href="../User/LogOff" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Cerrar sesión</a>
-                        }
-                    </form>
+        <div class="bg-primary site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
                 </div>
             </div>
-        </nav>
-    </header>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top py-3 ">
+                <div class="container-fluid">
+                    <!-- LOGO / HOME -->
+                    <a class="navbar-brand" href="../Home/Index"><img width="50" src="~/Content/Template/images/AmulenLogo3.png" /></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- NAVBAR ITEMS -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link " href="../Home/Index#proyectos">Proyectos</a>
+                            </li>
+                            <li class="nav-item active dropdown">
+                                <a class="dropdown-toggle text-black nav-link" href="../Home/About" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sobre Nosotros
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="../Home/About#mision">Misión</a>
+                                    <a class="dropdown-item" href="../Home/About#objetivos">Objetivos</a>
+                                    <a class="dropdown-item" href="../Home/About#Origen">Origen</a>
+                                    <a class="dropdown-item" href="../Home/About#Equipo">Equipo de trabajo</a>
+                                    <a class="dropdown-item" href="../Home/About#Reconocimiento">Reconocimientos</a>
+                                </div>
+                            </li>
+                            <li class="nav-item active dropdown">
+                                <a class="dropdown-toggle text-black nav-link" href="../Home/WhatDoWeDo" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Qué hacemos
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="../Home/WhatDoWeDo#enmarcha">En marcha</a>
+                                    <a class="dropdown-item" href="../Home/WhatDoWeDo#actividades">Actividades culturales y recreativas</a>
+                                    <a class="dropdown-item" href="../Home/WhatDoWeDo#premiaciones">Proyectos ganados</a>
+                                    <a class="dropdown-item" href="../Home/WhatDoWeDo#transporte">Transporte institucional propio</a>
+                                </div>
+                            </li>
+                            <li class="nav-item active dropdown">
+                                <a class="dropdown-toggle text-black nav-link" href="../Home/Network" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Trabajo en red
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="../Home/Network#conveniosmunicipales">Convenios municipales</a>
+                                    <a class="dropdown-item" href="../Home/Network#mesadeorganizaciones">Mesa de organizaciones</a>
+                                    <a class="dropdown-item" href="../Home/Network#educacion">Educación</a>
+                                    <a class="dropdown-item" href="../Home/Network#voluntarios">Voluntarios</a>
+                                    <a class="dropdown-item" href="../Home/Network#recicladores">Circuito de Recicladores</a>
+                                </div>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link " href="../Home/Index#doc">Documentación Pública</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link " href="../Home/Index#contacto">Cómo llegar</a>
+                            </li>
+                        </ul>
+                        <!-- LOGIN -->
+                        <form class="form-inline my-2 my-lg-0 text-black">
+                            <!-- NO USER SESSION -->
+                            @if (Session["User"] == null)
+                            {
+                                <a href="../User/Login" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Ingresar</a>
+                            }
+                            <!-- ADMIN SESSION -->
+                            @if (Session["isAdmin"] != null && Session["User"] != null)
+                            {
+                                <a href="../User/Admin" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Administrar</a>
+                            }
+                            <!-- USER SESSION -->
+                            @if (Session["User"] != null)
+                            {
+                                <a href="../User/LogOff" class="btn btn-danger btn-sm my-2 my-sm-0 btn-space text-black">Cerrar sesión</a>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
 
 
 

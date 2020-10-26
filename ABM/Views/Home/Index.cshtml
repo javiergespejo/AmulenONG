@@ -59,8 +59,17 @@
                             <li class="nav-item active">
                                 <a class="nav-link " href="#proyectos">Proyectos</a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link " href="~/Home/About">Sobre Nosotros</a>
+                            <li class="nav-item active dropdown">
+                                <a class="dropdown-toggle text-black nav-link" href="../Home/About" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sobre Nosotros
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="../Home/About#mision">Misión</a>
+                                    <a class="dropdown-item" href="../Home/About#objetivos">Objetivos</a>
+                                    <a class="dropdown-item" href="../Home/About#Origen">Origen</a>
+                                    <a class="dropdown-item" href="../Home/About#Equipo">Equipo de trabajo</a>
+                                    <a class="dropdown-item" href="../Home/About#Reconocimiento">Reconocimientos</a>
+                                </div>
                             </li>
                             <li class="nav-item active dropdown">
                                 <a class="dropdown-toggle text-black nav-link" href="../Home/QueHacemos" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -116,16 +125,18 @@
         </header>
 
         <!-- SLIDER IMAGES, WELCOME TEXT AND "CONTRIBUIR" BUTTON -->
-        <div class="owl-carousel-wrapper">
-            <div class="box-92819">
-                <a class="center"><img width="300" src="~/Content/Template/images/AmulenLogo5.png" /></a>
-                <br /><p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
-            </div>
-            <div class="owl-carousel owl-1 ">
-                @for (int i = 0; i < Model.SliderImages.Count(); i++)
-                {
-                    <div class="ftco-cover-1 overlay" style="background-image: url('../Home/RetrieveImage/@Model.SliderImages.ElementAt(i).Id');"></div>
-                }
+        <div class="site-content">
+            <div class="owl-carousel-wrapper">
+                <div class="box-92819">
+                    <a class="center"><img width="300" src="~/Content/Template/images/AmulenLogo5.png" /></a>
+                    <br /><p><a href="#donar" class="btn btn-primary center">Contribuir</a></p>
+                </div>
+                <div class="owl-carousel owl-1 ">
+                    @for (int i = 0; i < Model.SliderImages.Count(); i++)
+                    {
+                        <div class="ftco-cover-1 overlay" style="background-image: url('../Home/RetrieveImage/@Model.SliderImages.ElementAt(i).Id');"></div>
+                    }
+                </div>
             </div>
         </div>
 
