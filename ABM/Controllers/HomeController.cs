@@ -38,13 +38,13 @@ namespace ABM.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult QueHacemos()
+        public ActionResult WhatDoWeDo()
         {
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult TrabajoEnRed()
+        public ActionResult Network()
         {
             return View();
         }
