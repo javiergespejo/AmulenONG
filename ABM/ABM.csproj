@@ -1116,7 +1116,6 @@
     <Folder Include=".vscode\" />
     <Folder Include="App_Data\" />
     <Folder Include="Files\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
