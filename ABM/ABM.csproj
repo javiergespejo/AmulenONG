@@ -1030,8 +1030,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.js.flow" />
@@ -1063,8 +1061,8 @@
     <Content Include="Views\User\Perfil.cshtml" />
     <Content Include="Views\Proyect\Edit.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\Home\QueHacemos.cshtml" />
-    <Content Include="Views\Home\TrabajoEnRed.cshtml" />
+    <Content Include="Views\Home\WhatDoWeDo.cshtml" />
+    <Content Include="Views\Home\Network.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vscode\" />
