@@ -55,7 +55,7 @@ namespace ABM.Controllers
                     var uri = new Uri(mpVieModel.Link);
                     if (mpVieModel != null)
                     {
-                        if (mpVieModel.Amount > 0 && uri.Scheme == "https" && uri.Host == "mpago.la")
+                        if (mpVieModel.Amount > 0 && uri.Scheme == "https")
                         {
                             if (unit.AdminRepository.GetDonationButtonList().Count() < 4)
                             {
