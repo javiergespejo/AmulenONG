@@ -582,9 +582,10 @@ namespace ABM.Controllers
             try
             {
                 var excelArray = _userRepository.ExportToExcel();
+                string date = DateTime.Now.ToShortDateString();
                 Response.Clear();
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("content-disposition", "attachment: filename=" + "ExcelReport.xlsx");
+                Response.AddHeader("content-disposition", "attachment;filename=MailingList_ " + date + ".xlsx");
                 Response.BinaryWrite(excelArray);
                 Response.End();
             }
